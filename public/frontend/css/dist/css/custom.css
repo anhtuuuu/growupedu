@@ -1,0 +1,183 @@
+:root{
+    --avocado: #2c6151;
+    --orange: #fea600;
+    --mix: linear-gradient(45deg,#fea600,#2c6151);
+    --gray: #e6e9ee;
+}
+
+.w-20{
+    width: 20% !important;
+}
+.list-group-item{
+    margin-top: 20px;
+}
+.pl-2r{
+    padding-left: 2rem;
+}
+a{
+    text-decoration: none !important;
+}
+
+.star{
+    color: line;
+    cursor: pointer;
+    color: #ff9900;
+    text-shadow: 0 0 1px black;
+}
+
+.question{
+    background-color: #e6e9ee;
+    border-radius: 15px;
+}
+.content-row{
+height: 750px;
+overflow-x: none;
+overflow-y: scroll;
+}
+.question li{
+    list-style: none;
+    display: flex;
+}
+.question li p{
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding-left: 20px;
+}
+.search{
+    top: 25%;
+}
+
+.treeview{
+    margin-top: 15px;
+}
+
+.search input{
+    border-radius: 15px;
+}
+.search button{
+    width: 50px !important;
+    border-radius: 0 15px 15px 0;
+}
+.btn-bgr{
+    background-color: var(--avocado);
+    color: lightgoldenrodyellow;
+}
+.btn-bgr:hover{
+    background-color: var(--orange);
+    opacity: .9;
+}
+.text-lghtgoldyellow{
+    color: lightgoldenrodyellow !important;
+}
+
+.topnav a:hover{
+    background-color: var(--orange);
+}
+.topnav button:hover{
+    background-color: var(--orange) !important;
+}
+
+.topnav:has(.mdropdown-content:hover) .mdropdown button{
+    background-color: #2c6151;
+}
+
+.topnav .mdropdown-content a:hover{
+    background-color: var(--orange) !important;
+}
+.avatar-tutor{
+    margin-top: -30px;
+}
+.avatar-lecture{
+    padding: 1px;
+    border-radius: 60px; 
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border: 2px solid rgb(255, 255, 255);
+}
+.card{
+     transition: all .2s linear;  
+}
+.card:hover{
+    cursor: pointer;
+    transform: translate(10px, -10px);
+    box-shadow: -10px 10px 0px var(--orange);
+}
+.bg-card{
+    height: 7rem;
+    background-image: var(--bg-avatar);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.card .card-body:last-child{
+    border-top: 1px solid #dadce0;
+}
+.card-link{
+    color: var(--avocado);
+    font-size: 20px;
+}
+.card-link:hover{
+    color:var(--orange);
+}
+.hv-link:hover{
+    text-decoration: underline;
+}
+.panel-section-class{
+    background-image: var(--bg-avatar);
+    /* background-color: var(--avocado); */
+    height: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+}
+.bg-section-class{
+    background-color: rgba(218, 220, 224, 0.699);
+
+}
+.avatar-tutor-section-class{
+    background-color: var(--gray);
+    border-radius: 15px;
+}
+.avatar-lecture-small{
+    padding: 1px;
+    border-radius: 60px; 
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border: 1px solid rgb(255, 255, 255);
+}
+.small-text{
+    font-size: 0.7rem;
+}
+.avatar-student-smaller{
+    padding: 1px;
+    border-radius: 60px; 
+    height: 35px;
+    width: 35px;
+    object-fit: cover;
+    border: 1px solid rgb(255, 255, 255);
+}
+.comment-line{
+    border-top: 1px solid var(--avocado);
+}
+.small-title{
+    font-size: 0.8rem;
+}
+.comment-hide{
+    display: none !important;
+}
+.comment-hide:last-child{
+    display: flex !important;
+}
+.coler-button-showall:hover{
+    background-color: var(--avocado);
+    color: lightgoldenrodyellow;
+}
+.card-text{
+    font-size: 14px;
+}
+.pagination .active{
+    background-color: var(--avocado);
+    color: #fff;
+}

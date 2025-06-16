@@ -1,0 +1,8 @@
+a.active{
+    background-color: #3c8dbc !important;
+    color: #fff !important;
+}
+.pagination-cus{
+    display: flex;
+    justify-content: end;
+}

@@ -1,0 +1,24 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02-04-2015, 06:52:43
+    Author     : NHAN
+*/
+
+.box-body .form-group .checkbox label{
+    padding-left: 0;
+}
+
+textarea {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    resize: none;
+}
+
+p.required span.required:after, .form-group.required .control-label:after { 
+    content: " (*)";
+    color: #ff0000;
+}
