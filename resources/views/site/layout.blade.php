@@ -17,16 +17,16 @@
     <!-- site css -->
 
     <!--nav-->
-    <link rel="stylesheet" href={{URL::to("frontend/css/dist/css/site.min.css")}}>
+    <link rel="stylesheet" href={{URL::to(config('asset.css_path')."site.min.css")}}>
     <link
         href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic"
         rel="stylesheet" type="text/css">
 
     <link href="https://bootstrapmade.com/content/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href={{URL::to("frontend/css/dist/css/custom.css")}}>
+    <link rel="stylesheet" href={{URL::to(config('asset.css_path')."custom.css")}}>
 
-    <script type="text/javascript" src={{URL::to("frontend/css/dist/js/site.min.js")}}></script>
-    <script type="text/javascript" src={{URL::to("frontend/css/dist/js/prism.js")}}></script>
+    <script type="text/javascript" src={{URL::to(config('asset.js_path')."site.min.js")}}></script>
+    <script type="text/javascript" src={{URL::to(config('asset.js_path')."prism.js")}}></script>
     <script>
         function myFunction() {
             var x = document.getElementById("myTopnav");
