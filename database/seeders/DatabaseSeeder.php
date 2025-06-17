@@ -14,22 +14,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            BaiGiangSeeder::class,
-            BaiKiemTraSeeder::class,            
-            BaiSeeder::class,       
-            BoMonSeeder::class,       
-            ChuongSeeder::class,        
-            DanhGiaSeeder::class,      
-            HocPhanSeeder::class,        
+            VaiTroSeeder::class,
             KhoaSeeder::class, 
-            LhpBgSeeder::class,          
+            BoMonSeeder::class,       
+            TaiKhoanSeeder::class,
+            HocPhanSeeder::class,        
             LopHocPhanSeeder::class,    
-            DanhGiaSeeder::class,         
+            BaiGiangSeeder::class,
+            ChuongSeeder::class,        
+            BaiSeeder::class,       
+            BaiKiemTraSeeder::class,            
+            DanhGiaSeeder::class,      
+            LhpBgSeeder::class,                 
             NopBaiKiemTraSeeder::class,  
             SinhVienSeeder::class,
-            TaiKhoanSeeder::class,
             TuongTacSeeder::class,
-            VaiTroSeeder::class,
         ]);
     }
 }
