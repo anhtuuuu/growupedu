@@ -57,6 +57,7 @@
         </div>
         <!-- end content -->
     </div>
+    @yield('javascript')
     {{-- footer start --}}
     @include('site.footer')
     {{-- footer end --}}
