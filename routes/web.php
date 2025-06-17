@@ -21,42 +21,16 @@ use App\Http\Controllers\LessionFilesController;
 use App\Http\Controllers\PersionalManagementController;
 use App\Http\Controllers\TestCLientController;
 use App\Http\Controllers\SectionClassController;
+use App\Http\Controllers\AssessClientController;
+
 /* Client sites start */
+Route::get('/', [HomeController::class, 'index']);
 Route::get('/assess', [AssessClientController::class, 'index']);
 Route::get('/login', [FormLoginController::class, 'index']);
 Route::get('/lession-files', [LessionFilesController::class, 'index']);
 Route::get('/persional-management', [PersionalManagementController::class, 'index']);
 Route::get('/test', [TestCLientController::class, 'index']);
 Route::get('/section-class', [SectionClassController::class, 'index']);
-/* Client sites end */
-
-
-
-
-
-
-
-Route::get('/', [HomeController::class, 'index']);
-
-Route::get('/questions', function () {
-    return view(config('asset.view_page')('questions'));
-});
-Route::get('/section-class', function () {
-    return view(config('asset.view_page')('section-class'));
-});
-Route::get('/login', function () {
-    return view(config('asset.view_page')('form-login'));
-});
-Route::get('/lession-file', function () {
-    return view(config('asset.view_page')('lession-file'));
-});
-Route::get('/assess', function () {
-    return view(config('asset.view_page')('assess'));
-});
-Route::get('/persional-manager', function () {
-    return view(config('asset.view_page')('persional-manager'));
-});
-
 /* Client sites end */
 
 // =====================================================================================================================
