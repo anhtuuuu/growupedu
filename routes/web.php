@@ -1,9 +1,35 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+/* Client sites start */
 Route::get('/', function () {
     return view(config('asset.view_page')('main'));
 });
+Route::get('/questions', function () {
+    return view(config('asset.view_page')('questions'));
+});
+Route::get('/section-class', function () {
+    return view(config('asset.view_page')('section-class'));
+});
+Route::get('/login', function () {
+    return view(config('asset.view_page')('form-login'));
+});
+Route::get('/lession-file', function () {
+    return view(config('asset.view_page')('lession-file'));
+});
+Route::get('/assess', function () {
+    return view(config('asset.view_page')('assess'));
+});
+Route::get('/persional-manager', function () {
+    return view(config('asset.view_page')('persional-manager'));
+});
+
+/* Client sites end */
+
+// =====================================================================================================================
+
+/* Admin sites start */
 Route::get('/admin', function () {
     return view(config('asset.view_admin_page')('main'));
 });
@@ -49,3 +75,5 @@ Route::get('/admin/student_management', function () {
 Route::get('/admin/test_management', function () {
     return view(config('asset.view_admin_page')('test_management'));
 });
+
+/* Admin sites end */
