@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\HomeController;
 /* Client sites start */
-Route::get('/', function () {
-    return view(config('asset.view_page')('main'));
-});
+
+Route::get('/', [HomeController::class, 'index']);
+
 Route::get('/questions', function () {
     return view(config('asset.view_page')('questions'));
 });
