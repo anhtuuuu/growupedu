@@ -16,8 +16,25 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TestController;
-
+use App\Http\Controllers\FormLoginController;
+use App\Http\Controllers\LessionFilesController;
+use App\Http\Controllers\PersionalManagementController;
+use App\Http\Controllers\TestCLientController;
+use App\Http\Controllers\SectionClassController;
 /* Client sites start */
+Route::get('/assess', [AssessClientController::class, 'index']);
+Route::get('/login', [FormLoginController::class, 'index']);
+Route::get('/lession-files', [LessionFilesController::class, 'index']);
+Route::get('/persional-management', [PersionalManagementController::class, 'index']);
+Route::get('/test', [TestCLientController::class, 'index']);
+Route::get('/section-class', [SectionClassController::class, 'index']);
+/* Client sites end */
+
+
+
+
+
+
 
 Route::get('/', [HomeController::class, 'index']);
 
