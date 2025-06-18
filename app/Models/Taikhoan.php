@@ -9,7 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class Taikhoan
  * 
@@ -77,6 +77,29 @@ class Taikhoan extends Model
 		'kich_hoat',
 		'trang_thai'
 	];
+
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ma_tk',
+				'vai_tro.tieu_de as tieu_de',
+				'bo_mon.ten_bm as ten_bm'
+			])
+			->leftJoin('vai_tro', 'vai_tro.ma_vt', '=', $this->table . '.vai_tro')
+			->leftJoin('bo_mon', 'bo_mon.ma_bm', '=', $this->table.'.ma_bm');
+
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		if ($offset >= 0) {
+			$query->offset($offset)->limit($perPage);
+		}
+
+		return $query->get()->toArray();
+	}
 
 	public function bo_mon()
 	{
