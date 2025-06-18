@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Taikhoan;
 use Illuminate\Http\Request;
 
-class AccountController extends Controller
+class AccountController extends LayoutController
 {
     function index()
     {

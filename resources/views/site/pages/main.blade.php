@@ -6,18 +6,14 @@
                 <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span
                             class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a>Menu</h3>
             </div>
-            {{-- {{
-                print_r($class)
-            }} --}}
-          
             <!--panel-Body-->
             <div class="panel-body">
                 <div class="content-row px-3">
                     <!-- card-start -->
                     <div class="row">
                           <?php
-                        if(isset($class) && !empty($class)):
-                        foreach ($class as $row):?>
+                        if(isset($section_class_none) && !empty($section_class_none)):
+                        foreach ($section_class_none as $row):?>
                             <div class="col-12 col-md-6 col-lg-4 p-3">
                                 <div class="card">
                                     <div class="bg-card card-img-top"

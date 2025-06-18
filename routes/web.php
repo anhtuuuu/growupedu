@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AssessController;
@@ -19,13 +19,14 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\FormLoginController;
 
 /* Client sites start */
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [LayoutController::class, 'index']);
 Route::get('/assess', [AssessController::class, 'index']);
 Route::get('/login', [FormLoginController::class, 'index']);
 Route::get('/lession-files', [LessonController::class, 'index']);
 Route::get('/persional-management', [PerformanceController::class, 'index']);
 Route::get('/test', [TestController::class, 'index']);
 Route::get('/section-class', [ClassController::class, 'index']);
+Route::get('/section-class-detail/{number}', [ClassController::class, 'detail']);
 /* Client sites end */
 
 // =====================================================================================================================

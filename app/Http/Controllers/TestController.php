@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TestController extends Controller
+class TestController extends LayoutController
 {
     function index(){
        return view(config('asset.view_page')('test-client'));
