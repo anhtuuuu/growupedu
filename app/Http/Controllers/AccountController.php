@@ -6,8 +6,16 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-    function index(){
-        $accounts = Taikhoan::all();
-       return view(config('asset.view_admin_page')('account_management'))->with('accounts', $accounts);
+    function index()
+    {
+        $accounts = $this->gets();
+        return view(config('asset.view_admin_page')('account_management'))->with('accounts', $accounts);
+    }
+    function gets()
+    {
+        $args = array();
+        $args['order_by'] = '';
+        $accounts = (new Taikhoan)->gets($args);
+        return $accounts;
     }
 }

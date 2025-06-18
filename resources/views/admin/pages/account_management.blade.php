@@ -2,6 +2,7 @@
 @section('content')
     @include(config('asset.view_admin_partial')('search_nav'))
     <div class="row">
+        
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -9,16 +10,15 @@
                     <a class="btn btn-success pull-right" href=""><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
-
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                            <input class="flat-blue check-all" name="check_all[]"
-                                                                type="checkbox" value="yes">
-                                                        </th> -->
+                                                                <input class="flat-blue check-all" name="check_all[]"
+                                                                    type="checkbox" value="yes">
+                                                            </th> -->
                                         <th class="text-center" style="width: 20px">Sắp xếp</th>
                                         <th class="text-center" style="width:120px">Ảnh đại diện</th>
                                         <th class="text-center" style="width:auto">Họ tên</th>
@@ -27,7 +27,7 @@
                                         <th class="text-center">Trạng thái kích hoạt</th>
                                         <th class="text-center" style="width: 160px;">Chức năng</th>
                                         <!-- <th class="text-center">Nổi bật</th>
-                                                <th class="text-center">Mới nhất</th> -->
+                                                    <th class="text-center">Mới nhất</th> -->
                                         <!-- <th class="text-center">Chức năng</th> -->
 
                                     </tr>

@@ -9,7 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class LopHocPhan
  * 
@@ -61,6 +61,29 @@ class LopHocPhan extends Model
 		'trang_thai',
 		'thong_bao'
 	];
+
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ho_ten as ho_ten',
+				'taikhoan.hinh_anh as avatar',
+				'hoc_phan.ten_hp as ten_hp'
+			])
+			->leftJoin('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->leftJoin('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table.'.ma_hp');
+
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
 
 	public function hoc_phan()
 	{
