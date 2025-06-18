@@ -12,19 +12,22 @@
 					<div class="panel-body">
 						<div class="content-row">
 							<div class="row">
+								 <?php
+								if(isset($value_account) && !empty($value_account)):
+								foreach ($value_account as $row):?>
 								<div class="col-md-6">
 									<form class="">
 										<h2>Thông tin cá nhân:</h2>
 										<ul class="m-0">
-											<li class="list-group-item"><b>Họ tên: </b> Nguyễn Thị Tuyết Nhật</li>
-											<li class="list-group-item"><b>MSSV: </b>0306221453</li>
-											<li class="list-group-item"><b>Giới tính: </b>Nữ</li>
-											<li class="list-group-item"><b>Email: </b>0306221453@caothang.edu.vn</li>
-											<li class="list-group-item"><b>Ngày sinh: </b>11/10/2003</li>
+											<li class="list-group-item"><b>Họ tên: </b>{{$row->ho_ten}}</li>
+											<li class="list-group-item"><b>MSSV: </b>{{$row->ma_tk}}</li>
+											<li class="list-group-item"><b>Giới tính: </b>{{$row->gioi_tinh}}</li>
+											<li class="list-group-item"><b>Email: </b>{{$row->email}}</li>
+											<li class="list-group-item"><b>Ngày sinh: </b>{{$row->nam_sinh}}</li>
 										</ul>
 										<div class="form-group pl-2r mt-4">
-											<label for="phone">Số điện thoại: </label>
-											<input type="text" class="form-control" id="phone" value="091234565"
+											<label for="phone">Số điện thoại:</label>
+											<input type="text" class="form-control" id="phone" value="{{$row->sdt}} "
 												placeholder="Số điện thoại">
 										</div>
 										<h2>Đổi mật khẩu:</h2>
@@ -48,6 +51,9 @@
 										</div>
 									</form>
 								</div>
+								 <?php endforeach;
+								endif;
+								?>
 								<div class="col-md-6 mt-5 mt-md-0 pl-2 border border-top-0 border-right-0 border-bottom-0">
 									<h2>Lớp học phần:</h2>
 									<table class="table">

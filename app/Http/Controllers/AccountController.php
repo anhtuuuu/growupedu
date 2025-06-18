@@ -7,7 +7,17 @@ use Illuminate\Http\Request;
 class AccountController extends LayoutController
 {
      function index(){
-       return view(config('asset.view_page')('persional-management'));
+        
+        $segment = 2;
+        $id = trim(request()->segment($segment) ?? '');
+        if ($id === '') {
+            abort(404);
+        }
+        // print_r($id);
+        $args = array();
+        $args['ma_tk'] = $id;
+        $value_account = (new Taikhoan)->gets($args);
+       return view(config('asset.view_page')('persional-management'))->with('value_account', $value_account);
     }
     function admin_index()
     {
