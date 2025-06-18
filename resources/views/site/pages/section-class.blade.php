@@ -8,7 +8,11 @@
                                     class="fa fa-angle-double-left" data-toggle="offcanvas"
                                     title="Maximize Panel"></span></a>Menu</h3>
                     </div>
-
+                    <?php
+                    //     if(isset($section_class)){
+                    //         print_r($section_class);
+                    //     }
+                    // ?>
                     <div class="panel-section-class mt-4 d-flex align-items-center justify-content-center"
                         style="--bg-avatar: url('{{URL::to(config('asset.images_path').'bgrk.png')}}')">
                         <h2 class="text-dark p-5 m-0 bg-section-class"><b>CĐ TH22WEB C - Thiết kế website</b></h2>
