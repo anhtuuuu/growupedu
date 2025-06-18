@@ -19,6 +19,12 @@ class ClassController extends LayoutController
 
         $args['alias'] = $class_alias;
         $class = (new LopHocPhan)->gets_by_alias($args);
+
+        if (empty($class)) {
+            abort(404);
+            return;
+        }
+
         $args_less['ma_tk'] = $class[0]->ma_tk;
         $lessons = (new BaiGiang)->gets($args_less);
 
