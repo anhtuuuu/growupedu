@@ -17,40 +17,35 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\FormLoginController;
-use App\Http\Controllers\LessionFilesController;
-use App\Http\Controllers\PersionalManagementController;
-use App\Http\Controllers\TestCLientController;
-use App\Http\Controllers\SectionClassController;
-use App\Http\Controllers\AssessClientController;
 
 /* Client sites start */
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/assess', [AssessClientController::class, 'index']);
+Route::get('/assess', [AssessController::class, 'index']);
 Route::get('/login', [FormLoginController::class, 'index']);
-Route::get('/lession-files', [LessionFilesController::class, 'index']);
-Route::get('/persional-management', [PersionalManagementController::class, 'index']);
-Route::get('/test', [TestCLientController::class, 'index']);
-Route::get('/section-class', [SectionClassController::class, 'index']);
+Route::get('/lession-files', [LessonController::class, 'index']);
+Route::get('/persional-management', [PerformanceController::class, 'index']);
+Route::get('/test', [TestController::class, 'index']);
+Route::get('/section-class', [ClassController::class, 'index']);
 /* Client sites end */
 
 // =====================================================================================================================
 
 /* Admin sites start */
-Route::get('/admin', [AdminController::class, 'index']);
-Route::get('/account_management', [AccountController::class, 'index']);
-Route::get('/assess_management', [AssessController::class, 'index']);
-Route::get('/assess_detail/{number}', [AssessController::class, 'detail']);
-Route::get('/class_management', [ClassController::class, 'index']);
-Route::get('/content_management', [ContentController::class, 'index']);
-Route::get('/course_management', [CourseController::class, 'index']);
-Route::get('/department_management', [DepartmentController::class, 'index']);
-Route::get('/lecturer_management', [LecturerController::class, 'index']);
-Route::get('/lesson_management', [LessonController::class, 'index']);
-Route::get('/performance_management', [PerformanceController::class, 'index']);
-Route::get('/plan_management', [PlanController::class, 'index']);
-Route::get('/student_management', [StudentController::class, 'index']);
-Route::get('/subject_management', [SubjectController::class, 'index']);
-Route::get('/test_management', [TestController::class, 'index']);
+Route::get('/admin', [AdminController::class, 'admin_index']);
+Route::get('/account_management', [AccountController::class, 'admin_index']);
+Route::get('/assess_management', [AssessController::class, 'admin_index']);
+Route::get('/assess_detail/{number}', [AssessController::class, 'assess_detail']);
+Route::get('/class_management', [ClassController::class, 'admin_index']);
+Route::get('/content_management', [ContentController::class, 'admin_index']);
+Route::get('/course_management', [CourseController::class, 'admin_index']);
+Route::get('/department_management', [DepartmentController::class, 'admin_index']);
+Route::get('/lecturer_management', [LecturerController::class, 'admin_index']);
+Route::get('/lesson_management', [LessonController::class, 'admin_index']);
+Route::get('/performance_management', [PerformanceController::class, 'admin_index']);
+Route::get('/plan_management', [PlanController::class, 'admin_index']);
+Route::get('/student_management', [StudentController::class, 'admin_index']);
+Route::get('/subject_management', [SubjectController::class, 'admin_index']);
+Route::get('/test_management', [TestController::class, 'admin_index']);
 
 
 /* Admin sites end */
