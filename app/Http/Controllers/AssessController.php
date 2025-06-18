@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AssessController extends Controller
+class AssessController extends LayoutController
 {
    function index(){
        return view(config('asset.view_page')('assess'));

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class LessonController extends Controller
+class LessonController extends LayoutController
 {
     function index(){
        return view(config('asset.view_page')('lession-files'));
