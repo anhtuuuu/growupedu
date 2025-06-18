@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 
 class AssessController extends Controller
 {
-    function index(){
+   function index(){
+       return view(config('asset.view_page')('assess'));
+    }
+    function admin_index(){
        return view(config('asset.view_admin_page')('assess'));
     }
-    function detail($number){
+    function assess_detail($number){
        return view(config('asset.view_admin_page')('assess_detail'));
     }
 }

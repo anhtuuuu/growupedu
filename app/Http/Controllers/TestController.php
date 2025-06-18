@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     function index(){
+       return view(config('asset.view_page')('test-client'));
+    }
+    function admin_index(){
        return view(config('asset.view_admin_page')('test_management'));
     }
 }
