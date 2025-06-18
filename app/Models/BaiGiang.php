@@ -8,7 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class BaiGiang
  * 
@@ -50,7 +50,29 @@ class BaiGiang extends Model
 		'trang_thai',
 		'thong_bao'
 	];
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ho_ten as ho_ten',
+				'taikhoan.hinh_anh as avatar'
+			])
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk');
 
+		if(isset($args['ma_tk'])){
+			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
+		}
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
 	public function taikhoan()
 	{
 		return $this->belongsTo(Taikhoan::class, 'ma_tk');
