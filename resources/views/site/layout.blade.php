@@ -17,16 +17,16 @@
     <!-- site css -->
 
     <!--nav-->
-    <link rel="stylesheet" href={{URL::to(config('asset.css_path')."site.min.css")}}>
+    <link rel="stylesheet" href={{ URL::to(config('asset.css_path') . 'site.min.css') }}>
     <link
         href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic"
         rel="stylesheet" type="text/css">
 
     <link href="https://bootstrapmade.com/content/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href={{URL::to(config('asset.css_path')."custom.css")}}>
-
-    <script type="text/javascript" src={{URL::to(config('asset.js_path')."site.min.js")}}></script>
-    <script type="text/javascript" src={{URL::to(config('asset.js_path')."prism.js")}}></script>
+    <link rel="stylesheet" href={{ URL::to(config('asset.css_path') . 'custom.css') }}>
+    <link href="https://vjs.zencdn.net/8.22.0/video-js.css" rel="stylesheet" />
+    <script type="text/javascript" src={{ URL::to(config('asset.js_path') . 'site.min.js') }}></script>
+    <script type="text/javascript" src={{ URL::to(config('asset.js_path') . 'prism.js') }}></script>
     <script>
         function myFunction() {
             var x = document.getElementById("myTopnav");
@@ -49,11 +49,13 @@
     <div class="container-fluid mt-4">
         <div class="row row-offcanvas row-offcanvas-left">
             <!-- Side Menu-->
-            @include('site.left-side')
+            <?php if(isset($left_side_none) && isset($type_side_none)):?>
+            @include('site.left-side', compact('left_side_none', 'type_side_none'))
+            <?php endif;  ?>
             <!-- End side Menu-->
             <!-- content -->
             @yield('content')
-            
+
         </div>
         <!-- end content -->
     </div>
@@ -64,6 +66,8 @@
 
     </div>
     <!--end body container-->
+    <script src="https://vjs.zencdn.net/8.22.0/video.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-youtube/2.6.1/Youtube.min.js"></script>
 </body>
 
 </html>

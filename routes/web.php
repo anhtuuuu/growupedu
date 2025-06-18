@@ -20,9 +20,12 @@ use App\Http\Controllers\FormLoginController;
 
 /* Client sites start */
 Route::get('/', [LayoutController::class, 'index']);
-Route::get('/assess', [AssessController::class, 'index']);
+Route::get('/{any}', [AssessController::class, 'index']);
 Route::get('/login', [FormLoginController::class, 'index']);
-Route::get('/lession-files', [LessonController::class, 'index']);
+Route::get('/lession-files', [LessonController::class, 'files']);
+Route::get('/bai-giang/{alias_lesson}', [LessonController::class, 'index']);
+Route::get('/bai-giang/{alias_lesson}/{alias_course}/{alias_content}', [ContentController::class, 'index']);
+
 Route::get('/persional-management/{num}', [AccountController::class, 'index']);
 Route::get('/test', [TestController::class, 'index']);
 Route::get('/section-class/{any}', [ClassController::class, 'index']);
