@@ -25,8 +25,7 @@ Route::get('/login', [FormLoginController::class, 'index']);
 Route::get('/lession-files', [LessonController::class, 'index']);
 Route::get('/persional-management', [PerformanceController::class, 'index']);
 Route::get('/test', [TestController::class, 'index']);
-Route::get('/section-class', [ClassController::class, 'index']);
-Route::get('/section-class-detail/{number}', [ClassController::class, 'detail']);
+Route::get('/section-class/{any}', [ClassController::class, 'index']);
 /* Client sites end */
 
 // =====================================================================================================================
@@ -35,7 +34,7 @@ Route::get('/section-class-detail/{number}', [ClassController::class, 'detail'])
 Route::get('/admin', [AdminController::class, 'admin_index']);
 Route::get('/account_management', [AccountController::class, 'admin_index']);
 Route::get('/assess_management', [AssessController::class, 'admin_index']);
-Route::get('/assess_detail/{number}', [AssessController::class, 'assess_detail']);
+Route::get('/assess_detail/{num}', [AssessController::class, 'assess_detail']);
 Route::get('/class_management', [ClassController::class, 'admin_index']);
 Route::get('/content_management', [ContentController::class, 'admin_index']);
 Route::get('/course_management', [CourseController::class, 'admin_index']);

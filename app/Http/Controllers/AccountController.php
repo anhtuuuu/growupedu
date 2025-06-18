@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 
 class AccountController extends LayoutController
 {
-    function index()
+     function index(){
+       return view(config('asset.view_page')('persional-management'));
+    }
+    function admin_index()
     {
         $accounts = $this->gets();
         return view(config('asset.view_admin_page')('account_management'))->with('accounts', $accounts);

@@ -72,8 +72,32 @@ class LopHocPhan extends Model
 				'hoc_phan.ten_hp as ten_hp'
 			])
 			->leftJoin('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
-			->leftJoin('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table.'.ma_hp');
+			->leftJoin('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp');
 
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
+	public function gets_by_alias($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ho_ten as ho_ten',
+				'taikhoan.hinh_anh as avatar',
+				'hoc_phan.ten_hp as ten_hp'
+			])
+			->leftJoin('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->leftJoin('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp');
+		if (isset($args['alias'])) {
+			$query = $query->where($this->table . '.alias', $args['alias']);
+		}
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);
