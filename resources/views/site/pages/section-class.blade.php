@@ -14,26 +14,28 @@
                         // endforeach;
                     ?>
                     <div class="panel-section-class mt-4 d-flex align-items-center justify-content-center"
-                        style="--bg-avatar: url('{{URL::to(config('asset.images_path').'bgrk.png')}}')">
+                        style="--bg-avatar: url('<?php echo URL::to(config('asset.images_path'). $section_class[0]->hinh_anh )?>')">
                         <h2 class="text-dark p-5 m-0 bg-section-class"><b>CĐ TH22WEB C - Thiết kế website</b></h2>
                     </div>
                     <!--panel-Body-->
                     <div class="panel-body">
                         <div class="px-2 px-md-5">
+                             <?php
+								if(isset($lessons) && !empty($lessons)):
+								foreach ($lessons as $row):?>
                             <div class="row avatar-tutor-section-class p-3 mb-3">
+
                                 <div class="col-12 d-flex p-0">
                                     <div class="d-flex justify-content pe-3">
-                                        <img class="avatar-lecture-small" src="{{URL::to(config('asset.images_path').'1.png')}}" alt="">
+                                        <img class="avatar-lecture-small" src="<?php echo URL::to(config('asset.images_path'). $section_class[0]->avatar )?>" alt="">
                                     </div>
                                     <div class="my-auto">
-                                        <h6 class="small-text"><b>Dương Trọng Đính</b></h6>
+                                        <h6 class="small-text"><b>{{$section_class[0]->ho_ten}}</b></h6>
                                         <h6 class="small-text">11/06/2025</h6>
                                     </div>
                                 </div>
                                 <div class="content-section-class">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit architecto ratione
-                                    eligendi ut aperiam praesentium, aliquid sit! Nemo ullam nostrum quidem ea earum
-                                    nobis commodi, consectetur enim ipsam vel odio!
+                                   {{$lessons[0]->ten_bg}}
                                 </div>
 
                                 <div class="comment-line px-0 pt-3 mt-3">
@@ -118,8 +120,10 @@
                                     </form>
                                 </div>
                             </div>
-
-                            <div class="row avatar-tutor-section-class p-3 mb-3">
+                                <?php endforeach;
+								endif;
+								?>
+                            {{-- <div class="row avatar-tutor-section-class p-3 mb-3">
                                 <div class="col-12 d-flex p-0">
                                     <div class="d-flex justify-content pe-3">
                                         <img class="avatar-lecture-small" src="{{URL::to(config('asset.images_path').'1.png')}}" alt="">
@@ -216,7 +220,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>                       
                     </div>
 
