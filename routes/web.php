@@ -23,7 +23,7 @@ Route::get('/', [LayoutController::class, 'index']);
 Route::get('/assess', [AssessController::class, 'index']);
 Route::get('/login', [FormLoginController::class, 'index']);
 Route::get('/lession-files', [LessonController::class, 'index']);
-Route::get('/persional-management', [PerformanceController::class, 'index']);
+Route::get('/persional-management/{num}', [AccountController::class, 'index']);
 Route::get('/test', [TestController::class, 'index']);
 Route::get('/section-class/{any}', [ClassController::class, 'index']);
 /* Client sites end */

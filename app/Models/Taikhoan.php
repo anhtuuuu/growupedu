@@ -89,7 +89,10 @@ class Taikhoan extends Model
 			])
 			->leftJoin('vai_tro', 'vai_tro.ma_vt', '=', $this->table . '.vai_tro')
 			->leftJoin('bo_mon', 'bo_mon.ma_bm', '=', $this->table.'.ma_bm');
-
+			
+			if(isset($args['ma_tk'])){
+				$query=$query->where($this->table . '.ma_tk', $args['ma_tk'] );
+			}
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);
