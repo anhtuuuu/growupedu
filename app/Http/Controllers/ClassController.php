@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\BaiGiang;
 use App\Models\LopHocPhan;
 use Illuminate\Http\Request;
 
@@ -14,10 +15,18 @@ class ClassController extends LayoutController
             abort(404);
         }
         $args = array();
-        $args['alias'] = $class_alias;
+        $args_less = array();
 
+        $args['alias'] = $class_alias;
         $class = (new LopHocPhan)->gets_by_alias($args);
-        return view(config('asset.view_page')('section-class'))->with('section_class',$class);
+        $args_less['ma_tk'] = $class[0]->ma_tk;
+        $lessons = (new BaiGiang)->gets($args_less);
+
+        $_values = array();
+        $_values['section_class'] = $class;
+        $_values['lessons'] = $lessons;
+
+        return view(config('asset.view_page')('section-class'), $_values);
     }
     function detail()
     {
