@@ -8,7 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class Chuong
  * 
@@ -46,6 +46,28 @@ class Chuong extends Model
 		'thong_bao'
 	];
 
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'bai_giang.alias as alias_lesson'
+			])
+			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg');
+
+		if(isset($args['alias_lesson'])){
+			$query = $query->where('bai_giang.alias', $args['alias_lesson']);
+		}
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
 	public function bai_giang()
 	{
 		return $this->belongsTo(BaiGiang::class, 'ma_bg');

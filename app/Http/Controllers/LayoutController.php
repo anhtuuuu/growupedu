@@ -71,14 +71,17 @@ class LayoutController extends Controller
     {
         $this->_initialize();
 
-        $section_class_none = new ClassController();
-        $this->_data['section_class_none'] = $section_class_none->gets();
+        $section_class_none = (new ClassController())->gets();
+        $this->_data['section_class_none'] = $section_class_none;
         
+        $this->_data['type_side_none'] = 'home';
+        $this->_data['left_side_none'] = $section_class_none;
+
         // $posts_news = modules::run('posts/get_items_cat_type', 'news', 0);
         // $partial = array();
         // $partial['data'] = $posts_news;
         // $this->_data['posts_news'] = $this->load->view('layout/site/partial/post_news', $partial, true);
-
+        
         return view(config('asset.view_page')('main'), $this->_data);
     }
     function gets()

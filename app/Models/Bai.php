@@ -8,7 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class Bai
  * 
@@ -56,6 +56,76 @@ class Bai extends Model
 		'thong_bao'
 	];
 
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*'
+			])
+			->join('chuong', 'chuong.chuong', '=', $this->table . '.chuong')
+			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg');
+
+		if (isset($args['alias_lesson'])) {
+			$query = $query->where('bai_giang.alias', $args['alias_lesson']);
+		}
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
+	public function get_by_id($id)
+	{
+
+		if(empty(trim($id))) return '';
+
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*'
+			])
+			->join('chuong', 'chuong.chuong', '=', $this->table . '.chuong')
+			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->where($this->table.'.ma_bai', $id);
+
+		
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->first();
+	}
+	public function get_by_alias($alias)
+	{
+
+		if(empty(trim($alias))) return '';
+
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*'
+			])
+			->join('chuong', 'chuong.chuong', '=', $this->table . '.chuong')
+			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->where($this->table.'.alias', $alias);
+
+		
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->first();
+	}
 	public function chuong()
 	{
 		return $this->belongsTo(Chuong::class, 'chuong');

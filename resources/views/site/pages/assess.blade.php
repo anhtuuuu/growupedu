@@ -14,7 +14,7 @@
 							<h2>Đánh giá :</h2>
 							<div class="row">
 								<div class="col-md-6">
-									<label class="pl-2r mt-4">Lớp học phần: CĐTH22WEBC - LT php cơ bản</label>
+									<label class="pl-2r mt-4">Lớp học phần: <?php echo isset($class_name) && !empty($class_name) ? $class_name : '' ?></label>
 									<label class="pl-2r mt-4">Chất lượng lớp học phần:
 										<label class="star" onclick="chooseStar(1)" for="oneStar"><i
 												class="fa fa-star"></i></label>
@@ -26,17 +26,16 @@
 												class="fa fa-star"></i></label>
 										<label class="star" onclick="chooseStar(5)" for="fiveStar"><i
 												class="fa fa-star"></i></label>
-
-										<input hidden type="radio" name="star" value="1" id="oneStar">
-										<input hidden type="radio" name="star" value="2" id="twoStar">
-										<input hidden type="radio" name="star" value="3" id="threeStar">
-										<input hidden type="radio" name="star" value="4" id="fourStar">
-										<input hidden type="radio" name="star" value="5" id="fiveStar" checked>
 									</label>
 									<form class="">
+										<input hidden type="radio" name="so_sao" value="1" id="oneStar">
+										<input hidden type="radio" name="so_sao" value="2" id="twoStar">
+										<input hidden type="radio" name="so_sao" value="3" id="threeStar">
+										<input hidden type="radio" name="so_sao" value="4" id="fourStar">
+										<input hidden type="radio" name="so_sao" value="5" id="fiveStar" checked>
 										<div class="form-group pl-2r mt-4">
 											<label class="mb-3" for="content">Nội dung đánh giá: </label>
-											<textarea type="text" class="form-control" id="content"
+											<textarea type="text" class="form-control" id="content" name="noi_dung"
 												placeholder="Nội dung đánh giá">
 											</textarea>
 										</div>
