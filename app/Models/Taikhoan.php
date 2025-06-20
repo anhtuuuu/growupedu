@@ -32,11 +32,8 @@ use Illuminate\Support\Facades\DB;
  * 
  * @property BoMon $bo_mon
  * @property Collection|BaiGiang[] $bai_giangs
- * @property Collection|Danhgium[] $danhgia
  * @property Collection|LopHocPhan[] $lop_hoc_phans
- * @property Collection|NopBaiKiemTra[] $nop_bai_kiem_tras
  * @property Collection|SinhVien[] $sinh_viens
- * @property Collection|TuongTac[] $tuong_tacs
  *
  * @package App\Models
  */
@@ -77,7 +74,6 @@ class Taikhoan extends Model
 		'kich_hoat',
 		'trang_thai'
 	];
-
 	public function gets($args, $perPage = 5, $offset = -1)
 	{
 		$query = DB::table($this->table)
@@ -88,11 +84,11 @@ class Taikhoan extends Model
 				'bo_mon.ten_bm as ten_bm'
 			])
 			->leftJoin('vai_tro', 'vai_tro.ma_vt', '=', $this->table . '.vai_tro')
-			->leftJoin('bo_mon', 'bo_mon.ma_bm', '=', $this->table.'.ma_bm');
-			
-			if(isset($args['ma_tk'])){
-				$query=$query->where($this->table . '.ma_tk', $args['ma_tk'] );
-			}
+			->leftJoin('bo_mon', 'bo_mon.ma_bm', '=', $this->table . '.ma_bm');
+
+		if (isset($args['ma_tk'])) {
+			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
+		}
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);
@@ -103,7 +99,6 @@ class Taikhoan extends Model
 
 		return $query->get()->toArray();
 	}
-
 	public function bo_mon()
 	{
 		return $this->belongsTo(BoMon::class, 'ma_bm');
@@ -119,28 +114,13 @@ class Taikhoan extends Model
 		return $this->hasMany(BaiGiang::class, 'ma_tk');
 	}
 
-	public function danhgia()
-	{
-		return $this->hasMany(Danhgium::class, 'ma_tk');
-	}
-
 	public function lop_hoc_phans()
 	{
 		return $this->hasMany(LopHocPhan::class, 'ma_tk');
 	}
 
-	public function nop_bai_kiem_tras()
-	{
-		return $this->hasMany(NopBaiKiemTra::class, 'ma_tk');
-	}
-
 	public function sinh_viens()
 	{
 		return $this->hasMany(SinhVien::class, 'ma_tk');
-	}
-
-	public function tuong_tacs()
-	{
-		return $this->hasMany(TuongTac::class, 'ma_tk');
 	}
 }

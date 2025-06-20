@@ -181,3 +181,6 @@ overflow-y: scroll;
     background-color: var(--avocado);
     color: #fff;
 }
+.color-course:hover{
+    color: var(--avocado);
+}

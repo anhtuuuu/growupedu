@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bai;
 use App\Models\BaiGiang;
 use App\Models\Chuong;
+use App\Models\LopHocPhan;
 use Illuminate\Http\Request;
 
 class ContentController extends LayoutController
@@ -19,7 +20,8 @@ class ContentController extends LayoutController
          abort(404);
       }
       $args = array();
-
+        $section_class_none = (new LopHocPhan)->gets($args);
+        $this->_data['load_section_class'] = $section_class_none;
       $args['alias_lesson'] = $lesson_alias;
       $args['alias_content'] = $content_alias;
 
@@ -34,12 +36,11 @@ class ContentController extends LayoutController
       $courses = (new Chuong)->gets($args);      
       $contents = (new Bai)->gets($args);
 
-      $data = array();
-      $data['courses'] = $courses;
-      $data['contents'] = $contents;
+      $this->_data['courses'] = $courses;
+      $this->_data['contents'] = $contents;
 
-      $this->_data['type_side_none'] = 'chapter';
-      $this->_data['left_side_none'] = $data;
+      $this->_data['type_side_none'] = 'lesson';
+        $this->_data['left_side_none'] = '';
 
       $row = (new Bai)->get_by_alias($content_alias);      
       $this->_data['row'] = $row;

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\DB;
  * 
  * @property Taikhoan $taikhoan
  * @property Collection|Chuong[] $chuongs
- * @property Collection|LhpBg[] $lhp_bgs
+ * @property Collection|LopHocPhan[] $lop_hoc_phans
  * @property Collection|TuongTac[] $tuong_tacs
  *
  * @package App\Models
@@ -50,7 +50,7 @@ class BaiGiang extends Model
 		'trang_thai',
 		'thong_bao'
 	];
-	public function gets($args, $perPage = 5, $offset = -1)
+public function gets($args, $perPage = 5, $offset = -1)
 	{
 		$query = DB::table($this->table)
 			->select([
@@ -87,13 +87,8 @@ class BaiGiang extends Model
 		return $this->hasMany(Chuong::class, 'ma_bg');
 	}
 
-	public function lhp_bgs()
+	public function lop_hoc_phans()
 	{
-		return $this->hasMany(LhpBg::class, 'ma_bg');
-	}
-
-	public function tuong_tacs()
-	{
-		return $this->hasMany(TuongTac::class, 'ma_bg');
+		return $this->hasMany(LopHocPhan::class, 'ma_bg');
 	}
 }

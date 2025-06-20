@@ -43,6 +43,7 @@ class LayoutController extends Controller
 
     public function _initialize()
     {
+
         // $this->_initialize_global($configs);
 
         // $this->_data['postcat_list'] = modules::run('posts/postcat/get_menu_list');
@@ -70,12 +71,14 @@ class LayoutController extends Controller
     function index()
     {
         $this->_initialize();
-
-        $section_class_none = (new ClassController())->gets();
+        $args = array();
+        $section_class_none = (new LopHocPhan())->gets($args);
         $this->_data['section_class_none'] = $section_class_none;
         
         $this->_data['type_side_none'] = 'home';
         $this->_data['left_side_none'] = $section_class_none;
+
+       $this->_data['load_section_class'] = $section_class_none; 
 
         // $posts_news = modules::run('posts/get_items_cat_type', 'news', 0);
         // $partial = array();
