@@ -6,17 +6,19 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 /**
  * Class Chuong
  * 
- * @property int $chuong
+ * @property int $ma_chuong
  * @property int $ma_bg
  * @property string $ten_chuong
  * @property string $alias
  * @property string|null $mo_ta
+ * @property Carbon $ngay_tao
  * @property bool|null $trang_thai
  * @property bool|null $thong_bao
  * 
@@ -28,11 +30,12 @@ use Illuminate\Support\Facades\DB;
 class Chuong extends Model
 {
 	protected $table = 'chuong';
-	protected $primaryKey = 'chuong';
+	protected $primaryKey = 'ma_chuong';
 	public $timestamps = false;
 
 	protected $casts = [
 		'ma_bg' => 'int',
+		'ngay_tao' => 'datetime',
 		'trang_thai' => 'bool',
 		'thong_bao' => 'bool'
 	];
@@ -42,11 +45,11 @@ class Chuong extends Model
 		'ten_chuong',
 		'alias',
 		'mo_ta',
+		'ngay_tao',
 		'trang_thai',
 		'thong_bao'
 	];
-
-	public function gets($args, $perPage = 5, $offset = -1)
+public function gets($args, $perPage = 5, $offset = -1)
 	{
 		$query = DB::table($this->table)
 			->select([
@@ -57,6 +60,9 @@ class Chuong extends Model
 
 		if(isset($args['alias_lesson'])){
 			$query = $query->where('bai_giang.alias', $args['alias_lesson']);
+		}
+		if(isset($args['order_by'])){
+			$query = $query->orderBy('ngay_tao', $args['order_by']);
 		}
 		// $query = $this->generateWhere($query, $args);
 
@@ -75,6 +81,6 @@ class Chuong extends Model
 
 	public function bais()
 	{
-		return $this->hasMany(Bai::class, 'chuong');
+		return $this->hasMany(Bai::class, 'ma_chuong');
 	}
 }

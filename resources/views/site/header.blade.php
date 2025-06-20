@@ -24,7 +24,7 @@
     <!-- main menu-->
     <div class="topnav d-flex justify-content-between" id="myTopnav">
         <div class="leftNav">
-            <a href="../index-2.html" class="text-lghtgoldyellow">Trang chủ</a>
+            <a href="{{URL::to('/')}}" class="text-lghtgoldyellow">Trang chủ</a>
             <div class="mdropdown">
                 <button class="mdropbtn text-lghtgoldyellow">Khoa
                     <i class="fa fa-caret-down"></i>
@@ -33,7 +33,21 @@
                     <a href="index.html" class="text-dark">Công nghệ thông tin</a>
                 </div>
             </div>
-            <a href="../ppts/index.html" class="text-lghtgoldyellow">Lớp học phần</a>
+            <div class="mdropdown">
+                <button class="mdropbtn text-lghtgoldyellow">Lớp học phần
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="mdropdown-content">
+                    <?php 
+                    if(isset($load_section_class) &&  !empty($load_section_class) && is_array($load_section_class)):
+                        foreach($load_section_class as $row): ?>
+                    
+                    <a href="{{$row->alias}}" class="text-dark">{{$row->ten_lhp}}</a>
+                    <?php
+                    endforeach;     
+                    endif; ?>
+                </div>
+            </div>
         </div>
         <div class="rightNav">
             <a href="../account-manager.html" class="text-lghtgoldyellow">Quản lý tài khoản</a>

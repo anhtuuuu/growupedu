@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Danhgium
+ * Class DanhGia
  * 
  * @property int $id
  * @property int $ma_tk
@@ -21,13 +21,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool|null $trang_thai
  * 
  * @property LopHocPhan $lop_hoc_phan
- * @property Taikhoan $taikhoan
+ * @property SinhVien $sinh_vien
  *
  * @package App\Models
  */
-class Danhgium extends Model
+class DanhGia extends Model
 {
-	protected $table = 'danhgia';
+	protected $table = 'danh_gia';
 	public $timestamps = false;
 
 	protected $casts = [
@@ -52,8 +52,8 @@ class Danhgium extends Model
 		return $this->belongsTo(LopHocPhan::class, 'ma_lhp');
 	}
 
-	public function taikhoan()
+	public function sinh_vien()
 	{
-		return $this->belongsTo(Taikhoan::class, 'ma_tk');
+		return $this->belongsTo(SinhVien::class, 'ma_tk', 'ma_tk');
 	}
 }

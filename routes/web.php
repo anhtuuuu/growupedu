@@ -28,6 +28,8 @@ Route::get('/bai-giang/{alias_lesson}/{alias_course}/{alias_content}', [ContentC
 Route::get('/persional-management/{num}', [AccountController::class, 'index']);
 Route::get('/test', [TestController::class, 'index']);
 Route::get('/section-class/{any}', [ClassController::class, 'index']);
+Route::get('/interact/{alias_class}', [ClassController::class, 'interact']);
+
 /* Client sites end */
 
 // =====================================================================================================================
@@ -49,7 +51,7 @@ Route::get('/student_management', [StudentController::class, 'admin_index']);
 Route::get('/subject_management', [SubjectController::class, 'admin_index']);
 Route::get('/test_management', [TestController::class, 'admin_index']);
 
-Route::get('/{any}', [AssessController::class, 'index']);
+Route::get('/{any}', [ClassController::class, 'index']);
 
 
 /* Admin sites end */

@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('lop_hoc_phan', function (Blueprint $table) {
+            $table->foreign(['ma_bg'], 'lop_hoc_phan_ma_bg')->references(['ma_bg'])->on('bai_giang')->onUpdate('restrict')->onDelete('restrict');
             $table->foreign(['ma_hp'], 'lop_hoc_phan_ma_hp')->references(['ma_hp'])->on('hoc_phan')->onUpdate('restrict')->onDelete('restrict');
             $table->foreign(['ma_tk'], 'lop_hoc_phan_ma_tk')->references(['ma_tk'])->on('taikhoan')->onUpdate('restrict')->onDelete('restrict');
         });
@@ -23,6 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('lop_hoc_phan', function (Blueprint $table) {
+            $table->dropForeign('lop_hoc_phan_ma_bg');
             $table->dropForeign('lop_hoc_phan_ma_hp');
             $table->dropForeign('lop_hoc_phan_ma_tk');
         });

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
  * @property string $ten_lhp
  * @property string $alias
  * @property int $ma_tk
+ * @property int|null $ma_bg
  * @property int $ma_hp
  * @property string|null $hinh_anh
  * @property string|null $mo_ta
@@ -25,11 +26,11 @@ use Illuminate\Support\Facades\DB;
  * @property bool|null $trang_thai
  * @property bool|null $thong_bao
  * 
+ * @property BaiGiang|null $bai_giang
  * @property HocPhan $hoc_phan
  * @property Taikhoan $taikhoan
  * @property Collection|BaiKiemTra[] $bai_kiem_tras
- * @property Collection|Danhgium[] $danhgia
- * @property Collection|LhpBg[] $lhp_bgs
+ * @property Collection|DanhGia[] $danh_gia
  * @property Collection|SinhVien[] $sinh_viens
  *
  * @package App\Models
@@ -42,6 +43,7 @@ class LopHocPhan extends Model
 
 	protected $casts = [
 		'ma_tk' => 'int',
+		'ma_bg' => 'int',
 		'ma_hp' => 'int',
 		'ngay_tao' => 'datetime',
 		'hien_thi' => 'bool',
@@ -53,6 +55,7 @@ class LopHocPhan extends Model
 		'ten_lhp',
 		'alias',
 		'ma_tk',
+		'ma_bg',
 		'ma_hp',
 		'hinh_anh',
 		'mo_ta',
@@ -61,7 +64,6 @@ class LopHocPhan extends Model
 		'trang_thai',
 		'thong_bao'
 	];
-
 	public function gets($args, $perPage = 5, $offset = -1)
 	{
 		$query = DB::table($this->table)
@@ -86,6 +88,10 @@ class LopHocPhan extends Model
 
 		return $query->get()->toArray();
 	}
+	public function bai_giang()
+	{
+		return $this->belongsTo(BaiGiang::class, 'ma_bg');
+	}
 
 	public function hoc_phan()
 	{
@@ -102,18 +108,18 @@ class LopHocPhan extends Model
 		return $this->hasMany(BaiKiemTra::class, 'ma_lhp');
 	}
 
-	public function danhgia()
+	public function danh_gia()
 	{
-		return $this->hasMany(Danhgium::class, 'ma_lhp');
-	}
-
-	public function lhp_bgs()
-	{
-		return $this->hasMany(LhpBg::class, 'ma_lhp');
+		return $this->hasMany(DanhGia::class, 'ma_lhp');
 	}
 
 	public function sinh_viens()
 	{
 		return $this->hasMany(SinhVien::class, 'ma_lhp');
+	}
+
+	public function tuong_tacs()
+	{
+		return $this->hasMany(TuongTac::class, 'ma_lhp');
 	}
 }

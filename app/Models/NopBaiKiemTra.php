@@ -8,7 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class NopBaiKiemTra
  * 
@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool|null $trang_thai
  * 
  * @property BaiKiemTra $bai_kiem_tra
- * @property Taikhoan $taikhoan
+ * @property SinhVien $sinh_vien
  *
  * @package App\Models
  */
@@ -54,8 +54,8 @@ class NopBaiKiemTra extends Model
 		return $this->belongsTo(BaiKiemTra::class, 'ma_bkt');
 	}
 
-	public function taikhoan()
+	public function sinh_vien()
 	{
-		return $this->belongsTo(Taikhoan::class, 'ma_tk');
+		return $this->belongsTo(SinhVien::class, 'ma_tk', 'ma_tk');
 	}
 }

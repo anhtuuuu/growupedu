@@ -7,8 +7,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class SinhVien
  * 
@@ -21,6 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property LopHocPhan $lop_hoc_phan
  * @property Taikhoan $taikhoan
+ * @property Collection|DanhGia[] $danh_gia
+ * @property Collection|NopBaiKiemTra[] $nop_bai_kiem_tras
+ * @property Collection|TuongTac[] $tuong_tacs
  *
  * @package App\Models
  */
@@ -53,5 +57,20 @@ class SinhVien extends Model
 	public function taikhoan()
 	{
 		return $this->belongsTo(Taikhoan::class, 'ma_tk');
+	}
+
+	public function danh_gia()
+	{
+		return $this->hasMany(DanhGia::class, 'ma_tk', 'ma_tk');
+	}
+
+	public function nop_bai_kiem_tras()
+	{
+		return $this->hasMany(NopBaiKiemTra::class, 'ma_tk', 'ma_tk');
+	}
+
+	public function tuong_tacs()
+	{
+		return $this->hasMany(TuongTac::class, 'ma_tk', 'ma_tk');
 	}
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('nop_bai_kiem_tra', function (Blueprint $table) {
             $table->foreign(['ma_bkt'], 'FK_nop_bai_kiem_tra_ma_bkt')->references(['ma_bkt'])->on('bai_kiem_tra')->onUpdate('restrict')->onDelete('restrict');
-            $table->foreign(['ma_tk'], 'FK_nop_bai_kiem_tra_ma_tk')->references(['ma_tk'])->on('taikhoan')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign(['ma_tk'], 'FK_nop_bai_kiem_tra_ma_tk')->references(['ma_tk'])->on('sinh_vien')->onUpdate('restrict')->onDelete('restrict');
         });
     }
 

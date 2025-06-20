@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
  * @property bool|null $trang_thai
  * 
  * @property BaiGiang $bai_giang
- * @property Taikhoan $taikhoan
+ * @property SinhVien $sinh_vien
  *
  * @package App\Models
  */
@@ -46,7 +46,6 @@ class TuongTac extends Model
 		'ngay_tao',
 		'trang_thai'
 	];
-
 	public function gets($args, $perPage = 5, $offset = -1)
 	{
 		$query = DB::table($this->table)
@@ -56,9 +55,9 @@ class TuongTac extends Model
 				'taikhoan.hinh_anh as avatar'
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
-			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table.'.ma_bg');
-			
-			
+			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg');
+
+
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);
@@ -69,14 +68,13 @@ class TuongTac extends Model
 
 		return $query->get()->toArray();
 	}
-
-	public function bai_giang()
+	public function lop_hoc_phan()
 	{
-		return $this->belongsTo(BaiGiang::class, 'ma_bg');
+		return $this->belongsTo(LopHocPhan::class, 'ma_lhp');
 	}
 
-	public function taikhoan()
+	public function sinh_vien()
 	{
-		return $this->belongsTo(Taikhoan::class, 'ma_tk');
+		return $this->belongsTo(SinhVien::class, 'ma_tk', 'ma_tk');
 	}
 }
