@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\DB;
  * @property HocPhan $hoc_phan
  * @property Taikhoan $taikhoan
  * @property Collection|BaiKiemTra[] $bai_kiem_tras
- * @property Collection|DanhGium[] $danh_gia
+ * @property Collection|DanhGia[] $danh_gia
  * @property Collection|SinhVien[] $sinh_viens
  * @property Collection|TuongTac[] $tuong_tacs
  *
@@ -111,7 +111,7 @@ class LopHocPhan extends Model
 
 	public function danh_gia()
 	{
-		return $this->hasMany(DanhGium::class, 'ma_lhp');
+		return $this->hasMany(DanhGia::class, 'ma_lhp');
 	}
 
 	public function sinh_viens()

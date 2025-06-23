@@ -60,7 +60,9 @@ class Bai extends Model
 	{
 		$query = DB::table($this->table)
 			->select([
-				$this->table . '.*'
+				$this->table . '.*',
+				'chuong.ten_chuong as ten_chuong',
+				'bai_giang.ten_bg as ten_bg'
 			])
 			->join('chuong', 'chuong.ma_chuong', '=', $this->table . '.ma_chuong')
 			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg');

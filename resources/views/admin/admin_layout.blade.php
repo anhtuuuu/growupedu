@@ -15,6 +15,8 @@
     <link href={{ URL::to(config('asset.dist_admin_path') . 'dist/css/skins/_all-skins.min.css') }} rel="stylesheet"
         type="text/css" />
     <link href={{ URL::to(config('asset.dist_admin_path') . 'style.css') }} rel="stylesheet" type="text/css" />
+    <link href={{ URL::to(config('asset.dist_admin_path') . 'custom.css') }} rel="stylesheet" type="text/css" />
+
 </head>
 
 <body class="skin-blue">

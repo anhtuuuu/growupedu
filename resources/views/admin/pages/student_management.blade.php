@@ -14,9 +14,9 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                        <input class="flat-blue check-all" name="check_all[]"
-                                                            type="checkbox" value="yes">
-                                                    </th> -->
+                                                                <input class="flat-blue check-all" name="check_all[]"
+                                                                    type="checkbox" value="yes">
+                                                            </th> -->
                                         <th class="text-center" style="width: 20px">Sắp xếp</th>
                                         <th class="text-center" style="width:120px">Ảnh đại diện</th>
                                         <th class="text-center" style="width:auto">Họ tên</th>
@@ -28,182 +28,44 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <?php if(isset($rows) && !empty($rows) && is_array($rows)):
+                                        foreach($rows as $index => $row): ?>
                                     <tr>
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
+                                                type="text" value="{{ $index + 1 }}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
                                         <td>
-                                            <a class="img-fancybox"
+                                            <a class="img-fancybox d-flex justify-content-center"
                                                 href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
+                                                title=""><img width="40" class="img-rounded img-responsive"
+                                                    alt=""
+                                                    src="{{ URL::to(config('asset.images_path') . $row->avatar) }}"></a>
                                         </td>
                                         <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
+                                            {{ $row->ho_ten }}
                                         </td>
                                         <td class="text-center">
-                                            0306221453@caothang.edu.vn
+                                            {{ $row->email }}
                                         </td>
                                         <td class="text-center">
                                             <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
+                                                {{ $row->ten_lhp }}
                                             </p>
                                         </td>
                                         <td class="text-center">
-                                            11/10/2024
+                                            {{ $row->ngay_tham_gia }}
                                         </td>
-                                        <td>
-                                            100%
+                                        <td class="text-center">
+                                            {{ $row->tien_do }}%
                                         </td>
                                         <td class="text-center">
                                             <button class="btn-bgr">Xuất chứng chỉ</button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
-                                        </td>
-                                        <td class="text-center">
-                                            0306221453@caothang.edu.vn
-                                        </td>
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            11/10/2024
-                                        </td>
-                                        <td>
-                                            100%
-                                        </td>
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xuất chứng chỉ</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
-                                        </td>
-                                        <td class="text-center">
-                                            0306221453@caothang.edu.vn
-                                        </td>
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            11/10/2024
-                                        </td>
-                                        <td>
-                                            100%
-                                        </td>
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xuất chứng chỉ</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
-                                        </td>
-                                        <td class="text-center">
-                                            0306221453@caothang.edu.vn
-                                        </td>
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            11/10/2024
-                                        </td>
-                                        <td>
-                                            100%
-                                        </td>
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xuất chứng chỉ</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
-                                        </td>
-                                        <td class="text-center">
-                                            0306221453@caothang.edu.vn
-                                        </td>
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            11/10/2024
-                                        </td>
-                                        <td>
-                                            100%
-                                        </td>
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xuất chứng chỉ</button>
-                                        </td>
-                                    </tr>
+                                    <?php endforeach; endif; ?>
                                 </tbody>
                             </table>
 
@@ -218,11 +80,9 @@
                             <div class="">
                                 <ul class="pagination">
                                     <li><a href="" class="active">1</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
                                             data-ci-pagination-page="4" rel="start">2</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
                                             data-ci-pagination-page="8">3</a></li>
                                     <li class="next page"><a
                                             href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"

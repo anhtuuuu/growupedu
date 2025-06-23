@@ -42,7 +42,26 @@ class HocPhan extends Model
 		'mo_ta',
 		'trang_thai'
 	];
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'bo_mon.ma_bm as ma_bm',
+				'bo_mon.ten_bm as ten_bm'
+			])
+			->join('bo_mon', 'bo_mon.ma_bm', '=', $this->table . '.ma_bm');
 
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
 	public function bo_mon()
 	{
 		return $this->belongsTo(BoMon::class, 'ma_bm');

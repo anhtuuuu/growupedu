@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\DB;
  * 
  * @property LopHocPhan $lop_hoc_phan
  * @property Taikhoan $taikhoan
- * @property Collection|DanhGium[] $danh_gia
+ * @property Collection|DanhGia[] $danh_gia
  * @property Collection|NopBaiKiemTra[] $nop_bai_kiem_tras
  * @property Collection|TuongTac[] $tuong_tacs
  *
@@ -48,7 +48,31 @@ class SinhVien extends Model
 		'tien_do',
 		'trang_thai'
 	];
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ho_ten as ho_ten',
+				'taikhoan.hinh_anh as avatar',
+				'taikhoan.email as email',
+				'lop_hoc_phan.ten_lhp as ten_lhp'
+			])
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', $this->table . '.ma_lhp');
+		if (isset($args['ma_lhp'])) {
+			$query = $query->where($this->table . '.ma_lhp', $args['ma_lhp']);
+		}
+		// $query = $this->generateWhere($query, $args);
 
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
 	public function lop_hoc_phan()
 	{
 		return $this->belongsTo(LopHocPhan::class, 'ma_lhp');
@@ -61,7 +85,7 @@ class SinhVien extends Model
 
 	public function danh_gia()
 	{
-		return $this->hasMany(DanhGium::class, 'ma_tk', 'ma_tk');
+		return $this->hasMany(DanhGia::class, 'ma_tk', 'ma_tk');
 	}
 
 	public function nop_bai_kiem_tras()

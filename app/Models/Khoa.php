@@ -38,7 +38,23 @@ class Khoa extends Model
 		'mo_ta',
 		'trang_thai'
 	];
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*'
+			]);
+			
+		// $query = $this->generateWhere($query, $args);
 
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
 	public function bo_mons()
 	{
 		return $this->hasMany(BoMon::class, 'ma_khoa');

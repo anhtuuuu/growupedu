@@ -49,19 +49,20 @@ class Chuong extends Model
 		'trang_thai',
 		'thong_bao'
 	];
-public function gets($args, $perPage = 5, $offset = -1)
+	public function gets($args, $perPage = 5, $offset = -1)
 	{
 		$query = DB::table($this->table)
 			->select([
 				$this->table . '.*',
+				'bai_giang.ten_bg as ten_bg',
 				'bai_giang.alias as alias_lesson'
 			])
 			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg');
 
-		if(isset($args['alias_lesson'])){
+		if (isset($args['alias_lesson'])) {
 			$query = $query->where('bai_giang.alias', $args['alias_lesson']);
 		}
-		if(isset($args['order_by'])){
+		if (isset($args['order_by'])) {
 			$query = $query->orderBy('ngay_tao', $args['order_by']);
 		}
 		// $query = $this->generateWhere($query, $args);

@@ -9,17 +9,17 @@
                     <a class="btn btn-success pull-right" href=""><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
-              
+
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                        <input class="flat-blue check-all" name="check_all[]"
-                                                            type="checkbox" value="yes">
-                                                    </th> -->
-                                        <th class="text-center" style="width: 20px">Sắp xếp</th>
+                                                            <input class="flat-blue check-all" name="check_all[]"
+                                                                type="checkbox" value="yes">
+                                                        </th> -->
+                                        <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tiêu đề</th>
                                         <th class="text-center">Tên giảng viên</th>
                                         <th class="text-center">Trạng thái hiển thị</th>
@@ -27,102 +27,49 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php if(isset($rows) && !empty($rows) && is_array($rows)):
+                                    foreach($rows as $index => $row): ?>
                                     <tr>
                                         <!-- <td class="text-center">
-                                                        <input type="checkbox" class="flat-blue check"
-                                                            value="" name="idcheck[]">
-                                                    </td> -->
+                                                            <input type="checkbox" class="flat-blue check"
+                                                                value="" name="idcheck[]">
+                                                        </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
+                                                type="text" value="{{$index + 1}}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
                                         <td class="text-center">
-                                            Bài giảng 01
+                                            {{$row->ten_bg}}
                                         </td>
                                         <td class="text-center">
-                                            Nguyễn Đức Duy
+                                            {{$row->ho_ten}}
                                         </td>
                                         <td class="text-center" style="width: 150px">
                                             <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" ></td>
+                                                value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
+                                        </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
-                                                href=""><b>Sửa</b></a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href=""><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
                                                 class="delete_bootbox"><b>Xóa</b></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <!-- <td class="text-center">
-                                                        <input type="checkbox" class="flat-blue check"
-                                                            value="" name="idcheck[]">
-                                                    </td> -->
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            Bài giảng 01
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Đức Duy
-                                        </td>
-                                        <td class="text-center" style="width: 150px">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" ></td>
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
-                                                href=""><b>Sửa</b></a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox"><b>Xóa</b></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <!-- <td class="text-center">
-                                                        <input type="checkbox" class="flat-blue check"
-                                                            value="" name="idcheck[]">
-                                                    </td> -->
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            Bài giảng 01
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Đức Duy
-                                        </td>
-                                        <td class="text-center" style="width: 150px">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" ></td>
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
-                                                href=""><b>Sửa</b></a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox"><b>Xóa</b></a>
-                                        </td>
-                                    </tr>
+                                    <?php endforeach; endif;?>
                                 </tbody>
                             </table>
 
 
                         </div>
                     </form>
-                 
+
                     <!-- <div class="callout callout-warning">
-                                    <h4>Thông báo!</h4>
-                                    <p><b>Không</b> có bài viết nào!</p>
-                                </div> -->
-                
+                                        <h4>Thông báo!</h4>
+                                        <p><b>Không</b> có bài viết nào!</p>
+                                    </div> -->
+
                 </div>
                 <div class="box-footer clearfix">
                     <section id="blog-pagination" class="blog-pagination section">
@@ -130,11 +77,9 @@
                             <div class="">
                                 <ul class="pagination">
                                     <li><a href="" class="active">1</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
                                             data-ci-pagination-page="4" rel="start">2</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
                                             data-ci-pagination-page="8">3</a></li>
                                     <li class="next page"><a
                                             href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"

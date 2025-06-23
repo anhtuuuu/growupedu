@@ -24,8 +24,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Cấu hình chung</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Cấu hình site</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -34,8 +34,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-lop-hoc-phan')}}"><i class="fa fa-angle-double-right"></i> Danh sách lớp học phần</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i> Thêm lớp học phần</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -44,8 +44,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-bai-giang')}}"><i class="fa fa-angle-double-right"></i>Danh sách bài giảng</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm bài giảng</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -54,8 +54,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-chuong')}}"><i class="fa fa-angle-double-right"></i>Danh sách chương</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm chương</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -64,8 +64,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-bai')}}"><i class="fa fa-angle-double-right"></i>Danh sách bài</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm bài</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -74,8 +74,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-tai-khoan')}}"><i class="fa fa-angle-double-right"></i>Danh sách tài khoản</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm tài khoản</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -84,8 +84,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-khoa')}}"><i class="fa fa-angle-double-right"></i>Danh sách khoa</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm khoa</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -94,8 +94,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-bo-mon')}}"><i class="fa fa-angle-double-right"></i>Danh sách bộ môn</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm bộ môn</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -104,8 +104,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-hoc-phan')}}"><i class="fa fa-angle-double-right"></i>Danh sách học phần</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm học phần</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -114,8 +114,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-sinh-vien')}}"><i class="fa fa-angle-double-right"></i>Danh sách sinh viên</a></li>
+                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm sinh viên</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -124,8 +124,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-giang-vien')}}"><i class="fa fa-angle-double-right"></i>Danh sách giảng viên</a></li>
+                    {{-- <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm </a></li> --}}
                 </ul>
             </li>
             <li class="treeview">
@@ -134,8 +134,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-danh-gia')}}"><i class="fa fa-angle-double-right"></i>Danh sách đánh giá</a></li>
+                    {{-- <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm </a></li> --}}
                 </ul>
             </li>
             <li class="treeview">
@@ -144,8 +144,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i> Cấu hình site</a></li>
+                    <li><a href="{{URL::to('/danh-sach-bai-kiem-tra')}}"><i class="fa fa-angle-double-right"></i>Danh sách bài kiểm tra</a></li>
+                    {{-- <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm </a></li> --}}
                 </ul>
             </li>
 

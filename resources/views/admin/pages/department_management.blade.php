@@ -16,9 +16,9 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                        <input class="flat-blue check-all" name="check_all[]"
-                                                            type="checkbox" value="yes">
-                                                    </th> -->
+                                                                <input class="flat-blue check-all" name="check_all[]"
+                                                                    type="checkbox" value="yes">
+                                                            </th> -->
                                         <th class="text-center" style="width: 20px">Sắp xếp</th>
                                         <th class="text-center" style="width:auto">Tên khoa</th>
                                         <th class="text-center">Mô tả</th>
@@ -26,60 +26,62 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php if(isset($rows) && !empty($rows) && is_array($rows)):
+                                        foreach($rows as $index => $row): ?>
                                     <tr>
                                         <!-- <td class="text-center">
-                                                        <input type="checkbox" class="flat-blue check"
-                                                            value="" name="idcheck[]">
-                                                    </td> -->
+                                                                <input type="checkbox" class="flat-blue check"
+                                                                    value="" name="idcheck[]">
+                                                            </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
+                                                type="text" value="{{$index + 1}}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
 
                                         <td class="text-center">
-                                            Công nghệ thông tin
+                                            {{$row->ten_khoa}}
                                         </td>
                                         <td class="text-center">
-                                            Khoa công nghệ thông tin của trường CKC
+                                            {{$row->mo_ta}}
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
-                                                href=""><b>Sửa</b></a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href=""><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
                                                 class="delete_bootbox"><b>Xóa</b></a>
                                         </td>
                                     </tr>
+                                    <?php endforeach; endif; ?>
                                 </tbody>
 
                                 <!-- <tfoot>
-                                                <tr class="text-left">
-                                                    <td colspan="4">
-                                                        <div class="input-group">
-                                                            <select class="form-control" name="action" id="action">
-                                                                <option value="update">Cập nhật</option>
-                                                                <option value="delete">Xóa</option>
-                                                                <option value="content">Đăng bài viết</option>
-                                                            </select>
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-primary" type="submit">Thực
-                                                                    hiện</button>
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tfoot> -->
+                                                        <tr class="text-left">
+                                                            <td colspan="4">
+                                                                <div class="input-group">
+                                                                    <select class="form-control" name="action" id="action">
+                                                                        <option value="update">Cập nhật</option>
+                                                                        <option value="delete">Xóa</option>
+                                                                        <option value="content">Đăng bài viết</option>
+                                                                    </select>
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary" type="submit">Thực
+                                                                            hiện</button>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot> -->
                             </table>
 
 
                         </div>
                     </form>
                     <!-- <div class="callout callout-warning">
-                                    <h4>Thông báo!</h4>
-                                    <p><b>Không</b> có bài viết nào!</p>
-                                </div> -->
+                                            <h4>Thông báo!</h4>
+                                            <p><b>Không</b> có bài viết nào!</p>
+                                        </div> -->
                 </div>
                 <div class="box-footer clearfix">
                     <section id="blog-pagination" class="blog-pagination section">

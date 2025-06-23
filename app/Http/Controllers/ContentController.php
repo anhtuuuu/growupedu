@@ -33,10 +33,10 @@ class ContentController extends LayoutController
          return;
       }
 
-      $courses = (new Chuong)->gets($args);      
+      $chapters = (new Chuong)->gets($args);      
       $contents = (new Bai)->gets($args);
 
-      $this->_data['courses'] = $courses;
+      $this->_data['chapters'] = $chapters;
       $this->_data['contents'] = $contents;
 
       $this->_data['type_side_none'] = 'lesson';
@@ -48,7 +48,10 @@ class ContentController extends LayoutController
       return view(config('asset.view_page')('lesson'), $this->_data);
     }
     function admin_index(){
-       return view(config('asset.view_admin_page')('content_management'));
+      $args = array();
+      $contents = (new Bai)->gets($args);
+      $this->_data['rows'] = $contents;
+       return view(config('asset.view_admin_page')('content_management'),$this->_data);
     }
 
     function files()
