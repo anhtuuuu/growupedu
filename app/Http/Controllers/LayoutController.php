@@ -74,6 +74,9 @@ class LayoutController extends Controller
         $section_class_none = (new ClassController())->gets();
         $this->_data['section_class_none'] = $section_class_none;
         
+        // $this->_data['type_side_none'] = 'home';
+        // $this->_data['left_side_none'] = $section_class_none;
+
         $this->_data['type_side_none'] = 'home';
         $this->_data['left_side_none'] = $section_class_none;
 

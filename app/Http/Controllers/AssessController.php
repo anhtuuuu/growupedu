@@ -25,8 +25,8 @@ class AssessController extends LayoutController
          return;
       }
 
-      $lessons = (new LhpBg)->gets($args);
       $this->_data['class_name'] = $class[0]->ten_lhp;
+      $lessons = (new LhpBg)->gets($args);
 
 
       $this->_data['type_side_none'] = 'lesson';
