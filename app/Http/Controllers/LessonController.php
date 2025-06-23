@@ -47,6 +47,7 @@ class LessonController extends LayoutController
       return Redirect::to('bai-giang/' . $lesson[0]->alias . '/' . $chapters[0]->alias . '/' . $contents[0]->alias);
       // return view(config('asset.view_page')('lesson'), $this->_data);
    }
+
    function files()
    {
       $segment = 2;
@@ -76,6 +77,7 @@ class LessonController extends LayoutController
 
       return view(config('asset.view_page')('lession-files'),$this->_data);
    }
+
    function admin_index()
    {
       $args = array();

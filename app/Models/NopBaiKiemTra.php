@@ -48,7 +48,35 @@ class NopBaiKiemTra extends Model
 		'ngay_nop',
 		'trang_thai'
 	];
+	public function gets($args)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ho_ten as ho_ten',
+				'taikhoan.ma_tk as ma_tk',
+				// 'taikhoan.hinh_anh as avatar',
+				'lop_hoc_phan.ten_lhp as ten_lhp'
+				])
+			->join('bai_kiem_tra', 'bai_kiem_tra.ma_bkt', '=', $this->table . '.ma_bkt')
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp')
+			->join('sinh_vien', 'sinh_vien.ma_tk', '=', $this->table . '.ma_tk')
+			->join('taikhoan', 'taikhoan.ma_tk', '=',  'sinh_vien.ma_tk');
 
+
+		if (isset($args['alias'])) {
+			$query = $query->where('lop_hoc_phan.alias', $args['alias']);
+		}
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
 	public function bai_kiem_tra()
 	{
 		return $this->belongsTo(BaiKiemTra::class, 'ma_bkt');
