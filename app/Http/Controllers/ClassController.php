@@ -6,6 +6,9 @@ use App\Models\BaiGiang;
 use App\Models\Chuong;
 use App\Models\TuongTac;
 use App\Models\LopHocPhan;
+use App\Models\Taikhoan;
+use App\Models\Nopbaikiemtra;
+
 use Illuminate\Http\Request;
 
 class ClassController extends LayoutController
@@ -82,6 +85,7 @@ class ClassController extends LayoutController
         }
         $args = array();
         $section_class_none = (new LopHocPhan())->gets($args);
+        $lessons = (new BaiGiang)->gets($args);
         $this->_data['load_section_class'] = $section_class_none;
 
         $args['alias'] = $class_alias;
@@ -96,11 +100,35 @@ class ClassController extends LayoutController
             return;
         }
         $this->_data['section_class'] = $class;
-        // $this->_data['lessons'] = $lessons;
+        $this->_data['lessons'] = $lessons;
         $this->_data['interacts'] = $interacts;
         $this->_data['type_side_none'] = 'lesson';
         // $this->_data['left_side_none'] = $class[0]->ten_lhp;
         $this->_data['left_side_none'] = '';
         return view(config('asset.view_page')('interact'),$this->_data);
+    }
+    function core_sheet(){
+        $this->_initialize();
+        $segment = 1;
+        $class_alias = trim(request()->segment($segment) ?? '');
+        if ($class_alias === '') {
+            abort(404);
+        }
+        $args = array();
+        $section_class = (new LopHocPhan)->gets($args);
+        $args['alias'] = $class_alias;
+        
+        $accounts=(new Taikhoan)->gets($args);
+        $submitted_tests=(new NopBaiKiemTra)->gets($args);
+        $lesson = (new BaiGiang)->gets($args);
+
+        $this->_data['load_section_class'] = $section_class;
+        $this->_data['lessons'] = $lesson;
+        $this->_data['section_class']= $section_class;
+        $this->_data['submitted_tests']= $submitted_tests;
+        $this->_data['type_side_none'] = 'lesson';
+        $this->_data['left_side_none'] = '';
+
+    return view(config('asset.view_page')('score-sheet'),$this->_data);
     }
 }

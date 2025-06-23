@@ -61,6 +61,7 @@
     </div>
     @yield('javascript')
     {{-- footer start --}}
+    			<div class="pb-5"></div>
     @include('site.footer')
     {{-- footer end --}}
 

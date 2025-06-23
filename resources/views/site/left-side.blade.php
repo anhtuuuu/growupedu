@@ -18,13 +18,13 @@
         <!--<li class="list-group-item"><input type="text" class="form-control search-query" placeholder="Search Something"></li>-->
         <li class="list-group-item"><a href="ppts/index.html"><img src="images/ppt_icons.png" width="20"
                     alt="">&nbsp;<b>Bài kiểm tra</b></a></li>
-        <li class="list-group-item"><a href="lecturenotes/index.html"><img src="images/note_icons.png" width="20"
+        <li class="list-group-item"><a href="<?php echo URL::to($section_class[0]->alias.'/bang-diem')?>"><img src="images/note_icons.png" width="20"
                     alt="">&nbsp;<b>Bảng điểm</b></a></li>
-        <li class="list-group-item"><a href="ppts/index.html"><img src="images/ppt_icons.png" width="20"
+        <li class="list-group-item"><a href="<?php echo URL::to('assess/'.$section_class[0]->alias)?>"><img src="images/ppt_icons.png" width="20"
                     alt="">&nbsp;<b>Đánh giá</b></a></li>
-        <li class="list-group-item"><a href="questions/index.html"><img src="../images/faq_icons.png" width="20"
+        <li class="list-group-item"><a href="<?php echo URL::to($section_class[0]->alias.'/'.$lessons[0]->alias.'/files-bai-giang')?>"><img src="../images/faq_icons.png" width="20"
                     alt="">&nbsp;<b>Các file bài giảng</b></a></li>
-        <li class="list-group-item"><a href="questions/index.html"><img src="../images/faq_icons.png" width="20"
+        <li class="list-group-item"><a href="<?php echo URL::to('interact/'.$section_class[0]->alias)?>"><img src="../images/faq_icons.png" width="20"
                     alt="">&nbsp;<b>Đặt câu hỏi</b></a></li>
     </ul>
     <?php else: ?>
