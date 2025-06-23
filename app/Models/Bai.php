@@ -68,7 +68,7 @@ class Bai extends Model
 		if (isset($args['alias_lesson'])) {
 			$query = $query->where('bai_giang.alias', $args['alias_lesson']);
 		}
-				if(isset($args['order_by'])){
+		if (isset($args['order_by'])) {
 			$query = $query->orderBy('ngay_tao', $args['order_by']);
 		}
 		// $query = $this->generateWhere($query, $args);

@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\DB;
  * @property Taikhoan $taikhoan
  * @property Collection|Chuong[] $chuongs
  * @property Collection|LopHocPhan[] $lop_hoc_phans
- * @property Collection|TuongTac[] $tuong_tacs
  *
  * @package App\Models
  */
@@ -50,7 +49,7 @@ class BaiGiang extends Model
 		'trang_thai',
 		'thong_bao'
 	];
-public function gets($args, $perPage = 5, $offset = -1)
+	public function gets($args, $perPage = 5, $offset = -1)
 	{
 		$query = DB::table($this->table)
 			->select([
@@ -60,11 +59,11 @@ public function gets($args, $perPage = 5, $offset = -1)
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk');
 
-		if(isset($args['ma_tk'])){
+		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
 
-		if(isset($args['alias_lesson'])){
+		if (isset($args['alias_lesson'])) {
 			$query = $query->where($this->table . '.alias', $args['alias_lesson']);
 		}
 		// $query = $this->generateWhere($query, $args);

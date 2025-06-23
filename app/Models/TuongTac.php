@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\DB;
  * 
  * @property int $id
  * @property int $ma_tk
- * @property int $ma_bg
+ * @property int $ma_lhp
  * @property int|null $tra_loi_cho
  * @property string $noi_dung
  * @property Carbon $ngay_tao
  * @property bool|null $trang_thai
  * 
- * @property BaiGiang $bai_giang
+ * @property LopHocPhan $lop_hoc_phan
  * @property SinhVien $sinh_vien
  *
  * @package App\Models
@@ -32,7 +32,7 @@ class TuongTac extends Model
 
 	protected $casts = [
 		'ma_tk' => 'int',
-		'ma_bg' => 'int',
+		'ma_lhp' => 'int',
 		'tra_loi_cho' => 'int',
 		'ngay_tao' => 'datetime',
 		'trang_thai' => 'bool'
@@ -40,7 +40,7 @@ class TuongTac extends Model
 
 	protected $fillable = [
 		'ma_tk',
-		'ma_bg',
+		'ma_lhp',
 		'tra_loi_cho',
 		'noi_dung',
 		'ngay_tao',
@@ -55,7 +55,7 @@ class TuongTac extends Model
 				'taikhoan.hinh_anh as avatar'
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
-			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg');
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', $this->table . '.ma_lhp');
 
 
 		// $query = $this->generateWhere($query, $args);

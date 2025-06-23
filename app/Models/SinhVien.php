@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\DB;
  * 
  * @property LopHocPhan $lop_hoc_phan
  * @property Taikhoan $taikhoan
- * @property Collection|DanhGia[] $danh_gia
+ * @property Collection|DanhGium[] $danh_gia
  * @property Collection|NopBaiKiemTra[] $nop_bai_kiem_tras
  * @property Collection|TuongTac[] $tuong_tacs
  *
@@ -61,7 +61,7 @@ class SinhVien extends Model
 
 	public function danh_gia()
 	{
-		return $this->hasMany(DanhGia::class, 'ma_tk', 'ma_tk');
+		return $this->hasMany(DanhGium::class, 'ma_tk', 'ma_tk');
 	}
 
 	public function nop_bai_kiem_tras()
