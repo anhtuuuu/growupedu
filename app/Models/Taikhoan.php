@@ -80,7 +80,7 @@ class Taikhoan extends Model
 			->select([
 				$this->table . '.*',
 				'taikhoan.ma_tk',
-				'vai_tro.tieu_de as tieu_de',
+				'vai_tro.tieu_de as vai_tro',
 				'bo_mon.ten_bm as ten_bm'
 			])
 			->leftJoin('vai_tro', 'vai_tro.ma_vt', '=', $this->table . '.vai_tro')

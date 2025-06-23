@@ -38,11 +38,11 @@ class ClassController extends LayoutController
         $args['alias_lesson'] = $lessons[0]->alias;
         $args['order_by'] = 'DESC';
 
-        $courses = (new Chuong)->gets($args);
+        $chapters = (new Chuong)->gets($args);
         $contents = (new Bai)->gets($args);
 
 
-        $this->_data['courses'] = $courses;
+        $this->_data['chapters'] = $chapters;
         $this->_data['contents'] = $contents;
 
         $this->_data['section_class'] = $class;
@@ -64,8 +64,8 @@ class ClassController extends LayoutController
     }
     function admin_index()
     {
-        $class = $this->gets();
-        return view(config('asset.view_admin_page')('class_management'));
+        $this->_data['rows'] = $this->gets();
+        return view(config('asset.view_admin_page')('class_management'), $this->_data);
     }
     function gets()
     {

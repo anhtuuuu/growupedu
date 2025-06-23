@@ -16,10 +16,10 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                        <input class="flat-blue check-all" name="check_all[]"
-                                                            type="checkbox" value="yes">
-                                                    </th> -->
-                                        <th class="text-center" style="width: 20px">Sắp xếp</th>
+                                                                <input class="flat-blue check-all" name="check_all[]"
+                                                                    type="checkbox" value="yes">
+                                                            </th> -->
+                                        <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tên lớp</th>
                                         <th class="text-center">Tên giảng viên</th>
                                         <th class="text-center">Tên học phần</th>
@@ -28,27 +28,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <?php if(isset($rows) && !empty($rows) && is_array($rows)):
+                                        foreach($rows as $index => $row): ?>
                                     <tr>
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
+                                                type="text" value="{{$index + 1}}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
                                         <td class="text-center">
-                                            CĐ TH22 A
+                                            {{$row->ten_lhp}}
                                         </td>
 
                                         <td class="text-center">
-                                            Nguyễn Ngọc Khánh Quỳnh
+                                            {{$row->ho_ten}}
                                         </td>
                                         <td class="text-center">
-                                            Toán rời rạc
+                                            {{$row->ten_hp}}
                                         </td>
                                         <td class="text-center">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" > </td>
+                                            <input type="checkbox" name="" class="change-inhome flat-blue"
+                                                value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
+                                        </td>
                                         <td class="text-center">
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="">Sửa</a>
                                             &nbsp;-&nbsp;
@@ -56,116 +58,7 @@
                                                 class="delete_bootbox">Xóa</a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            CĐ TH22 B
-                                        </td>
-
-                                        <td class="text-center">
-                                            Huỳnh Quốc Thái
-                                        </td>
-                                        <td class="text-center">
-                                            Toán rời rạc
-                                        </td>
-                                        <td class="text-center">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" > </td>
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            CĐ TH22 C
-                                        </td>
-
-                                        <td class="text-center">
-                                            Nguyễn Phúc Tiếng
-                                        </td>
-                                        <td class="text-center">
-                                            Toán rời rạc
-                                        </td>
-                                        <td class="text-center">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" > </td>
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            CĐ TH22 D
-                                        </td>
-
-                                        <td class="text-center">
-                                            Huỳnh Anh Tú
-                                        </td>
-                                        <td class="text-center">
-                                            Toán rời rạc
-                                        </td>
-                                        <td class="text-center">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" > </td>
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
-                                                href="">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            CĐ TH22 E
-                                        </td>
-
-                                        <td class="text-center">
-                                            Nguyễn Ngọc Khánh Quỳnh
-                                        </td>
-                                        <td class="text-center">
-                                            Toán rời rạc
-                                        </td>
-                                        <td class="text-center">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" > </td>
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
-                                                href="">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
-                                        </td>
-                                    </tr>
+                                    <?php endforeach; endif; ?>
                                 </tbody>
                             </table>
 
@@ -180,11 +73,9 @@
                             <div class="">
                                 <ul class="pagination">
                                     <li><a href="" class="active">1</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
                                             data-ci-pagination-page="4" rel="start">2</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
                                             data-ci-pagination-page="8">3</a></li>
                                     <li class="next page"><a
                                             href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"

@@ -80,8 +80,8 @@
             <div class="panel-body">
                 <div class="px-2 px-md-5">
                     <?php
-                    if(isset($courses) && !empty($courses)):
-                    foreach ($courses as $row):?>
+                    if(isset($chapters) && !empty($chapters)):
+                    foreach ($chapters as $row):?>
                     <div class="row avatar-tutor-section-class p-3 mb-3">
 
                         <div class="col-12 d-flex p-0">

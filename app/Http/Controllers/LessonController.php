@@ -28,7 +28,7 @@ class LessonController extends LayoutController
          return;
       }
 
-      $courses = (new Chuong)->gets($args);
+      $chapters = (new Chuong)->gets($args);
       $contents = (new Bai)->gets($args);
 
       if (empty($lesson)) {
@@ -37,14 +37,14 @@ class LessonController extends LayoutController
       }
 
       $data = array();
-      $data['courses'] = $courses;
+      $data['chapters'] = $chapters;
       $data['contents'] = $contents;
 
       $this->_data['type_side_none'] = 'chapter';
       $this->_data['left_side_none'] = $data;
 
 
-      return Redirect::to('bai-giang/' . $lesson[0]->alias . '/' . $courses[0]->alias . '/' . $contents[0]->alias);
+      return Redirect::to('bai-giang/' . $lesson[0]->alias . '/' . $chapters[0]->alias . '/' . $contents[0]->alias);
       // return view(config('asset.view_page')('lesson'), $this->_data);
    }
    function files()
@@ -64,11 +64,11 @@ class LessonController extends LayoutController
          return;
       }
 
-      $courses = (new Chuong)->gets($args);
+      $chapters = (new Chuong)->gets($args);
       $contents = (new Bai)->gets($args);
 
       $data = array();
-      $data['courses'] = $courses;
+      $data['chapters'] = $chapters;
       $data['contents'] = $contents;
 
       $this->_data['type_side_none'] = 'chapter';
@@ -78,6 +78,9 @@ class LessonController extends LayoutController
    }
    function admin_index()
    {
-      return view(config('asset.view_admin_page')('lesson_management'));
+      $args = array();
+      $lessons = (new BaiGiang)->gets($args);
+      $this->_data['rows'] =  $lessons;
+      return view(config('asset.view_admin_page')('lesson_management'), $this->_data);
    }
 }

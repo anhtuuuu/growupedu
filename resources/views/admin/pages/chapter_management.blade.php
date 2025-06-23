@@ -5,9 +5,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý bài</b></h3>
-                    <a class="btn btn-success pull-right" href=""><i class="fa fa-plus"></i>
-                        Thêm</a>
+                    <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý chương</b></h3>
+                    <a class="btn btn-success pull-right" href=""><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
 
@@ -17,14 +16,13 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                                <input class="flat-blue check-all" name="check_all[]"
-                                                                    type="checkbox" value="yes">
-                                                            </th> -->
+                                                            <input class="flat-blue check-all" name="check_all[]"
+                                                                type="checkbox" value="yes">
+                                                        </th> -->
                                         <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tiêu đề</th>
                                         <th class="text-center">Bài giảng</th>
-                                        <th class="text-center">Chương</th>
-                                        <th class="text-center">Trạng thái hiển thị</th>
+                                        <th class="text-center">Mô tả</th>
                                         <th class="text-center" style="width: 160px;">Chức năng</th>
                                     </tr>
                                 </thead>
@@ -33,9 +31,9 @@
                                         foreach($rows as $index => $row): ?>
                                     <tr>
                                         <!-- <td class="text-center">
-                                                                <input type="checkbox" class="flat-blue check"
-                                                                    value="" name="idcheck[]">
-                                                            </td> -->
+                                                            <input type="checkbox" class="flat-blue check"
+                                                                value="" name="idcheck[]">
+                                                        </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
                                                 type="text" value="{{$index + 1}}">
@@ -43,17 +41,13 @@
                                                 value="">
                                         </td>
                                         <td class="text-center">
-                                            {{$row->tieu_de}}
+                                            {{$row->ten_chuong}}
                                         </td>
                                         <td class="text-center">
                                             {{$row->ten_bg}}
                                         </td>
                                         <td class="text-center">
-                                            {{$row->ten_chuong}}
-                                        </td>
-                                        <td class="text-center" style="width: 150px">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
+                                            {{$row->mo_ta}}
                                         </td>
                                         <td class="text-center">
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a href=""><b>Sửa</b></a>
@@ -69,12 +63,10 @@
 
                         </div>
                     </form>
-
                     <!-- <div class="callout callout-warning">
-                                            <h4>Thông báo!</h4>
-                                            <p><b>Không</b> có bài viết nào!</p>
-                                        </div> -->
-
+                                        <h4>Thông báo!</h4>
+                                        <p><b>Không</b> có bài viết nào!</p>
+                                    </div> -->
                 </div>
                 <div class="box-footer clearfix">
                     <section id="blog-pagination" class="blog-pagination section">
