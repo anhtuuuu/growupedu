@@ -16,9 +16,6 @@
             <!--panel-Body-->
             <div class="panel-body">
                 <div class="px-2 px-md-5">
-                    <?php
-                    if(isset($lessons) && !empty($lessons)):
-                    foreach ($lessons as $row):?>
                     <div class="row avatar-tutor-section-class p-3 mb-3">
 
                         <div class="col-12 d-flex p-0">
@@ -30,8 +27,9 @@
                                 <h6 class="small-text">{{ $section_class[0]->ngay_tao }}</h6>
                             </div>
                         </div>
-                        <div class="content-section-class mt-3"><h2><b>Đặt câu hỏi: 
-                            {{ $section_class[0]->ten_lhp }}</b></h2>
+                        <div class="content-section-class mt-3">
+                            <h2><b>Đặt câu hỏi:
+                                    {{ $section_class[0]->ten_lhp }}</b></h2>
                         </div>
 
                         <div class="comment-line px-0 pt-3 mt-3">
@@ -39,7 +37,7 @@
                                 <?php 
                                     if(isset($interacts) && !empty($interacts)):
                                     foreach($interacts as $interact):
-                                    if($row->ma_bg == $interact->ma_bg):
+                                    if($section_class[0]->ma_lhp == $interact->ma_lhp):
                                     ?>
                                 <div class="row col-12 d-flex p-0 m-0 mt-3 comment-hide comment-item1">
                                     <div class="d-flex col-2 justify-content-center col-2 col-md-1 ">
@@ -73,9 +71,9 @@
                             </form>
                         </div>
                     </div>
-                    <?php endforeach; endif; ?>
+
                 </div>
-            </div>            
+            </div>
             <!-- end panel body -->
         </div>
     </div>

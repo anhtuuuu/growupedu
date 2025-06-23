@@ -42,7 +42,6 @@ class LessonController extends LayoutController
 
       $this->_data['type_side_none'] = 'chapter';
       $this->_data['left_side_none'] = $data;
-      $this->_data['load_section_class'] = $section_class_none; 
 
 
       return Redirect::to('bai-giang/' . $lesson[0]->alias . '/' . $courses[0]->alias . '/' . $contents[0]->alias);

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tuong_tac', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('ma_tk')->index('fk_tuong_tac_ma_tk');
-            $table->integer('ma_bg')->index('fk_tuong_tac_ma_bg');
+            $table->integer('ma_lhp')->index('fk_tuong_tac_ma_lhp');
             $table->integer('tra_loi_cho')->nullable()->default(0);
             $table->text('noi_dung');
             $table->timestamp('ngay_tao')->useCurrent();

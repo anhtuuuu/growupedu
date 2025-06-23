@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tuong_tac', function (Blueprint $table) {
-            $table->foreign(['ma_bg'], 'FK_tuong_tac_ma_bg')->references(['ma_bg'])->on('bai_giang')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign(['ma_lhp'], 'FK_tuong_tac_ma_lhp')->references(['ma_lhp'])->on('lop_hoc_phan')->onUpdate('restrict')->onDelete('restrict');
             $table->foreign(['ma_tk'], 'FK_tuong_tac_ma_tk')->references(['ma_tk'])->on('sinh_vien')->onUpdate('restrict')->onDelete('restrict');
         });
     }
@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tuong_tac', function (Blueprint $table) {
-            $table->dropForeign('FK_tuong_tac_ma_bg');
+            $table->dropForeign('FK_tuong_tac_ma_lhp');
             $table->dropForeign('FK_tuong_tac_ma_tk');
         });
     }

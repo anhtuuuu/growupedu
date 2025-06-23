@@ -87,16 +87,16 @@ class ClassController extends LayoutController
         $args['alias'] = $class_alias;
         $class = (new LopHocPhan)->gets($args);
         $args['ma_tk'] = $class[0]->ma_tk;
-        $lessons = (new BaiGiang)->gets($args);
+        // $lessons = (new BaiGiang)->gets($args);
 
         $interacts = (new TuongTac)->gets($args);
 
-        if (empty($class) || empty($lessons)|| empty($interacts)) {
+        if (empty($class) || empty($interacts)) {
             abort(404);
             return;
         }
         $this->_data['section_class'] = $class;
-        $this->_data['lessons'] = $lessons;
+        // $this->_data['lessons'] = $lessons;
         $this->_data['interacts'] = $interacts;
         $this->_data['type_side_none'] = 'lesson';
         // $this->_data['left_side_none'] = $class[0]->ten_lhp;

@@ -30,8 +30,9 @@ use Illuminate\Support\Facades\DB;
  * @property HocPhan $hoc_phan
  * @property Taikhoan $taikhoan
  * @property Collection|BaiKiemTra[] $bai_kiem_tras
- * @property Collection|DanhGia[] $danh_gia
+ * @property Collection|DanhGium[] $danh_gia
  * @property Collection|SinhVien[] $sinh_viens
+ * @property Collection|TuongTac[] $tuong_tacs
  *
  * @package App\Models
  */
@@ -73,8 +74,8 @@ class LopHocPhan extends Model
 				'taikhoan.hinh_anh as avatar',
 				'hoc_phan.ten_hp as ten_hp'
 			])
-			->leftJoin('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
-			->leftJoin('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp');
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->join('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp');
 		if (isset($args['alias'])) {
 			$query = $query->where($this->table . '.alias', $args['alias']);
 		}
@@ -110,7 +111,7 @@ class LopHocPhan extends Model
 
 	public function danh_gia()
 	{
-		return $this->hasMany(DanhGia::class, 'ma_lhp');
+		return $this->hasMany(DanhGium::class, 'ma_lhp');
 	}
 
 	public function sinh_viens()
