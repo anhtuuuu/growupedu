@@ -11,20 +11,24 @@ use Illuminate\Http\Request;
 class ContentController extends LayoutController
 {
     function index(){
+       $segment0 = 1;
+
        $segment = 2;
        $segment2 = 4;
+      $class_alias = trim(request()->segment($segment0) ?? '');
 
       $lesson_alias = trim(request()->segment($segment) ?? '');
       $content_alias = trim(request()->segment($segment2) ?? '');
-      if ($lesson_alias === '' || $content_alias === '') {
+      
+      if ($lesson_alias === '' || $content_alias === '' || $class_alias === '') {
          abort(404);
       }
       $args = array();
       $section_class_none = (new LopHocPhan)->gets($args);
       $this->_data['load_section_class'] = $section_class_none;
-      $args['alias']= $lesson_alias;
-      $section_class_none = (new LopHocPhan)->gets($args);
-      $this->_data['load_section_class'] = $section_class_none;
+      $args['alias']= $class_alias;
+      $section_class = (new LopHocPhan)->gets($args);
+      $this->_data['section_class'] = $section_class;
       $args['alias_lesson'] = $lesson_alias;
       $args['alias_content'] = $content_alias;
 
@@ -41,6 +45,7 @@ class ContentController extends LayoutController
 
       $this->_data['chapters'] = $chapters;
       $this->_data['contents'] = $contents;
+      $this->_data['lessons'] = $lesson;
 
       $this->_data['type_side_none'] = 'lesson';
         $this->_data['left_side_none'] = '';

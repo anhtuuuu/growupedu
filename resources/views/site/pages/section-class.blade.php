@@ -14,69 +14,7 @@
                 <h2 class="text-dark p-5 m-0 bg-section-class"><b>{{ $section_class[0]->ten_lhp }}</b></h2>
             </div>
             <!--panel-Body-->
-            {{-- <div class="panel-body">
-                <div class="px-2 px-md-5">
-                    <?php
-                    if(isset($lessons) && !empty($lessons)):
-                    foreach ($lessons as $row):?>
-                    <div class="row avatar-tutor-section-class p-3 mb-3">
-
-                        <div class="col-12 d-flex p-0">
-                            <div class="d-flex justify-content pe-3">
-                                <img class="avatar-lecture-small" src="<?php echo URL::to(config('asset.images_path') . $section_class[0]->avatar); ?>" alt="">
-                            </div>
-                            <div class="my-auto">
-                                <h6 class="small-text"><b>{{ $section_class[0]->ho_ten }}</b></h6>
-                                <h6 class="small-text">11/06/2025</h6>
-                            </div>
-                        </div>
-                        <div class="content-section-class">
-                            {{ $row->ten_bg }}
-                        </div>
-
-                        <div class="comment-line px-0 pt-3 mt-3">
-                            <div class="comment-list">
-                                <?php 
-                                    if(isset($interacts) && !empty($interacts)):
-                                    foreach($interacts as $interact):
-                                    if($row->ma_bg == $interact->ma_bg):
-                                    ?>
-                                <div class="row col-12 d-flex p-0 m-0 mt-3 comment-hide comment-item1">
-                                    <div class="d-flex col-2 justify-content-center col-2 col-md-1 ">
-                                        <img class="avatar-student-smaller" src="<?php echo URL::to(config('asset.images_path') . $interact->avatar); ?>" alt="">
-                                    </div>
-                                    <div class="my-auto col-10 p-1">
-                                        <div class="d-flex">
-                                            <h6 class="small-text"><b>{{ $interact->ho_ten }}</b></h6>
-                                            <h6 class="small-text px-2">{{ $interact->ngay_tao }}</h6>
-                                        </div>
-                                        <h6 class="small-title">{{ $interact->noi_dung }}</h6>
-                                    </div>
-                                </div>
-                                <?php endif; endforeach; endif; ?>
-                            </div>
-                            <button onclick="showHidenCmt(1)" class="small-text ms-5 coler-button-showall"
-                                id="show-all-cmt">Tất cả bình luận (3)</button>
-                            <form class="form-inline d-flex justify-content-between align-items-center row p-0 m-0 mt-3">
-                                <div class="d-flex justify-content-center col-2 col-md-1 p-0">
-                                    <img class="avatar-student-smaller"
-                                        src="{{ URL::to(config('asset.images_path') . '1.png') }}" alt="">
-                                </div>
-                                <div class="form-group mb-0 col-8 col-md-10 py-0 px-1">
-                                    <input type="password" class="form-control w-100 h-100 py-2" id="inputPassword2"
-                                        placeholder="Thêm nhận xét...">
-                                </div>
-                                <div class="col-2 col-md-1 p-0">
-                                    <button type="submit" class="btn btn-primary py-2 btn-bgr"><i
-                                            class="fa fa-send"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <?php endforeach; endif; ?>
-                </div>
-            </div> --}}
-
+            
             <div class="panel-body">
                 <div class="px-2 px-md-5">
                     <?php
@@ -103,7 +41,7 @@
                                     foreach($contents as $content):
                                     if($row->ma_chuong == $content->ma_chuong):
                                     ?>
-                                <a href="/bai-giang/{{$lessons[0]->alias}}/{{$row->alias}}/{{$content->alias}}" class="card d-flex align-items-center mt-3 py-2 color-course">
+                                <a href="/{{$section_class[0]->alias}}/{{$lessons[0]->alias}}/{{$row->alias}}/{{$content->alias}}" class="card d-flex align-items-center mt-3 py-2 color-course">
                                     <div class="row col-12 d-flex p-0 m-0 comment-hide comment-item1" >
                                         <div class="d-flex col-2 justify-content-center col-2 col-md-1 ">
                                             <img class="" width="35px" src="<?php echo URL::to(config('asset.images_path') . 'bai.png'); ?>" alt="">

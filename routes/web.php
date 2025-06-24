@@ -23,7 +23,7 @@ Route::get('/', [LayoutController::class, 'index']);
 Route::get('/login', [FormLoginController::class, 'index']);
 Route::get('/{alias_class}/{alias_lesson}/files-bai-giang', [ContentController::class, 'files']);
 Route::get('/bai-giang/{alias_lesson}', [LessonController::class, 'index']);
-Route::get('/bai-giang/{alias_lesson}/{alias_chapter}/{alias_content}', [ContentController::class, 'index']);
+Route::get('/{alias_class}/{alias_lesson}/{alias_chapter}/{alias_content}', [ContentController::class, 'index']);
 
 Route::get('/persional-management/{num}', [AccountController::class, 'index']);
 Route::get('{alias_class}/{test_code}/test', [TestController::class, 'index']);
