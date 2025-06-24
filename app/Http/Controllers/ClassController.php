@@ -110,13 +110,16 @@ class ClassController extends LayoutController
     function core_sheet(){
         $this->_initialize();
         $segment = 1;
+        $segment2 = 2;
         $class_alias = trim(request()->segment($segment) ?? '');
-        if ($class_alias === '') {
+        $test_code = trim(request()->segment($segment2) ?? '');
+        if ($class_alias === '' && $test_code === '') {
             abort(404);
         }
         $args = array();
         $section_class = (new LopHocPhan)->gets($args);
-        $args['alias'] = $class_alias;
+        $args['class_alias'] = $class_alias;
+        $args['test_code'] = $test_code;
         
         $accounts=(new Taikhoan)->gets($args);
         $submitted_tests=(new NopBaiKiemTra)->gets($args);
@@ -130,5 +133,28 @@ class ClassController extends LayoutController
         $this->_data['left_side_none'] = '';
 
     return view(config('asset.view_page')('score-sheet'),$this->_data);
+    }
+    function core_sheet_list(){
+        $this->_initialize();
+        $segment = 1;
+        $class_alias = trim(request()->segment($segment) ?? '');
+        if ($class_alias === '') {
+            abort(404);
+        }
+        $args = array();
+        $section_class = (new LopHocPhan)->gets($args);
+        $args['class_alias'] = $class_alias;
+
+        $submitted_tests=(new NopBaiKiemTra)->gets($args);
+        $lesson = (new BaiGiang)->gets($args);
+
+        $this->_data['load_section_class'] = $section_class;
+        $this->_data['lessons'] = $lesson;
+        $this->_data['section_class']= $section_class;
+        $this->_data['submitted_tests']= $submitted_tests;
+        $this->_data['type_side_none'] = 'lesson';
+        $this->_data['left_side_none'] = '';
+
+    return view(config('asset.view_page')('score-sheet-list'),$this->_data);
     }
 }

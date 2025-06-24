@@ -11,15 +11,20 @@
 					<div class="panel-body">
 						<div class="content-row px-5">
 					<?php
-                    if(isset($tests) && !empty($tests)):
-                    foreach ($tests as $row):?>
+                    if(isset($submitted_tests) && !empty($submitted_tests)):
+                    foreach ($submitted_tests as $row):?>
 							<div class="ppcolumn pt-4">
-								<a href="<?php echo URL::to($row->alias_lhp.'/'.$row->ma_bkt.'/test')?>"
+								<a href="<?php echo URL::to($row->alias_lhp.'/'.$row->ma_bkt.'/bang-diem')?>"
 									class="appt">Xem chi tiết</a>
-								<img src="{{URL::to(config('asset.images_path').'d-img.png')}}" style="padding-bottom:5px;height:60px" />
+								<img src="{{URL::to(config('asset.images_path').'x-img.png')}}" style="padding-bottom:5px; height: 60px;" />
 								<h3 style="word-wrap: break-word;">{{$row->tieu_de}}</h3>
 							</div>
-						<?php endforeach; endif; ?>
+						<?php endforeach;?>
+                         <?php		
+					else:
+					?>
+                    <h1>Dữ liệu không tồn tại</h1>
+                        <?php endif; ?>
 						</div>
 
 					</div>

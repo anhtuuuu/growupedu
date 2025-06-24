@@ -16,7 +16,7 @@
 							<div class="ppcolumn pt-4">
 								<a href="{{$row->lien_ket}}"
 									class="appt">Xem chi tiết</a>
-								<img src="{{URL::to(config('asset.images_path').'p-img.png')}}" style="padding-bottom:5px;" />
+								<img src="{{URL::to(config('asset.images_path').'p-img.png')}}" style="padding-bottom:5px; height: 60px;" />
 								<h3 style="word-wrap: break-word;">{{$row->tieu_de}}</h3>
 							</div>
 							{{-- <div class="ppcolumn pt-4">

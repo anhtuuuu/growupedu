@@ -31,7 +31,9 @@ Route::get('{alias_class}/test', [TestController::class, 'test_list']);
 Route::get('/section-class/{any}', [ClassController::class, 'index']);
 Route::get('/interact/{alias_class}', [ClassController::class, 'interact']);
 Route::get('/assess/{alias_class}', [AssessController::class, 'index']);
-Route::get('/{alias_class}/bang-diem', [ClassController::class, 'core_sheet']);
+Route::get('/{alias_class}/bang-diem', [ClassController::class, 'core_sheet_list']);
+Route::get('/{alias_class}/{test_code}/bang-diem', [ClassController::class, 'core_sheet']);
+
 
 // Route::get('/diem', function (){ return view(config('asset.view_page')('score-sheet'));});
 
