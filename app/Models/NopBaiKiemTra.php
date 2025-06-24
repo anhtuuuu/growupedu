@@ -56,7 +56,10 @@ class NopBaiKiemTra extends Model
 				'taikhoan.ho_ten as ho_ten',
 				'taikhoan.ma_tk as ma_tk',
 				// 'taikhoan.hinh_anh as avatar',
-				'lop_hoc_phan.ten_lhp as ten_lhp'
+				'lop_hoc_phan.ten_lhp as ten_lhp',
+				'lop_hoc_phan.alias as alias_lhp',
+				'bai_kiem_tra.tieu_de as tieu_de',
+
 				])
 			->join('bai_kiem_tra', 'bai_kiem_tra.ma_bkt', '=', $this->table . '.ma_bkt')
 			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp')
@@ -64,8 +67,11 @@ class NopBaiKiemTra extends Model
 			->join('taikhoan', 'taikhoan.ma_tk', '=',  'sinh_vien.ma_tk');
 
 
-		if (isset($args['alias'])) {
-			$query = $query->where('lop_hoc_phan.alias', $args['alias']);
+		if (isset($args['class_alias'])) {
+			$query = $query->where('lop_hoc_phan.alias', $args['class_alias']);
+		}
+		if (isset($args['test_code'])) {
+			$query = $query->where('bai_kiem_tra.ma_bkt', $args['test_code']);
 		}
 		// $query = $this->generateWhere($query, $args);
 

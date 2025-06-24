@@ -14,6 +14,7 @@
             <table class="table table-bordered mb-5">
                 <thead>
                     <tr>
+                        <th>STT</th>
                         <th scope="col">MSSV</th>
                         <th scope="col">Họ và Tên</th>
                         <th scope="col">Điểm</th>
@@ -22,8 +23,9 @@
                 </thead>
                 <tbody>
                     
-                        @foreach ($submitted_tests as $row)
+                        @foreach ($submitted_tests as $index=>$row)
                             <tr>
+                                <td>{{ $index+1 }}</td>
                                 <td>{{ $row->ma_tk }}</td>
                                 <td>{{ $row->ho_ten }}</td>
                                 <td>{{ $row->diem_so }}</td>
