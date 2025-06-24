@@ -10,7 +10,7 @@
             <?php
             if (isset($submitted_tests) && !empty($submitted_tests) && is_array($submitted_tests)):
             ?>
-            <h1 class='m-5'><b>Bảng điểm lớp: {{ $submitted_tests[0]->ten_lhp }}</b></h1>
+            <h1 class='m-5'><b>Bảng điểm: {{ $submitted_tests[0]->tieu_de }}</b></h1>
             <table class="table table-bordered mb-5">
                 <thead>
                     <tr>

@@ -53,7 +53,8 @@ class BaiKiemTra extends Model
 			->select([
 				$this->table . '.*',
 				'lop_hoc_phan.ten_lhp as ten_lhp',
-				'lop_hoc_phan.alias as alias_lhp'
+				'lop_hoc_phan.alias as alias_lhp',
+
 				])
 			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp');
 

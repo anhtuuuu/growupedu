@@ -10,6 +10,8 @@
             <!--panel-Body-->
             <div class="panel-body">
                 <div class="content-row px-2 px-md-5">
+					<div class="d-flex justify-content-center m-3">
+					<h1><b>{{$tieu_de_test}}</b></h1></div>
                     <?php
 					if (isset($array_question) && !empty($array_question) && is_array($array_question)):
 						foreach ($array_question as $index=>$row):
