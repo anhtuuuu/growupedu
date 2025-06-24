@@ -67,6 +67,9 @@ class BaiKiemTra extends Model
 			$query = $query->where('bai_kiem_tra.ma_bkt', $args['test_code']);
 
 		}
+		if (isset($args['order_by'])) {
+			$query = $query->orderBy('ngay_tao', $args['order_by']);
+		}
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);

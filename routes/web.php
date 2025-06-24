@@ -42,19 +42,19 @@ Route::get('/{alias_class}/bang-diem', [ClassController::class, 'core_sheet']);
 /* Admin sites start */
 Route::get('/admin', [AdminController::class, 'admin_index']);
 Route::get('/danh-sach-tai-khoan', [AccountController::class, 'admin_index']);
-Route::get('/assess_management', [AssessController::class, 'admin_index']);
-Route::get('/assess_detail/{num}', [AssessController::class, 'assess_detail']);
+Route::get('/danh-sach-danh-gia', [AssessController::class, 'admin_index']);
+Route::get('/chi-tiet-danh-gia/{num}', [AssessController::class, 'assess_detail']);
 Route::get('/danh-sach-lop-hoc-phan', [ClassController::class, 'admin_index']);
 Route::get('/danh-sach-bai', [ContentController::class, 'admin_index']);
 Route::get('/danh-sach-chuong', [ChapterController::class, 'admin_index']);
 Route::get('/danh-sach-khoa', [DepartmentController::class, 'admin_index']);
-Route::get('/lecturer_management', [LecturerController::class, 'admin_index']);
+Route::get('/danh-sach-giang-vien', [LecturerController::class, 'admin_index']);
 Route::get('/danh-sach-bai-giang', [LessonController::class, 'admin_index']);
 Route::get('/performance_management', [PerformanceController::class, 'admin_index']);
 Route::get('/danh-sach-hoc-phan', [CourseController::class, 'admin_index']);
 Route::get('/danh-sach-sinh-vien', [StudentController::class, 'admin_index']);
 Route::get('/danh-sach-bo-mon', [SubjectController::class, 'admin_index']);
-Route::get('/test_management', [TestController::class, 'admin_index']);
+Route::get('/danh-sach-bai-kiem-tra', [TestController::class, 'admin_index']);
 
 Route::get('/{any}', [ClassController::class, 'index']);
 

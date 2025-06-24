@@ -8,17 +8,17 @@
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý giảng viên</b></h3>
                 </div>
                 <div class="box-body">
-    
+
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                        <input class="flat-blue check-all" name="check_all[]"
-                                                            type="checkbox" value="yes">
-                                                    </th> -->
-                                        <th class="text-center" style="width: 20px">Sắp xếp</th>
+                                                                <input class="flat-blue check-all" name="check_all[]"
+                                                                    type="checkbox" value="yes">
+                                                            </th> -->
+                                        <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:120px">Ảnh đại diện</th>
                                         <th class="text-center" style="width:auto">Họ tên</th>
                                         <th class="text-center">Email</th>
@@ -27,30 +27,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <?php if(isset($rows) && !empty($rows) && is_array($rows)):
+                                        foreach($rows as $index => $row): ?>
                                     <tr>
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
+                                                type="text" value="{{ $index + 1 }}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
                                         <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
+                                            <a class="img-fancybox d-flex justify-content-center" href="" title=""><img width="40"
                                                     class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
+                                                    src="{{ URL::to(config('asset.images_path') . $row->hinh_anh) }}"></a>
                                         </td>
                                         <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
+                                            {{ $row->ho_ten }}
                                         </td>
                                         <td class="text-center">
-                                            0306221453@caothang.edu.vn
+                                            {{ $row->email }}
                                         </td>
                                         <td class="text-center">
                                             <p class='text-bold text-primary'>
-                                                Phần cứng
+                                                {{ $row->ten_bm }}
                                             </p>
                                         </td>
 
@@ -58,126 +57,7 @@
                                             <button class="btn-bgr">Xem hiệu suất</button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
-                                        </td>
-                                        <td class="text-center">
-                                            0306221453@caothang.edu.vn
-                                        </td>
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                Phần cứng
-                                            </p>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xem hiệu suất</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
-                                        </td>
-                                        <td class="text-center">
-                                            0306221453@caothang.edu.vn
-                                        </td>
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                Phần cứng
-                                            </p>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xem hiệu suất</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
-                                        </td>
-                                        <td class="text-center">
-                                            0306221453@caothang.edu.vn
-                                        </td>
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                Phần cứng
-                                            </p>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xem hiệu suất</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td>
-                                            <a class="img-fancybox"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                                                title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
-                                        </td>
-                                        <td class="text-center">
-                                            Nguyễn Thị Tuyết Nhật
-                                        </td>
-                                        <td class="text-center">
-                                            0306221453@caothang.edu.vn
-                                        </td>
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                Phần cứng
-                                            </p>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xem hiệu suất</button>
-                                        </td>
-                                    </tr>
+                                    <?php endforeach; endif; ?>
                                 </tbody>
                             </table>
 
@@ -192,11 +72,9 @@
                             <div class="">
                                 <ul class="pagination">
                                     <li><a href="" class="active">1</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
                                             data-ci-pagination-page="4" rel="start">2</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
                                             data-ci-pagination-page="8">3</a></li>
                                     <li class="next page"><a
                                             href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"

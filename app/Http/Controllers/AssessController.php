@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaiGiang;
 // use App\Models\LhpBg;
+use App\Models\DanhGia;
 use App\Models\LopHocPhan;
 use Illuminate\Http\Request;
 class AssessController extends LayoutController
@@ -20,11 +21,11 @@ class AssessController extends LayoutController
       $section_class = (new LopHocPhan)->gets($args);
       $args['alias'] = $class_alias;
 
-      if (empty($section_class )) {
+      if (empty($section_class)) {
          abort(404);
          return;
       }
-        $lessons = (new BaiGiang)->gets($args);
+      $lessons = (new BaiGiang)->gets($args);
 
       // $section_class = (new LopHocPhan)->gets($args);
       $this->_data['class_name'] = $section_class[0]->ten_lhp;
@@ -38,10 +39,26 @@ class AssessController extends LayoutController
    }
    function admin_index()
    {
-      return view(config('asset.view_admin_page')('assess'));
+      $args = array();
+      $args['order_by'] = 'desc';
+      $assess = (new DanhGia)->gets($args);
+      $this->_data['rows'] = $assess;
+      return view(config('asset.view_admin_page')('assess_management'), $this->_data);
    }
-   function assess_detail($number)
+   function assess_detail()
    {
-      return view(config('asset.view_admin_page')('assess_detail'));
+      $segment = 2;
+      $id = trim(request()->segment($segment) ?? '');
+      if ($id === '') {
+         abort(404);
+      }
+      $detail = (new DanhGia)->get_by_id($id);
+      
+      $class_id = $detail->ma_lhp;
+      $class = (new LopHocPhan)->get_by_id($class_id);
+
+      $this->_data['data_assess'] = $detail;
+      $this->_data['data_class'] = $class;
+      return view(config('asset.view_admin_page')('assess_detail'), $this->_data);
    }
 }

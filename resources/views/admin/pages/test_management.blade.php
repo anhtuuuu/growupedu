@@ -10,17 +10,17 @@
                         Thêm</a>
                 </div>
                 <div class="box-body">
-
+                    <?php if(isset($rows) && !empty($rows) && is_array($rows)):?>
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                        <input class="flat-blue check-all" name="check_all[]"
-                                                            type="checkbox" value="yes">
-                                                    </th> -->
-                                        <th class="text-center" style="width: 20px">Sắp xếp</th>
+                                                                    <input class="flat-blue check-all" name="check_all[]"
+                                                                        type="checkbox" value="yes">
+                                                                </th> -->
+                                        <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tiêu đề</th>
                                         <th class="text-center">Lớp học phần</th>
                                         <th class="text-center">Ngày tạo</th>
@@ -29,24 +29,25 @@
                                 </thead>
                                 <tbody>
 
+                                    <?php foreach($rows as $index => $row): ?>
                                     <tr>
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
+                                                type="text" value="{{$index + 1}}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
                                         <td class="text-center">
-                                            Bài kiểm tra lần 1
+                                            {{$row->tieu_de}}
                                         </td>
 
                                         <td class="text-center">
                                             <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
+                                                {{$row->ten_lhp}}
                                             </p>
                                         </td>
                                         <td class="text-center">
-                                            11/10/2024
+                                            {{$row->ngay_tao}}
                                         </td>
 
                                         <td class="text-center">
@@ -56,123 +57,19 @@
                                                 class="delete_bootbox">Xóa</a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            Bài kiểm tra lần 1
-                                        </td>
-
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            11/10/2024
-                                        </td>
-
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            Bài kiểm tra lần 1
-                                        </td>
-
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            11/10/2024
-                                        </td>
-
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            Bài kiểm tra lần 1
-                                        </td>
-
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            11/10/2024
-                                        </td>
-
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
-                                                href="">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="1">
-                                            <input class="text-right form-control" name="ids[]" type="hidden"
-                                                value="">
-                                        </td>
-                                        <td class="text-center">
-                                            Bài kiểm tra lần 1
-                                        </td>
-
-                                        <td class="text-center">
-                                            <p class='text-bold text-primary'>
-                                                CSDL-CĐTH22WebC
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            11/10/2024
-                                        </td>
-
-                                        <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
-                                                href="">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
-                                        </td>
-                                    </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
 
 
                         </div>
                     </form>
-
+                    <?php else:  ?>
+                    <div class="callout callout-warning">
+                        <h4>Thông báo!</h4>
+                        <p><b>Không</b> có bài kiểm tra nào!</p>
+                    </div>
+                    <?php endif; ?>
                 </div>
                 <div class="box-footer clearfix">
                     <section id="blog-pagination" class="blog-pagination section">
@@ -180,11 +77,9 @@
                             <div class="">
                                 <ul class="pagination">
                                     <li><a href="" class="active">1</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
                                             data-ci-pagination-page="4" rel="start">2</a></li>
-                                    <li class="page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
+                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
                                             data-ci-pagination-page="8">3</a></li>
                                     <li class="next page"><a
                                             href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"

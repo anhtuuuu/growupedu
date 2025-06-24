@@ -46,7 +46,47 @@ class DanhGia extends Model
 		'ngay_tao',
 		'trang_thai'
 	];
+	public function gets($args, $perPage = 5, $offset = -1)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ma_tk as ma_tk',
+				'taikhoan.ho_ten as ho_ten',
+				'lop_hoc_phan.ma_lhp as ma_lhp',
+				'lop_hoc_phan.ten_lhp as ten_lhp'
+			])
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', $this->table . '.ma_lhp');
 
+		if (isset($args['order_by'])) {
+			$query = $query->orderBy('ngay_tao', $args['order_by']);
+		}
+		// $query = $this->generateWhere($query, $args);
+
+		// $query = $this->generateOrderBy($query, $args);
+
+		// if ($offset >= 0) {
+		// 	$query->offset($offset)->limit($perPage);
+		// }
+
+		return $query->get()->toArray();
+	}
+	public function get_by_id($id)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ma_tk as ma_tk',
+				'taikhoan.ho_ten as ho_ten',
+				'lop_hoc_phan.ma_lhp as ma_lhp',
+				'lop_hoc_phan.ten_lhp as ten_lhp'
+			])
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', $this->table . '.ma_lhp')
+			->where($this->table . '.id', $id);
+		return $query->first();
+	}
 	public function lop_hoc_phan()
 	{
 		return $this->belongsTo(LopHocPhan::class, 'ma_lhp');
