@@ -17,9 +17,10 @@ class AssessController extends LayoutController
          abort(404);
       }
       $args = array();
-
-      $section_class = (new LopHocPhan)->gets($args);
+      $section_class_none = (new LopHocPhan)->gets($args);
+      $this->_data['load_section_class'] = $section_class_none;
       $args['alias'] = $class_alias;
+      $section_class = (new LopHocPhan)->gets($args);
 
       if (empty($section_class)) {
          abort(404);
@@ -29,7 +30,6 @@ class AssessController extends LayoutController
 
       // $section_class = (new LopHocPhan)->gets($args);
       $this->_data['class_name'] = $section_class[0]->ten_lhp;
-      $this->_data['load_section_class'] = $section_class;
       $this->_data['section_class'] = $section_class;
       $this->_data['lessons'] = $lessons;
       $this->_data['type_side_none'] = 'lesson';

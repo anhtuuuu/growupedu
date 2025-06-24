@@ -117,15 +117,16 @@ class ClassController extends LayoutController
             abort(404);
         }
         $args = array();
-        $section_class = (new LopHocPhan)->gets($args);
+        $section_class_none = (new LopHocPhan)->gets($args);
+        $this->_data['load_section_class'] = $section_class_none;
         $args['class_alias'] = $class_alias;
+        $section_class = (new LopHocPhan)->gets($args);
         $args['test_code'] = $test_code;
         
         $accounts=(new Taikhoan)->gets($args);
         $submitted_tests=(new NopBaiKiemTra)->gets($args);
         $lesson = (new BaiGiang)->gets($args);
 
-        $this->_data['load_section_class'] = $section_class;
         $this->_data['lessons'] = $lesson;
         $this->_data['section_class']= $section_class;
         $this->_data['submitted_tests']= $submitted_tests;
@@ -142,13 +143,14 @@ class ClassController extends LayoutController
             abort(404);
         }
         $args = array();
+        $section_class_none = (new LopHocPhan)->gets($args);
+        $this->_data['load_section_class'] = $section_class_none;
+        $args['alias'] = $class_alias;
         $section_class = (new LopHocPhan)->gets($args);
         $args['class_alias'] = $class_alias;
-
         $submitted_tests=(new NopBaiKiemTra)->gets($args);
         $lesson = (new BaiGiang)->gets($args);
 
-        $this->_data['load_section_class'] = $section_class;
         $this->_data['lessons'] = $lesson;
         $this->_data['section_class']= $section_class;
         $this->_data['submitted_tests']= $submitted_tests;
