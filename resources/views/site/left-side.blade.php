@@ -16,7 +16,7 @@
         {{-- <li class="list-group-item"><img src="images/tutorials_icons.png" width="20"
                 alt="">&nbsp;<b>{{ $left_side_none }}</b></li> --}}
         <!--<li class="list-group-item"><input type="text" class="form-control search-query" placeholder="Search Something"></li>-->
-        <li class="list-group-item"><a href="ppts/index.html"><img src="images/ppt_icons.png" width="20"
+        <li class="list-group-item"><a href="<?php echo URL::to($section_class[0]->alias.'/test')?>"><img src="images/ppt_icons.png" width="20"
                     alt="">&nbsp;<b>Bài kiểm tra</b></a></li>
         <li class="list-group-item"><a href="<?php echo URL::to($section_class[0]->alias.'/bang-diem')?>"><img src="images/note_icons.png" width="20"
                     alt="">&nbsp;<b>Bảng điểm</b></a></li>

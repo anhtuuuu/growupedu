@@ -21,7 +21,7 @@ class ContentController extends LayoutController
       }
       $args = array();
         $section_class_none = (new LopHocPhan)->gets($args);
-        $this->_data['load_section_class'] = $section_class_none;
+      $this->_data['load_section_class'] = $section_class_none;
       $args['alias_lesson'] = $lesson_alias;
       $args['alias_content'] = $content_alias;
 
