@@ -16,30 +16,30 @@ class LayoutController extends Controller
         // $this->_data['site_name'] = $configs['site_name'];
         // $this->_data['title'] = $configs['site_name'];
     }
-    public function _initialize_user()
-    {
-        $this->_data['logged_in'] = FALSE;
-        if ($this->session->has_userdata('logged_in')) {
-            $this->_data['logged_in'] = TRUE;
-            $session_data = $this->session->userdata('logged_in');
-            $this->_data['ma_tk'] = $session_data['ma_tk'];
-            $this->_data['username'] = $session_data['username'];
-            $this->_data['ho_ten'] = $session_data['ho_ten'];
-            $this->_data['hinh_anh'] = $session_data['hinh_anh'];
-            $this->_data['vai_tro'] = isset($session_data['vai_tro']) ? $session_data['vai_tro'] : '';
-            $this->_data['ngay_tao'] = isset($session_data['ngay_tao']) ? $session_data['ngay_tao'] : '';
-        }
-        if ($this->session->has_userdata('logged_in_by')) {
-            $this->_data['logged_in'] = TRUE;
-            $session_data = $this->session->userdata('logged_in_by');
-            $this->_data['ma_tk'] = $session_data['ma_tk'];
-            $this->_data['username'] = $session_data['username'];
-            $this->_data['ho_ten'] = $session_data['ho_ten'];
-            $this->_data['hinh_anh'] = $session_data['hinh_anh'];
-            $this->_data['vai_tro'] = isset($session_data['vai_tro']) ? $session_data['vai_tro'] : '';
-            $this->_data['ngay_tao'] = isset($session_data['ngay_tao']) ? $session_data['ngay_tao'] : '';
-        }
-    }
+    // public function _initialize_user()
+    // {
+    //     $this->_data['logged_in'] = FALSE;
+    //     if ($this->session->has_userdata('logged_in')) {
+    //         $this->_data['logged_in'] = TRUE;
+    //         $session_data = $this->session->userdata('logged_in');
+    //         $this->_data['ma_tk'] = $session_data['ma_tk'];
+    //         $this->_data['username'] = $session_data['username'];
+    //         $this->_data['ho_ten'] = $session_data['ho_ten'];
+    //         $this->_data['hinh_anh'] = $session_data['hinh_anh'];
+    //         $this->_data['vai_tro'] = isset($session_data['vai_tro']) ? $session_data['vai_tro'] : '';
+    //         $this->_data['ngay_tao'] = isset($session_data['ngay_tao']) ? $session_data['ngay_tao'] : '';
+    //     }
+    //     if ($this->session->has_userdata('logged_in_by')) {
+    //         $this->_data['logged_in'] = TRUE;
+    //         $session_data = $this->session->userdata('logged_in_by');
+    //         $this->_data['ma_tk'] = $session_data['ma_tk'];
+    //         $this->_data['username'] = $session_data['username'];
+    //         $this->_data['ho_ten'] = $session_data['ho_ten'];
+    //         $this->_data['hinh_anh'] = $session_data['hinh_anh'];
+    //         $this->_data['vai_tro'] = isset($session_data['vai_tro']) ? $session_data['vai_tro'] : '';
+    //         $this->_data['ngay_tao'] = isset($session_data['ngay_tao']) ? $session_data['ngay_tao'] : '';
+    //     }
+    // }
 
     public function _initialize()
     {
