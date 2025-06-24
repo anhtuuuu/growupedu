@@ -18,15 +18,15 @@ class TestController extends LayoutController
       $test_code = trim(request()->segment($segment2) ?? '');
       if ($class_alias === '' && $test_code === '') {
          abort(404);
-      }      
+      }
       $args = array();
 
       $section_class = (new LopHocPhan)->gets($args);
       $args['class_alias'] = $class_alias;
       $args['test_code'] = $test_code;
       $test = (new Baikiemtra)->gets($args);
-      $test_questions= '';
-      $array_question=array();
+      $test_questions = '';
+      $array_question = array();
       if (!empty($test)) {
          $test_questions = $test[0]->noi_dung;
          $array_question = @unserialize($test_questions);
@@ -43,10 +43,10 @@ class TestController extends LayoutController
       $this->_data['left_side_none'] = '';
       // $this->_data['content'] = $content;
       // print_r($array_question);
-       return view(config('asset.view_page')('test-client'), $this->_data);
+      return view(config('asset.view_page')('test-client'), $this->_data);
    }
-      function test_list()
-      {
+   function test_list()
+   {
       $segment = 1;
       $class_alias = trim(request()->segment($segment) ?? '');
       if ($class_alias === '') {
@@ -68,11 +68,15 @@ class TestController extends LayoutController
       // $this->_data['content'] = $content;
       // print_r($array_question);
       // print_r($tests);
-       return view(config('asset.view_page')('test-list'), $this->_data);
+      return view(config('asset.view_page')('test-list'), $this->_data);
    }
 
    function admin_index()
    {
-      return view(config('asset.view_admin_page')('test_management'));
+      $args = array();
+      $args['order_by'] = 'desc';
+      $tests = (new Baikiemtra)->gets($args);
+      $this->_data['rows'] = $tests;
+      return view(config('asset.view_admin_page')('test_management'),$this->_data);
    }
 }

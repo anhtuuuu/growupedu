@@ -89,6 +89,20 @@ class LopHocPhan extends Model
 
 		return $query->get()->toArray();
 	}
+	public function get_by_id($id)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ho_ten as ho_ten',
+				'taikhoan.hinh_anh as avatar',
+				'hoc_phan.ten_hp as ten_hp'
+			])
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->join('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp')
+			->where($this->table . '.ma_lhp', $id);
+		return $query->first();
+	}
 	public function bai_giang()
 	{
 		return $this->belongsTo(BaiGiang::class, 'ma_bg');

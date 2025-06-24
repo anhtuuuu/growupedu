@@ -89,6 +89,9 @@ class Taikhoan extends Model
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
+		if (isset($args['role'])) {
+			$query = $query->where($this->table . '.vai_tro', $args['role']);
+		}
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);

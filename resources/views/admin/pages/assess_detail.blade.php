@@ -7,20 +7,21 @@
                     <h3 class="box-title">Chi tiết đánh giá</h3>
                 </div>
                 <div class="box-body">
+                    <?php if(isset($data_assess) && isset($data_class) && !empty($data_assess) && !empty($data_class)): ?>
                     <div id="accordion" class="box-group">
                         <div class="panel box box-primary">
                             <div class="box-header">
                                 <h4 class="box-title">
-                                    Thông tin cá nhân
+                                    Thông tin đánh giá
                                 </h4>
                             </div>
                             <div class="box-body">
-                                <p>Họ tên: <b>Nguyễn Thị Tuyết Nhật</b></p>
-                                <p>Học phần: <b>PHP nâng cao</b></p>
-                                <p>Lớp học phần: <b>CĐTH22WebC - PHP nâng cao</b></p>
-                                <p>Giảng viên: <b>Nguyễn Đức Duy</b></p>
-                                <p>Số sao: <b>5</b></p>
-                                <p>Ngày tạo: <b>11/10/2025</b></p>
+                                <p>Họ tên: <b>{{$data_assess->ho_ten}}</b></p>
+                                <p>Học phần: <b>{{$data_class->ten_hp}}</b></p>
+                                <p>Lớp học phần: <b>{{$data_assess->ten_lhp}}</b></p>
+                                <p>Giảng viên: <b>{{$data_class->ho_ten}}</b></p>
+                                <p>Số sao: <b>{{$data_assess->so_sao}}</b></p>
+                                <p>Ngày tạo: <b>{{$data_assess->ngay_tao}}</b></p>
                             </div>
                         </div>
                         <div class="panel box box-success">
@@ -30,10 +31,11 @@
                                 </h4>
                             </div>
                             <div class="box-body">
-                                cũng cũng
+                                {{$data_assess->noi_dung}}
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
