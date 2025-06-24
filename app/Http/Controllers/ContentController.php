@@ -68,6 +68,8 @@ class ContentController extends LayoutController
       }
 
       $args = array();
+      $section_class_none = (new LopHocPhan)->gets($args);
+      $this->_data['load_section_class'] = $section_class_none;
       $args['alias_class'] = $class_alias;
       $args['alias_lesson'] = $lesson_alias;
 
@@ -85,11 +87,13 @@ class ContentController extends LayoutController
       // $data = array();
       // $data['courses'] = $courses;
       // $data['contents'] = $contents;
-      $section_class_none = (new LopHocPhan())->gets($args);
+      $args['alias'] = $class_alias;
 
-      $this->_data['load_section_class'] = $section_class_none;
+      $section_class = (new LopHocPhan())->gets($args);
+
+
       $this->_data['contents'] = $contents;
-      $this->_data['section_class'] = $section_class_none;
+      $this->_data['section_class'] = $section_class;
       $this->_data['lessons'] = $lesson;
 
       $this->_data['type_side_none'] = 'lesson';
