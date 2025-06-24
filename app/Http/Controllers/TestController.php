@@ -55,15 +55,16 @@ class TestController extends LayoutController
          abort(404);
       }
       $args = array();
-
-      $section_class = (new LopHocPhan)->gets($args);
+      $section_class_none = (new LopHocPhan)->gets($args);
+      $this->_data['load_section_class'] = $section_class_none;
       $args['class_alias'] = $class_alias;
+      $args['alias'] = $class_alias;
+      $section_class = (new LopHocPhan)->gets($args);
 
       $tests = (new Baikiemtra)->gets($args);
       $lessons = (new Baigiang)->gets($args);
       $this->_data['section_class'] = $section_class;
       $this->_data['tests'] = $tests;
-      $this->_data['load_section_class'] = $section_class;
       $this->_data['lessons'] = $lessons;
       $this->_data['type_side_none'] = 'lesson';
       $this->_data['left_side_none'] = '';
