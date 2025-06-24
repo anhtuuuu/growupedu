@@ -28,6 +28,9 @@ class TestController extends LayoutController
       $args['class_alias'] = $class_alias;
       $args['test_code'] = $test_code;
       $test = (new Baikiemtra)->gets($args);
+      $tieu_de = $test[0]->tieu_de ?? 'Không có tiêu đề';
+      $this->_data['tieu_de_test'] = $tieu_de;
+      $this->_data['test'] = $test;
       $test_questions = '';
       $array_question = array();
       if (!empty($test)) {
@@ -43,9 +46,10 @@ class TestController extends LayoutController
       $this->_data['lessons'] = $lessons;
       $this->_data['type_side_none'] = 'lesson';
       $this->_data['left_side_none'] = '';
+      // $this->_data['test'] = 'test';
       // $this->_data['content'] = $content;
-      // print_r($array_question);
-      return view(config('asset.view_page')('test-client'), $this->_data);
+      // print_r($this->_data['test']);
+      return view(config('asset.view_page')('test-client'), $this->_data); 
    }
    function test_list()
    {
