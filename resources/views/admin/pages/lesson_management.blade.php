@@ -6,7 +6,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý bài giảng</b></h3>
-                    <a class="btn btn-success pull-right" href=""><i class="fa fa-plus"></i> Thêm</a>
+                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai-giang') ?>"><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
 
@@ -51,7 +51,7 @@
                                                 value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href=""><b>Sửa</b></a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat/'.$row->ma_bg) ?>"><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
                                                 class="delete_bootbox"><b>Xóa</b></a>
