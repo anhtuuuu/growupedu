@@ -20,7 +20,10 @@ class ContentController extends LayoutController
          abort(404);
       }
       $args = array();
-        $section_class_none = (new LopHocPhan)->gets($args);
+      $section_class_none = (new LopHocPhan)->gets($args);
+      $this->_data['load_section_class'] = $section_class_none;
+      $args['alias']= $lesson_alias;
+      $section_class_none = (new LopHocPhan)->gets($args);
       $this->_data['load_section_class'] = $section_class_none;
       $args['alias_lesson'] = $lesson_alias;
       $args['alias_content'] = $content_alias;

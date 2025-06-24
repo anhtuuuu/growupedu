@@ -20,6 +20,9 @@ class TestController extends LayoutController
          abort(404);
       }
       $args = array();
+      $section_class_none = (new LopHocPhan)->gets($args);
+      $this->_data['load_section_class'] = $section_class_none;
+      $args['alias'] = $class_alias;
 
       $section_class = (new LopHocPhan)->gets($args);
       $args['class_alias'] = $class_alias;
@@ -35,7 +38,6 @@ class TestController extends LayoutController
       $lessons = (new Baigiang)->gets($args);
 
 
-      $this->_data['load_section_class'] = $section_class;
       $this->_data['array_question'] = $array_question;
       $this->_data['section_class'] = $section_class;
       $this->_data['lessons'] = $lessons;
