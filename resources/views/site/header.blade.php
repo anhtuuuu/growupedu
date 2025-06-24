@@ -42,7 +42,7 @@
                     if(isset($load_section_class) &&  !empty($load_section_class) && is_array($load_section_class)):
                         foreach($load_section_class as $row): ?>
                     
-                    <a href="{{$row->alias}}" class="text-dark">{{$row->ten_lhp}}</a>
+                    <a href="<?php echo URL::to($row->alias)?>" class="text-dark">{{$row->ten_lhp}}</a>
                     <?php
                     endforeach;     
                     endif; ?>

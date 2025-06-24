@@ -26,7 +26,8 @@ Route::get('/bai-giang/{alias_lesson}', [LessonController::class, 'index']);
 Route::get('/bai-giang/{alias_lesson}/{alias_chapter}/{alias_content}', [ContentController::class, 'index']);
 
 Route::get('/persional-management/{num}', [AccountController::class, 'index']);
-Route::get('/test', [TestController::class, 'index']);
+Route::get('{alias_class}/{test_code}/test', [TestController::class, 'index']);
+Route::get('{alias_class}/test', [TestController::class, 'test_list']);
 Route::get('/section-class/{any}', [ClassController::class, 'index']);
 Route::get('/interact/{alias_class}', [ClassController::class, 'interact']);
 Route::get('/assess/{alias_class}', [AssessController::class, 'index']);
