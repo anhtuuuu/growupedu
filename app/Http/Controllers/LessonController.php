@@ -75,14 +75,38 @@ class LessonController extends LayoutController
       $this->_data['type_side_none'] = 'chapter';
       $this->_data['left_side_none'] = $data;
 
-      return view(config('asset.view_page')('lession-files'),$this->_data);
+      return view(config('asset.view_page')('lession-files'), $this->_data);
    }
 
    function admin_index()
    {
       $args = array();
       $lessons = (new BaiGiang)->gets($args);
-      $this->_data['rows'] =  $lessons;
+      $this->_data['rows'] = $lessons;
       return view(config('asset.view_admin_page')('lesson_management'), $this->_data);
    }
+   function admin_add(Request $request)
+   {
+      $data = $request->all();
+      if (empty($data)) {
+         return view(config('asset.view_admin_control')('control_lesson'));
+      }
+      print_r('aaaa');
+   }
+   function admin_update(Request $request)
+   {
+      $data = $request->all();
+      $segment = 2;
+      $id = trim(request()->segment($segment) ?? '');
+      if ($id === '') {
+         abort(404);
+      }
+      if (empty($data)) {
+         $lessons = (new BaiGiang)->get_by_id($id);
+         $this->_data['rows'] = $lessons;
+         return view(config('asset.view_admin_control')('control_lesson'),$this->_data);
+      }
+      print_r('aaaa');
+   }
+
 }
