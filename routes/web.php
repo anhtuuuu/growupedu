@@ -65,7 +65,8 @@ Route::get('/danh-sach-bai-kiem-tra', [TestController::class, 'admin_index']);
 Route::get('/them-bai-giang', [LessonController::class, 'admin_add']);
 Route::post('/them-bai-giang', [LessonController::class, 'admin_add']);
 
-Route::get('/cap-nhat/{value}', [LessonController::class, 'admin_update']);
+Route::get('/cap-nhat-bai-giang/{value}', [LessonController::class, 'admin_update']);
+Route::post('/cap-nhat-bai-giang', [LessonController::class, 'admin_update']);
 
 
 Route::get('/{any}', [ClassController::class, 'index']);

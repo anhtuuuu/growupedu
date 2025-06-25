@@ -8,17 +8,18 @@
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em>Thông tin </h3>
                 </div>
                 <div class="box-body">
-                    <input type="hidden" value="' . $row['id'] . '" id="id" name="id" class="form-control" />
-
-                    <form id="f-content" action="{{ URL::to('them-bai-giang') }}" method="post"
-                        enctype="multipart/form-data" autocomplete="off">
+                    <form id="f-content" action="<?php echo isset($row) ? URL::to('cap-nhat-bai-giang') : URL::to('them-bai-giang'); ?>" method="post" enctype="multipart/form-data"
+                        autocomplete="off">
                         {{ csrf_field() }}
+                        <input type="hidden" value="{{ isset($row) ? $row->ma_bg : '' }}" id="ma_bg" name="ma_bg"
+                            class="form-control" />
+
                         <div class="row">
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group required">
                                     <label for="ten_bg" class="control-label">Tiêu đề</label>
                                     <input type="text" class="form-control" name="ten_bg" id="ten_bg"
-                                        value="{{ old('ten_bg') }}">
+                                        value="{{ isset($row) ? $row->ten_bg : old('ten_bg') }}">
                                     @error('ten_bg')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -27,7 +28,7 @@
                                 <div class="form-group required">
                                     <label for="alias" class="control-label">Liên kết tĩnh</label>
                                     <input type="text" class="form-control" name="alias" id="alias"
-                                        value="{{ old('alias') }}">
+                                        value="{{ isset($row) ? $row->alias : old('alias') }}">
                                     @error('alias')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -35,14 +36,15 @@
 
                                 <div class="form-group">
                                     <label class="control-label">Mô tả</label>
-                                    <textarea class="form-control" name="mo_ta" data-autoresize rows="3">{{ old('mo_ta') }}</textarea>
+                                    <textarea class="form-control" name="mo_ta" data-autoresize rows="3">{{ isset($row) ? $row->mo_ta : old('mo_ta') }}</textarea>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success">Thêm mới</button>
+                                <button type="submit"
+                                    class="btn btn-success">{{ isset($row) ? 'Lưu thay đổi' : 'Thêm mới' }}</button>
                             </div>
                         </div>
                     </form>
