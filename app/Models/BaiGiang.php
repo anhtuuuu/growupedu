@@ -89,6 +89,13 @@ class BaiGiang extends Model
 
 		return $query->first();
 	}
+	public function add($data){
+		if(empty($data)){
+			return false;
+		}
+		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
 	public function taikhoan()
 	{
 		return $this->belongsTo(Taikhoan::class, 'ma_tk');

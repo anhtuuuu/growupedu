@@ -177,3 +177,24 @@ footer a{
     color: var(--orange);
     font-weight: 400;
 }
+
+.message{
+    z-index: 999999;
+    width: 20%;
+    height: 100px;
+    background: #f44040b1;
+    border-radius: 10px;
+    box-shadow: 0 0 10px red;
+    position: absolute;
+    top: 0;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.message::before{
+    content: 'WARNING:';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}

@@ -6,8 +6,10 @@ use App\Models\BaiGiang;
 use App\Models\Chuong;
 use App\Models\LhpBg;
 use App\Models\LopHocPhan;
+use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use View;
 
 class LessonController extends LayoutController
 {
@@ -87,11 +89,40 @@ class LessonController extends LayoutController
    }
    function admin_add(Request $request)
    {
-      $data = $request->all();
-      if (empty($data)) {
-         return view(config('asset.view_admin_control')('control_lesson'));
+      $get_req = $request->all();
+      if (!empty($get_req)) {
+         $validated = $request->validate(
+            [
+               'ten_bg' => 'required|max:255',
+               'alias' => 'required|max:255|unique:bai_giang',
+            ],
+            [
+               'ten_bg.required' => 'Vui lòng nhập tên bài giảng.',
+               'ten_bg.max' => 'Tên bài giảng không được vượt quá 255 ký tự.',
+               'alias.required' => 'Liên kết tĩnh không được để trống.',
+               'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
+               'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+            ]
+         );
+         $data = [
+            'ma_tk' => Session::get('admin_id'),
+            'ten_bg' => $request->ten_bg,
+            'alias' => $request->alias,
+            'mo_ta' => $request->mo_ta
+         ];
+         $result = (new BaiGiang)->add($data);
+         if ($result) {
+            $this->_data['error'] = 'success';
+            $this->_data['message'] = 'Thêm bài giảng thành công';
+         } else {
+            $this->_data['error'] = 'danger';
+            $this->_data['message'] = 'Thêm bài giảng thất bại';
+         }
+         return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
       }
-      print_r('aaaa');
+      return view(config('asset.view_admin_control')('control_lesson'));
+
+      // print_r($result);
    }
    function admin_update(Request $request)
    {
@@ -104,7 +135,7 @@ class LessonController extends LayoutController
       if (empty($data)) {
          $lessons = (new BaiGiang)->get_by_id($id);
          $this->_data['rows'] = $lessons;
-         return view(config('asset.view_admin_control')('control_lesson'),$this->_data);
+         return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
       }
       print_r('aaaa');
    }
