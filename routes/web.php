@@ -42,7 +42,11 @@ Route::get('/{alias_class}/{test_code}/bang-diem', [ClassController::class, 'cor
 // =====================================================================================================================
 
 /* Admin sites start */
-Route::get('/admin', [AdminController::class, 'admin_index']);
+Route::get('/admin', [AdminController::class, 'login']);
+Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
+Route::post('/admin-dashboard', [AdminController::class, 'admin_index']);
+Route::get('/logout', [AdminController::class, 'logout']);
+
 Route::get('/danh-sach-tai-khoan', [AccountController::class, 'admin_index']);
 Route::get('/danh-sach-danh-gia', [AssessController::class, 'admin_index']);
 Route::get('/chi-tiet-danh-gia/{num}', [AssessController::class, 'assess_detail']);
@@ -59,6 +63,8 @@ Route::get('/danh-sach-bo-mon', [SubjectController::class, 'admin_index']);
 Route::get('/danh-sach-bai-kiem-tra', [TestController::class, 'admin_index']);
 
 Route::get('/them-bai-giang', [LessonController::class, 'admin_add']);
+Route::post('/them-bai-giang', [LessonController::class, 'admin_add']);
+
 Route::get('/cap-nhat/{value}', [LessonController::class, 'admin_update']);
 
 

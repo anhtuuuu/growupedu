@@ -102,6 +102,26 @@ class Taikhoan extends Model
 
 		return $query->get()->toArray();
 	}
+	public function check_login($email)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*'
+			])
+			->where($this->table . '.email', $email)
+			->where(function ($query) {
+				$query->where('vai_tro', 1)
+					->orWhere('vai_tro', 2);
+			});
+		return $query->first();
+	}
+	public function add($data){
+		if(empty($data)){
+			return false;
+		}
+		$result = DB::insert($this->table, $data);
+		return $result;
+	}
 	public function bo_mon()
 	{
 		return $this->belongsTo(BoMon::class, 'ma_bm');

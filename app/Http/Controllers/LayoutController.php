@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\LopHocPhan;
+use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class LayoutController extends Controller
 {
@@ -67,6 +69,11 @@ class LayoutController extends Controller
 
         // $this->_data['num_rows_contact'] = modules::run('contact/num_rows_new');
         // $this->_data['num_rows_order'] = modules::run('shops/orders/counts', array('viewed' => 0));
+    }
+    public function _auth_login(){
+        if(!Session::has('admin_id')){
+            return Redirect::to('admin');
+        }
     }
     function index()
     {

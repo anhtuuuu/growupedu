@@ -1,5 +1,5 @@
 <header class="main-header">
-    <a href="" class="logo" target="_blank">Administrator</a>
+    <a href="" class="logo" target="_blank"><?php echo Session::has('admin_role') && Session::get('admin_role') == 1 ? "Administrator" : 'Giảng viên' ?></a>
     <nav class="navbar navbar-static-top" role="navigation">
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
@@ -11,7 +11,7 @@
                         <img src="https://th.bing.com/th/id/OIP.uzGed-nXH0q-PqTfZqgEDQAAAA?w=218&h=219&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
                             class="user-image" alt="" />
                         <span class="hidden-xs">
-                            Admin<i class="caret"></i>
+                            <?php echo Session::has('admin_name') ? Session::get('admin_name') : '' ?><i class="caret"></i>
                         </span>
                     </a>
                     <ul class="dropdown-menu">
@@ -19,9 +19,9 @@
                             <img src="https://th.bing.com/th/id/OIP.uzGed-nXH0q-PqTfZqgEDQAAAA?w=218&h=219&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
                                 class="img-circle" alt="" />
                             <p>
-                                aaaaa
+                                <?php echo Session::has('admin_name') ? Session::get('admin_name') : '' ?>
                                 <small>Tham gia từ
-                                    aaaa
+                                    <?php echo Session::has('admin_joined') ? Session::get('admin_joined') : '' ?>
                                 </small>
                             </p>
                         </li>
@@ -30,7 +30,7 @@
                                 <a href="" class="btn btn-default btn-flat">Thông tin cá nhân</a>
                             </div>
                             <div class="pull-right">
-                                <a href="" class="btn btn-default btn-flat">Đăng xuất</a>
+                                <a href="{{URL::to('logout')}}" class="btn btn-default btn-flat">Đăng xuất</a>
                             </div>
                         </li>
                     </ul>
