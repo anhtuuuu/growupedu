@@ -1,14 +1,16 @@
 @extends(config('asset.view_admin')('admin_layout'))
 @section('content')
+
     @include(config('asset.view_admin_partial')('search_nav'))
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý bài giảng</b></h3>
-                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai-giang') ?>"><i class="fa fa-plus"></i> Thêm</a>
+                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai-giang'); ?>"><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
+    @include(config('asset.view_admin_partial')('notify_message'))
 
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
@@ -16,9 +18,9 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                            <input class="flat-blue check-all" name="check_all[]"
-                                                                type="checkbox" value="yes">
-                                                        </th> -->
+                                                                <input class="flat-blue check-all" name="check_all[]"
+                                                                    type="checkbox" value="yes">
+                                                            </th> -->
                                         <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tiêu đề</th>
                                         <th class="text-center">Tên giảng viên</th>
@@ -31,27 +33,28 @@
                                     foreach($rows as $index => $row): ?>
                                     <tr>
                                         <!-- <td class="text-center">
-                                                            <input type="checkbox" class="flat-blue check"
-                                                                value="" name="idcheck[]">
-                                                        </td> -->
+                                                                <input type="checkbox" class="flat-blue check"
+                                                                    value="" name="idcheck[]">
+                                                            </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="{{$index + 1}}">
+                                                type="text" value="{{ $index + 1 }}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
                                         <td class="text-center">
-                                            {{$row->ten_bg}}
+                                            {{ $row->ten_bg }}
                                         </td>
                                         <td class="text-center">
-                                            {{$row->ho_ten}}
+                                            {{ $row->ho_ten }}
                                         </td>
                                         <td class="text-center" style="width: 150px">
                                             <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
+                                                value="" <?php echo $row->hien_thi ? 'checked' : ''; ?>>
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat/'.$row->ma_bg) ?>"><b>Sửa</b></a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
+                                                href="<?php echo URL::to('cap-nhat-bai-giang/' . $row->ma_bg); ?>"><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
                                                 class="delete_bootbox"><b>Xóa</b></a>
@@ -66,9 +69,9 @@
                     </form>
 
                     <!-- <div class="callout callout-warning">
-                                        <h4>Thông báo!</h4>
-                                        <p><b>Không</b> có bài viết nào!</p>
-                                    </div> -->
+                                            <h4>Thông báo!</h4>
+                                            <p><b>Không</b> có bài viết nào!</p>
+                                        </div> -->
 
                 </div>
                 <div class="box-footer clearfix">

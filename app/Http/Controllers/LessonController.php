@@ -112,11 +112,11 @@ class LessonController extends LayoutController
          ];
          $result = (new BaiGiang)->add($data);
          if ($result) {
-            $this->_data['error'] = 'success';
-            $this->_data['message'] = 'Thêm bài giảng thành công';
+            Session::put('error', 'success');
+            Session::put('message', 'Thêm bài giảng thành công');
          } else {
-            $this->_data['error'] = 'danger';
-            $this->_data['message'] = 'Thêm bài giảng thất bại';
+            Session::put('error', 'danger');
+            Session::put('message', 'Thêm bài giảng thất bại');
          }
          return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
       }
@@ -126,18 +126,61 @@ class LessonController extends LayoutController
    }
    function admin_update(Request $request)
    {
-      $data = $request->all();
+      $get_req = $request->all();
       $segment = 2;
       $id = trim(request()->segment($segment) ?? '');
-      if ($id === '') {
-         abort(404);
-      }
-      if (empty($data)) {
-         $lessons = (new BaiGiang)->get_by_id($id);
-         $this->_data['rows'] = $lessons;
+      if (empty($get_req)) {
+         if ($id === '') {
+            abort(404);
+         }
+         $lesson = (new BaiGiang)->get_by_id($id);
+         if (empty($lesson)) {
+            abort(404);
+         }
+         $this->_data['row'] = $lesson;
          return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
       }
-      print_r('aaaa');
+
+      $id_lesson = $request->ma_bg;
+      $lesson = (new BaiGiang)->get_by_id($id_lesson);
+      $validated = $request->validate(
+         [
+            'ten_bg' => 'required|max:255',
+            'alias' => 'required|max:255' . ($lesson->alias == $request->alias ? '' : '|unique:bai_giang'),
+         ],
+         [
+            'ten_bg.required' => 'Vui lòng nhập tên bài giảng.',
+            'ten_bg.max' => 'Tên bài giảng không được vượt quá 255 ký tự.',
+            'alias.required' => 'Liên kết tĩnh không được để trống.',
+            'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
+            'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+         ]
+      );
+
+      if (empty($lesson)) {
+         abort(404);
+      }
+      if ($lesson->alias == $request->alias) {
+         $data = [
+            'ten_bg' => $request->ten_bg,
+            'mo_ta' => $request->mo_ta
+         ];
+      } else {
+         $data = [
+            'ten_bg' => $request->ten_bg,
+            'alias' => $request->alias,
+            'mo_ta' => $request->mo_ta
+         ];
+      }
+      $result = (new BaiGiang)->admin_update($id_lesson, $data);
+      if ($result) {
+         Session::put('error', 'success');
+         Session::put('message', 'Cập nhật bài giảng thành công.');
+      } else {
+         Session::put('error', 'danger');
+         Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');
+      }
+      return Redirect::to('danh-sach-bai-giang');
    }
 
 }
