@@ -64,6 +64,13 @@ class BoMon extends Model
 
 		return $query->get()->toArray();
 	}
+	public function add($data){
+		if(empty($data)){
+			return false;
+		}
+		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
 	public function khoa()
 	{
 		return $this->belongsTo(Khoa::class, 'ma_khoa');

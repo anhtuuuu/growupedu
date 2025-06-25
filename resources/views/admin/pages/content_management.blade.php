@@ -6,7 +6,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý bài</b></h3>
-                    <a class="btn btn-success pull-right" href=""><i class="fa fa-plus"></i>
+                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai') ?>"><i class="fa fa-plus"></i>
                         Thêm</a>
                 </div>
                 <div class="box-body">
