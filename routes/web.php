@@ -62,8 +62,19 @@ Route::get('/danh-sach-sinh-vien', [StudentController::class, 'admin_index']);
 Route::get('/danh-sach-bo-mon', [SubjectController::class, 'admin_index']);
 Route::get('/danh-sach-bai-kiem-tra', [TestController::class, 'admin_index']);
 
+//thêm
 Route::get('/them-bai-giang', [LessonController::class, 'admin_add']);
 Route::post('/them-bai-giang', [LessonController::class, 'admin_add']);
+Route::get('/them-khoa', [DepartmentController::class, 'admin_add']);
+Route::post('/them-khoa', [DepartmentController::class, 'admin_add']);
+Route::get('/them-bo-mon', [SubjectController::class, 'admin_add']);
+Route::post('/them-bo-mon', [SubjectController::class, 'admin_add']);
+Route::get('/them-hoc-phan', [CourseController::class, 'admin_add']);
+Route::post('/them-hoc-phan', [CourseController::class, 'admin_add']);
+Route::get('/them-bai', [ContentController::class, 'admin_add']);
+Route::post('/them-bai', [ContentController::class, 'admin_add']);
+Route::get('/them-chuong', [ChapterController::class, 'admin_add']);
+Route::post('/them-chuong', [ChapterController::class, 'admin_add']);
 
 Route::get('/cap-nhat/{value}', [LessonController::class, 'admin_update']);
 

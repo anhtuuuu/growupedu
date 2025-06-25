@@ -106,4 +106,43 @@ class ContentController extends LayoutController
 
       return view(config('asset.view_page')('lesson-files'),$this->_data);
    }
+   function admin_add(Request $request)
+    {
+        $args = array();
+        $data=(new Chuong())->gets($args);
+        $this->_data['table_chuong'] = $data;
+    
+        $get_req = $request->all();
+        if (!empty($get_req)) {
+            $validated = $request->validate(
+                [
+                    'ten_hp' => 'required|max:255',
+                    'alias' => 'required|max:255|unique:bai',
+                ],
+                [
+                    'ten_hp.required' => 'Vui lòng nhập tên học phần.',
+                    'ten_hp.max' => 'Tên học phần không được vượt quá 255 ký tự.',
+                    'alias.required' => 'Liên kết tĩnh không được để trống.',
+                    'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
+                    'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+                ]
+            );
+            $data = [
+                'ma_bm' => $request->ma_bm,
+                'ten_hp' => $request->ten_hp,
+                'alias' => $request->alias,
+                'mo_ta' => $request->mo_ta
+            ];
+            $result = (new Bai())->add($data);
+            if ($result) {
+                $this->_data['error'] = 'success';
+                $this->_data['message'] = 'Thêm học phần thành công';
+            } else {
+                $this->_data['error'] = 'danger';
+                $this->_data['message'] = 'Thêm học phần thất bại';
+            }
+            return view(config('asset.view_admin_control')('control_content'), $this->_data);
+        }
+        return view(config('asset.view_admin_control')('control_content'), $this->_data);
+    }
 }

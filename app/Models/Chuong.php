@@ -75,6 +75,13 @@ class Chuong extends Model
 
 		return $query->get()->toArray();
 	}
+	public function add($data){
+		if(empty($data)){
+			return false;
+		}
+		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
 	public function bai_giang()
 	{
 		return $this->belongsTo(BaiGiang::class, 'ma_bg');

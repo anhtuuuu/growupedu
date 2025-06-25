@@ -1,5 +1,6 @@
 @extends(config('asset.view_admin')('admin_layout'))
 @section('content')
+    @include(config('asset.view_admin_partial')('notify_message'))
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
@@ -14,13 +15,13 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <label for="post_cat_id" class="control-label">Khoa</label>
-                                    <select class="form-control" name="ma_khoa" id="ma_khoa">
+                                    <label for="post_cat_id" class="control-label">Bài giảng</label>
+                                    <select class="form-control" name="ma_bg" id="ma_bg">
                                         <?php
-                                        if(isset($table_khoa) && is_array($table_khoa) && !empty($table_khoa)):
-                                        foreach($table_khoa as $row):
+                                        if(isset($table_baigiang) && is_array($table_baigiang) && !empty($table_baigiang)):
+                                        foreach($table_baigiang as $row):
                                         ?>
-                                        <option value="{{$row->ma_khoa}}">{{$row->ten_khoa}}</option>   
+                                        <option value="{{$row->ma_bg}}">{{$row->ten_bg}}</option>   
                                         <?php
                                         endforeach;
                                         endif;
@@ -30,8 +31,8 @@
                                 </div>
 
                                 <div class="form-group required">
-                                    <label for="title" class="control-label">Tên bộ môn</label>
-                                    <input type="text" class="form-control" name="ten_bm" id="ten_bm" value="{{ old('ten_bm') }}">
+                                    <label for="title" class="control-label">Tên chương</label>
+                                    <input type="text" class="form-control" name="ten_chuong" id="ten_chuong" value="{{ old('ten_chuong') }}">
 
                                 </div>
 
@@ -42,7 +43,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label">Mô tả</label>
-                                    <textarea class="form-control" name="hometext" data-autoresize rows="3">{{ old('mo_ta') }}</textarea>
+                                    <textarea class="form-control" name="mo_ta" data-autoresize rows="3">{{ old('mo_ta') }}</textarea>
                                 </div>                                
                             </div>
                         </div>
