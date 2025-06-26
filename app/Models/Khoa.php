@@ -62,6 +62,29 @@ class Khoa extends Model
 		$result = DB::table($this->table)->insert($data);
 		return $result;
 	}
+	public function get_by_id($id)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				// 'taikhoan.ho_ten as ho_ten',
+				// 'taikhoan.hinh_anh as avatar'
+			])
+			// ->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->where($this->table . '.ma_khoa', $id);
+
+		return $query->first();
+	}
+	public function admin_update($id, $data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.ma_khoa', $id)
+			->update($data);
+		return $result;
+	}
 	public function bo_mons()
 	{
 		return $this->hasMany(BoMon::class, 'ma_khoa');
