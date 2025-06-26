@@ -1,5 +1,5 @@
 <?php if(Session::has('error')): ?>
-<div class="callout callout-{{ Session::get('error') == 'success' ? 'success' : 'danger' }}">
+<div class="callout callout-{{ Session::get('error')}}">
     <h4>Thông báo!</h4>
     <p>{{ Session::has('message') ? Session::get('message') : '' }}</p>
 </div>    

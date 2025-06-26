@@ -7,142 +7,170 @@ use App\Models\BaiGiang;
 use App\Models\Chuong;
 use App\Models\LopHocPhan;
 use Illuminate\Http\Request;
+use Session;
 
 class ContentController extends LayoutController
 {
-    function index(){
-       $segment0 = 1;
+    function index()
+    {
+        $segment0 = 1;
 
-       $segment = 2;
-       $segment2 = 4;
-      $class_alias = trim(request()->segment($segment0) ?? '');
+        $segment = 2;
+        $segment2 = 4;
+        $class_alias = trim(request()->segment($segment0) ?? '');
 
-      $lesson_alias = trim(request()->segment($segment) ?? '');
-      $content_alias = trim(request()->segment($segment2) ?? '');
-      
-      if ($lesson_alias === '' || $content_alias === '' || $class_alias === '') {
-         abort(404);
-      }
-      $args = array();
-      $section_class_none = (new LopHocPhan)->gets($args);
-      $this->_data['load_section_class'] = $section_class_none;
-      $args['alias']= $class_alias;
-      $section_class = (new LopHocPhan)->gets($args);
-      $this->_data['section_class'] = $section_class;
-      $args['alias_lesson'] = $lesson_alias;
-      $args['alias_content'] = $content_alias;
+        $lesson_alias = trim(request()->segment($segment) ?? '');
+        $content_alias = trim(request()->segment($segment2) ?? '');
 
-      $lesson = (new BaiGiang)->gets($args);
-      $content = (new BaiGiang)->gets($args);
+        if ($lesson_alias === '' || $content_alias === '' || $class_alias === '') {
+            abort(404);
+        }
+        $args = array();
+        $section_class_none = (new LopHocPhan)->gets($args);
+        $this->_data['load_section_class'] = $section_class_none;
+        $args['alias'] = $class_alias;
+        $section_class = (new LopHocPhan)->gets($args);
+        $this->_data['section_class'] = $section_class;
+        $args['alias_lesson'] = $lesson_alias;
+        $args['alias_content'] = $content_alias;
 
-      if (empty($lesson) || empty($content)) {
-         abort(404);
-         return;
-      }
+        $lesson = (new BaiGiang)->gets($args);
+        $content = (new BaiGiang)->gets($args);
 
-      $chapters = (new Chuong)->gets($args);      
-      $contents = (new Bai)->gets($args);
+        if (empty($lesson) || empty($content)) {
+            abort(404);
+            return;
+        }
 
-      $this->_data['chapters'] = $chapters;
-      $this->_data['contents'] = $contents;
-      $this->_data['lessons'] = $lesson;
+        $chapters = (new Chuong)->gets($args);
+        $contents = (new Bai)->gets($args);
 
-      $this->_data['type_side_none'] = 'lesson';
+        $this->_data['chapters'] = $chapters;
+        $this->_data['contents'] = $contents;
+        $this->_data['lessons'] = $lesson;
+
+        $this->_data['type_side_none'] = 'lesson';
         $this->_data['left_side_none'] = '';
 
-      $row = (new Bai)->get_by_alias($content_alias);      
-      $this->_data['row'] = $row;
+        $row = (new Bai)->get_by_alias($content_alias);
+        $this->_data['row'] = $row;
 
-      return view(config('asset.view_page')('lesson'), $this->_data);
+        return view(config('asset.view_page')('lesson'), $this->_data);
     }
-    function admin_index(){
-      $args = array();
-      $contents = (new Bai)->gets($args);
-      $this->_data['rows'] = $contents;
-       return view(config('asset.view_admin_page')('content_management'),$this->_data);
+    function admin_index()
+    {
+        $args = array();
+        $contents = (new Bai)->gets($args);
+        $this->_data['rows'] = $contents;
+        return view(config('asset.view_admin_page')('content_management'), $this->_data);
     }
 
     function files()
-   {
-      $segment = 1;
-      $class_alias = trim(request()->segment($segment) ?? '');
-      $segment = 2;
-      $lesson_alias = trim(request()->segment($segment) ?? '');
-      if ($class_alias === '' || $lesson_alias === '' ) {
-         abort(404);
-      }
+    {
+        $segment = 1;
+        $class_alias = trim(request()->segment($segment) ?? '');
+        $segment = 2;
+        $lesson_alias = trim(request()->segment($segment) ?? '');
+        if ($class_alias === '' || $lesson_alias === '') {
+            abort(404);
+        }
 
-      $args = array();
-      $section_class_none = (new LopHocPhan)->gets($args);
-      $this->_data['load_section_class'] = $section_class_none;
-      $args['alias_class'] = $class_alias;
-      $args['alias_lesson'] = $lesson_alias;
+        $args = array();
+        $section_class_none = (new LopHocPhan)->gets($args);
+        $this->_data['load_section_class'] = $section_class_none;
+        $args['alias_class'] = $class_alias;
+        $args['alias_lesson'] = $lesson_alias;
 
-      $lesson = (new BaiGiang)->gets($args);
-
-
-      if (empty($lesson)) {
-         abort(404);
-         return;
-      }
-
-      // $courses = (new Chuong)->gets($args);
-      $contents = (new Bai)->gets($args);
-
-      // $data = array();
-      // $data['courses'] = $courses;
-      // $data['contents'] = $contents;
-      $args['alias'] = $class_alias;
-
-      $section_class = (new LopHocPhan())->gets($args);
+        $lesson = (new BaiGiang)->gets($args);
 
 
-      $this->_data['contents'] = $contents;
-      $this->_data['section_class'] = $section_class;
-      $this->_data['lessons'] = $lesson;
+        if (empty($lesson)) {
+            abort(404);
+            return;
+        }
 
-      $this->_data['type_side_none'] = 'lesson';
-      $this->_data['left_side_none'] = '';
+        // $courses = (new Chuong)->gets($args);
+        $contents = (new Bai)->gets($args);
 
-      return view(config('asset.view_page')('lesson-files'),$this->_data);
-   }
-   function admin_add(Request $request)
+        // $data = array();
+        // $data['courses'] = $courses;
+        // $data['contents'] = $contents;
+        $args['alias'] = $class_alias;
+
+        $section_class = (new LopHocPhan())->gets($args);
+
+
+        $this->_data['contents'] = $contents;
+        $this->_data['section_class'] = $section_class;
+        $this->_data['lessons'] = $lesson;
+
+        $this->_data['type_side_none'] = 'lesson';
+        $this->_data['left_side_none'] = '';
+
+        return view(config('asset.view_page')('lesson-files'), $this->_data);
+    }
+    function admin_add(Request $request)
     {
         $args = array();
-        $data=(new Chuong())->gets($args);
-        $this->_data['table_chuong'] = $data;
-    
+        $args['ma_tk'] = Session::get('admin_id');
+        $lessons = (new BaiGiang)->gets($args);
+        $this->_data['lessons'] = $lessons;
+
+        // $data=(new Chuong())->gets($args);
+        // $this->_data['table_chuong'] = $data;
+
         $get_req = $request->all();
         if (!empty($get_req)) {
             $validated = $request->validate(
                 [
-                    'ten_hp' => 'required|max:255',
+                    'alias_bg' => 'required',
+                    'ma_chuong' => 'required',
+                    'tieu_de' => 'required|max:255',
                     'alias' => 'required|max:255|unique:bai',
                 ],
                 [
-                    'ten_hp.required' => 'Vui lòng nhập tên học phần.',
-                    'ten_hp.max' => 'Tên học phần không được vượt quá 255 ký tự.',
+                    'alias_bg.required' => 'Vui lòng chọn bài giảng.',
+                    'ma_chuong.required' => 'Vui lòng chọn chương.',
+                    'tieu_de.required' => 'Vui lòng nhập tiêu đề.',
+                    'tieu_de.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
                     'alias.required' => 'Liên kết tĩnh không được để trống.',
                     'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
                     'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
                 ]
             );
             $data = [
-                'ma_bm' => $request->ma_bm,
-                'ten_hp' => $request->ten_hp,
+                'ma_chuong' => $request->ma_chuong,
+                'tieu_de' => $request->tieu_de,
                 'alias' => $request->alias,
-                'mo_ta' => $request->mo_ta
+                'mo_ta' => $request->mo_ta,
+                'noi_dung' => $request->noi_dung,
+                'video' => $request->video,
+                'lien_ket' => $request->lien_ket,
             ];
             $result = (new Bai())->add($data);
             if ($result) {
-                $this->_data['error'] = 'success';
-                $this->_data['message'] = 'Thêm học phần thành công';
+                Session::put('error', 'success');
+                Session::put('message', 'Thêm bài thành công.');
             } else {
-                $this->_data['error'] = 'danger';
-                $this->_data['message'] = 'Thêm học phần thất bại';
+                Session::put('error', 'danger');
+                Session::put('message', 'Chưa có dữ liệu nào được thêm.');
             }
             return view(config('asset.view_admin_control')('control_content'), $this->_data);
         }
         return view(config('asset.view_admin_control')('control_content'), $this->_data);
+    }
+    function gets_chapter()
+    {
+        $segment = 2;
+        $lesson_alias = trim(request()->segment($segment) ?? '');
+        $args = array();
+        $args['alias_lesson'] = $lesson_alias;
+        $chapters = (new Chuong)->gets($args);
+        // print_r($chapters);
+        $html = '';
+        foreach ($chapters as $chap) {
+            $html .= '<option value="' . $chap->ma_chuong . '" >' . $chap->ten_chuong . '</option>';
+        }
+        return $html;
     }
 }

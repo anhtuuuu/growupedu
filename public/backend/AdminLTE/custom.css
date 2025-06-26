@@ -7,3 +7,6 @@
 .text-danger{
     color: #ff0000 !important;
 }
+.cke_notifications_area{
+    display: none !important;
+}
