@@ -6,19 +6,19 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý bộ môn</b></h3>
-                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bo-mon') ?>"><i class="fa fa-plus"></i> Thêm</a>
+                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bo-mon'); ?>"><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
-
+                    @include(config('asset.view_admin_partial')('notify_message'))
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                            <input class="flat-blue check-all" name="check_all[]"
-                                                                type="checkbox" value="yes">
-                                                        </th> -->
+                                                                <input class="flat-blue check-all" name="check_all[]"
+                                                                    type="checkbox" value="yes">
+                                                            </th> -->
                                         <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tên bộ môn</th>
                                         <th class="text-center">Mô tả</th>
@@ -30,24 +30,25 @@
                                         foreach($rows as $index => $row): ?>
                                     <tr>
                                         <!-- <td class="text-center">
-                                                            <input type="checkbox" class="flat-blue check"
-                                                                value="" name="idcheck[]">
-                                                        </td> -->
+                                                                <input type="checkbox" class="flat-blue check"
+                                                                    value="" name="idcheck[]">
+                                                            </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="{{$index + 1}}">
+                                                type="text" value="{{ $index + 1 }}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
 
                                         <td class="text-center">
-                                            {{$row->ten_bm}}
+                                            {{ $row->ten_bm }}
                                         </td>
                                         <td class="text-center">
-                                            {{$row->mo_ta}}
+                                            {{ $row->mo_ta }}
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href=""><b>Sửa</b></a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
+                                                href="<?php echo URL::to('cap-nhat-bo-mon/' . $row->ma_bm); ?>"><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
                                                 class="delete_bootbox"><b>Xóa</b></a>
@@ -57,31 +58,31 @@
                                 </tbody>
 
                                 <!-- <tfoot>
-                                                    <tr class="text-left">
-                                                        <td colspan="4">
-                                                            <div class="input-group">
-                                                                <select class="form-control" name="action" id="action">
-                                                                    <option value="update">Cập nhật</option>
-                                                                    <option value="delete">Xóa</option>
-                                                                    <option value="content">Đăng bài viết</option>
-                                                                </select>
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-primary" type="submit">Thực
-                                                                        hiện</button>
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tfoot> -->
+                                                        <tr class="text-left">
+                                                            <td colspan="4">
+                                                                <div class="input-group">
+                                                                    <select class="form-control" name="action" id="action">
+                                                                        <option value="update">Cập nhật</option>
+                                                                        <option value="delete">Xóa</option>
+                                                                        <option value="content">Đăng bài viết</option>
+                                                                    </select>
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary" type="submit">Thực
+                                                                            hiện</button>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot> -->
                             </table>
 
 
                         </div>
                     </form>
                     <!-- <div class="callout callout-warning">
-                                        <h4>Thông báo!</h4>
-                                        <p><b>Không</b> có bài viết nào!</p>
-                                    </div> -->
+                                            <h4>Thông báo!</h4>
+                                            <p><b>Không</b> có bài viết nào!</p>
+                                        </div> -->
 
                 </div>
                 <div class="box-footer clearfix">

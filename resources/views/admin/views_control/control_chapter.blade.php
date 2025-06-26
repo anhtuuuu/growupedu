@@ -8,49 +8,67 @@
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em>Thông tin </h3>
                 </div>
                 <div class="box-body">
-                    <input type="hidden" value="' . $row['id'] . '" id="id" name="id" class="form-control" />
-
-                    <form id="f-content" action="" method="post" enctype="multipart/form-data" autocomplete="off">
-                        {{csrf_field()}}
+                    <form id="f-content" action="<?php echo isset($row) ? URL::to('cap-nhat-chuong') : URL::to('them-chuong'); ?>" method="post" enctype="multipart/form-data"
+                        autocomplete="off">
+                        {{ csrf_field() }}
+                        <?php 
+                            if(isset($row)):?>
+                        <input type="hidden" value="{{$row->ma_chuong}}" id="ma_chuong" name="ma_chuong" class="form-control" />
+                        <?php
+                        endif;?>
                         <div class="row">
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <label for="post_cat_id" class="control-label">Bài giảng</label>
                                     <select class="form-control" name="ma_bg" id="ma_bg">
                                         <?php
-                                        if(isset($table_baigiang) && is_array($table_baigiang) && !empty($table_baigiang)):
-                                        foreach($table_baigiang as $row):
+                                        if(isset($table_bg) && is_array($table_bg) && !empty($table_bg)):
+                                        foreach($table_bg as $row_bg):
                                         ?>
-                                        <option value="{{$row->ma_bg}}">{{$row->ten_bg}}</option>   
+                                        <option value="{{$row_bg->ma_bg }}" <?php echo isset($row) && $row->ma_bg == $row_bg->ma_bg ? 'selected' : '' ?>>
+                                            {{ $row_bg->ten_bg }}
+                                        </option>
                                         <?php
-                                        endforeach;
+                                        endforeach; 
                                         endif;
-                                        ?>                
+                                        ?>
+
 
                                     </select>
+                                    @error('ma_bg')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group required">
-                                    <label for="title" class="control-label">Tên chương</label>
-                                    <input type="text" class="form-control" name="ten_chuong" id="ten_chuong" value="{{ old('ten_chuong') }}">
-
+                                    <label for="ten_chuong" class="control-label">Tên chuong</label>
+                                    <input type="text" class="form-control" name="ten_chuong" id="ten_chuong"
+                                        value="{{ isset($row) ? $row->ten_chuong : old('ten_chuong') }}">
+                                    @error('ten_chuong')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group required">
                                     <label for="alias" class="control-label">Liên kết tĩnh</label>
-                                    <input type="text" class="form-control" name="alias" id="alias" value="{{ old('alias') }}">
+                                    <input type="text" class="form-control" name="alias" id="alias"
+                                        value="{{ isset($row) ? $row->alias : old('alias') }}">
+                                    @error('alias')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label class="control-label">Mô tả</label>
-                                    <textarea class="form-control" name="mo_ta" data-autoresize rows="3">{{ old('mo_ta') }}</textarea>
-                                </div>                                
+                                    <textarea class="form-control" name="mo_ta" data-autoresize rows="3">{{ isset($row) ? $row->mo_ta : old('mo_ta') }}</textarea>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success">Thêm mới</button>
+                                <button type="submit"
+                                    class="btn btn-success">{{ isset($row) ? 'Lưu thay đổi' : 'Thêm mới' }}</button>
                             </div>
                         </div>
                     </form>

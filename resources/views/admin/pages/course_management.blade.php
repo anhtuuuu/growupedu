@@ -9,7 +9,7 @@
                     <a class="btn btn-success pull-right" href="<?php echo URL::to('them-hoc-phan') ?>"><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
-
+{{-- @include(config('asset.view_admin_partial')('notify_message')) --}}
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
@@ -51,7 +51,7 @@
                                            {{$row->mo_ta}}
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href=""><b>Sửa</b></a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-hoc-phan/' . $row->ma_hp); ?>"><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
                                                 class="delete_bootbox"><b>Xóa</b></a>

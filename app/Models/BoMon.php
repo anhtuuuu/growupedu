@@ -75,6 +75,29 @@ class BoMon extends Model
 	{
 		return $this->belongsTo(Khoa::class, 'ma_khoa');
 	}
+	public function get_by_id($id)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'khoa.ten_khoa as ten_khoa',
+				// 'khoa.hinh_anh as avatar'
+			])
+			->join('khoa', 'khoa.ma_khoa', '=', $this->table . '.ma_khoa')
+			->where($this->table . '.ma_bm', $id);
+
+		return $query->first();
+	}
+	public function admin_update($id, $data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.ma_bm', $id)
+			->update($data);
+		return $result;
+	}
 
 	public function hoc_phans()
 	{

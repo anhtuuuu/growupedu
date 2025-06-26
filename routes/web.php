@@ -78,6 +78,14 @@ Route::post('/them-chuong', [ChapterController::class, 'admin_add']);
 
 Route::get('/cap-nhat-bai-giang/{value}', [LessonController::class, 'admin_update']);
 Route::post('/cap-nhat-bai-giang', [LessonController::class, 'admin_update']);
+Route::get('/cap-nhat-khoa/{value}', [DepartmentController::class, 'admin_update']);
+Route::post('/cap-nhat-khoa', [DepartmentController::class, 'admin_update']);
+Route::get('/cap-nhat-bo-mon/{value}', [SubjectController::class, 'admin_update']);
+Route::post('/cap-nhat-bo-mon', [SubjectController::class, 'admin_update']);
+Route::get('/cap-nhat-hoc-phan/{value}', [CourseController::class, 'admin_update']);
+Route::post('/cap-nhat-hoc-phan', [CourseController::class, 'admin_update']);
+Route::get('/cap-nhat-chuong/{value}', [ChapterController::class, 'admin_update']);
+Route::post('/cap-nhat-chuong', [ChapterController::class, 'admin_update']);
 
 
 Route::get('/{any}', [ClassController::class, 'index']);
