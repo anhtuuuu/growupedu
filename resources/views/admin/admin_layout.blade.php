@@ -39,14 +39,23 @@
 
         @include(config('asset.view_admin')('admin_footer'))
     </div>
-
+{{-- 
     <script src={{ URL::to(config('asset.dist_admin_path') . 'plugins/jQuery/jQuery-2.1.3.min.js') }}
-        type="text/javascript"></script>
+        type="text/javascript"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src={{ URL::to(config('asset.dist_admin_path') . 'bootstrap/js/bootstrap.min.js') }} type="text/javascript">
     </script>
     <script src={{ URL::to(config('asset.dist_admin_path') . 'plugins/fastclick/fastclick.min.js') }}></script>
     <script src={{ URL::to(config('asset.dist_admin_path') . 'dist/js/app.min.js') }} type="text/javascript"></script>
     <script src={{ URL::to(config('asset.dist_admin_path') . 'dist/js/demo.js') }}></script>
+    <script src={{ URL::to(config('asset.admin_path') . 'ckeditor/ckeditor.js') }}></script>
+    <script>
+        CKEDITOR.replace('editor', {
+            filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+            filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+        });
+    </script>
     <script type="text/javascript">
         var delay = (function() {
             var timer = 0;
@@ -178,6 +187,7 @@
             }
         });
     </script>
+    <script src={{ URL::to(config('asset.admin_path') . 'js/custom.js') }}></script>
 
 </body>
 

@@ -115,11 +115,21 @@ class Taikhoan extends Model
 			});
 		return $query->first();
 	}
-	public function add($data){
-		if(empty($data)){
+	public function add($data)
+	{
+		if (empty($data)) {
 			return false;
 		}
-		$result = DB::insert($this->table, $data);
+		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
+	public function upload_image($username, $image){
+		if(empty($image)){
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.username', $username)
+			->update(['hinh_anh' => $image]);
 		return $result;
 	}
 	public function bo_mon()

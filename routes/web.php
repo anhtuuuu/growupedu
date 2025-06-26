@@ -73,8 +73,13 @@ Route::get('/them-hoc-phan', [CourseController::class, 'admin_add']);
 Route::post('/them-hoc-phan', [CourseController::class, 'admin_add']);
 Route::get('/them-bai', [ContentController::class, 'admin_add']);
 Route::post('/them-bai', [ContentController::class, 'admin_add']);
+Route::get('/gets-chapter/{value}', [ContentController::class, 'gets_chapter']);
 Route::get('/them-chuong', [ChapterController::class, 'admin_add']);
 Route::post('/them-chuong', [ChapterController::class, 'admin_add']);
+
+Route::get('/them-tai-khoan', [AccountController::class, 'admin_add']);
+Route::post('/them-tai-khoan', [AccountController::class, 'admin_add']);
+Route::get('/check-role/{value}', [AccountController::class, 'check_role']);
 
 Route::get('/cap-nhat-bai-giang/{value}', [LessonController::class, 'admin_update']);
 Route::post('/cap-nhat-bai-giang', [LessonController::class, 'admin_update']);

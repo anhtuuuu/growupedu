@@ -1,6 +1,5 @@
 @extends(config('asset.view_admin')('admin_layout'))
 @section('content')
-
     @include(config('asset.view_admin_partial')('search_nav'))
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -10,7 +9,7 @@
                     <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai-giang'); ?>"><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
-    @include(config('asset.view_admin_partial')('notify_message'))
+                    @include(config('asset.view_admin_partial')('notify_message'))
 
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
@@ -18,9 +17,9 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                                <input class="flat-blue check-all" name="check_all[]"
-                                                                    type="checkbox" value="yes">
-                                                            </th> -->
+                                                                    <input class="flat-blue check-all" name="check_all[]"
+                                                                        type="checkbox" value="yes">
+                                                                </th> -->
                                         <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tiêu đề</th>
                                         <th class="text-center">Tên giảng viên</th>
@@ -33,9 +32,9 @@
                                     foreach($rows as $index => $row): ?>
                                     <tr>
                                         <!-- <td class="text-center">
-                                                                <input type="checkbox" class="flat-blue check"
-                                                                    value="" name="idcheck[]">
-                                                            </td> -->
+                                                                    <input type="checkbox" class="flat-blue check"
+                                                                        value="" name="idcheck[]">
+                                                                </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
                                                 type="text" value="{{ $index + 1 }}">
@@ -69,9 +68,9 @@
                     </form>
 
                     <!-- <div class="callout callout-warning">
-                                            <h4>Thông báo!</h4>
-                                            <p><b>Không</b> có bài viết nào!</p>
-                                        </div> -->
+                                                <h4>Thông báo!</h4>
+                                                <p><b>Không</b> có bài viết nào!</p>
+                                            </div> -->
 
                 </div>
                 <div class="box-footer clearfix">

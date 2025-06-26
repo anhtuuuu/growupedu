@@ -133,6 +133,15 @@ class Bai extends Model
 
 		return $query->first();
 	}
+
+	public function add($data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
 	public function chuong()
 	{
 		return $this->belongsTo(Chuong::class, 'ma_chuong');

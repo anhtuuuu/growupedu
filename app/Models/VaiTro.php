@@ -36,7 +36,14 @@ class VaiTro extends Model
 		'mo_ta',
 		'trang_thai'
 	];
-
+	public function gets()
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*'
+			]);
+		return $query->get()->toArray();
+	}
 	public function taikhoans()
 	{
 		return $this->hasMany(Taikhoan::class, 'vai_tro');
