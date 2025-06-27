@@ -101,6 +101,8 @@ Route::get('/cap-nhat-chuong/{value}', [ChapterController::class, 'admin_update'
 Route::post('/cap-nhat-chuong', [ChapterController::class, 'admin_update']);
 Route::get('/cap-nhat-lop-hoc-phan/{value}', [ClassController::class, 'admin_update']);
 Route::post('/cap-nhat-lop-hoc-phan', [ClassController::class, 'admin_update']);
+Route::get('/cap-nhat-bai/{value}', [ContentController::class, 'admin_update']);
+Route::post('/cap-nhat-bai', [ContentController::class, 'admin_update']);
 
 
 

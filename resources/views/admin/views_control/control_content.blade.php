@@ -8,11 +8,13 @@
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em>Thông tin </h3>
                 </div>
                 <div class="box-body">
-                    <input type="hidden" value="' . $row['id'] . '" id="id" name="id" class="form-control" />
-
-                    <form id="f-content" action="{{ URL::to('them-bai') }}" method="post" enctype="multipart/form-data"
+                   
+                    <form id="f-content" action="<?php echo isset($row) ? URL::to('cap-nhat-bai') : URL::to('them-bai'); ?>" method="post" enctype="multipart/form-data"
                         autocomplete="off">
                         {{ csrf_field() }}
+                        <?php if(isset($row)): ?>
+                            <input type="hidden" value="{{$row->ma_bai}}" id="ma_bai" name="ma_bai" class="form-control" />
+                        <?php endif; ?>
                         <div class="row">
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group required">
@@ -21,9 +23,9 @@
                                         <option value="" disabled selected>-- Chọn bài giảng --</option>
                                         <?php
                                         if(isset($lessons) && is_array($lessons) && !empty($lessons)):
-                                        foreach($lessons as $row):
+                                        foreach($lessons as $lesson):
                                         ?>
-                                        <option value="{{ $row->alias }}">{{ $row->ten_bg }}</option>
+                                        <option <?php echo isset($lesson_id) && $lesson_id == $lesson->ma_bg?'selected':'' ?> value="{{ $lesson->alias }}">{{ $lesson->ten_bg }}</option>
                                         <?php
                                         endforeach;
                                         endif;
@@ -36,7 +38,18 @@
                                 <div class="form-group required">
                                     <label for="post_cat_id" class="control-label">Chương</label>
                                     <select class="form-control" name="ma_chuong" id="chapter">
-
+                                        <?php
+                                            if(isset($chapters) && !empty($chapters) && is_array($chapters)):
+                                            foreach($chapters as $chapter):
+                                            ?>
+                                        <option <?php echo
+                                        isset($chapter_id)&& $chapter_id==$chapter->ma_chuong?'selected':''
+                                        ?> value="{{ $chapter->ma_chuong }}">
+                                            {{ $chapter->ten_chuong }}</option>
+                                        <?php
+                                            endforeach;
+                                    endif;
+                                            ?>
                                     </select>
                                     @error('ma_chuong')
                                         <div class="text-danger">{{ $message }}</div>
@@ -46,7 +59,7 @@
                                 <div class="form-group required">
                                     <label for="title" class="control-label">Tiêu đề</label>
                                     <input type="text" class="form-control" name="tieu_de" id="tieu_de"
-                                        value="{{ old('tieu_de') }}">
+                                        value="{{ isset($row) ? $row->tieu_de : old('tieu_de') }}">
                                     @error('tieu_de')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -55,7 +68,7 @@
                                 <div class="form-group required">
                                     <label for="alias" class="control-label">Liên kết tĩnh</label>
                                     <input type="text" class="form-control" name="alias" id="alias"
-                                        value="{{ old('alias') }}">
+                                        value="{{ isset($row) ? $row->alias : old('alias') }}">
                                     @error('alias')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -63,28 +76,29 @@
 
                                 <div class="form-group">
                                     <label class="control-label">Mô tả</label>
-                                    <textarea class="form-control" name="mo_ta" data-autoresize rows="3">{{ old('mo_ta') }}</textarea>
+                                    <textarea class="form-control" name="mo_ta" data-autoresize rows="3">{{ isset($row) ? $row->mo_ta : old('mo_ta') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Nội dung</label>
-                                    <textarea class="form-control" id="editor" name="noi_dung" data-autoresize rows="3">{{ old('noi_dung') }}</textarea>
+                                    <textarea class="form-control" id="editor" name="noi_dung" data-autoresize rows="3">{{ isset($row) ? $row->noi_dung : old('noi_dung') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="video" class="control-label">Liên kết video</label>
                                     <input type="text" class="form-control" name="video" id="video"
-                                        value="{{ old('video') }}">
+                                        value="{{ isset($row) ? $row->video : old('video') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="lien_ket" class="control-label">Liên kết file bài giảng</label>
                                     <input type="text" class="form-control" name="lien_ket" id="lien_ket"
-                                        value="{{ old('lien_ket') }}">
+                                        value="{{ isset($row) ? $row->lien_ket : old('lien_ket') }}">
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success">Thêm mới</button>
+                                <button type="submit"
+                                    class="btn btn-success">{{ isset($row) ? 'Lưu thay đổi' : 'Thêm mới' }}</button>
                             </div>
                         </div>
                     </form>

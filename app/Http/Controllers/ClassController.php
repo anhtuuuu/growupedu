@@ -253,7 +253,7 @@ class ClassController extends LayoutController
         $args = array();
         $data = (new BaiGiang())->gets($args);
         $this->_data['table_baigiang'] = $data;
-        $data_course = (new HocPhan())->gets($args);
+        $data_course = (new HocPhan())->gets($args); 
         $this->_data['table_hocphan'] = $data_course;
 
         $get_req = $request->all();
@@ -305,4 +305,6 @@ class ClassController extends LayoutController
         }
         return view(config('asset.view_admin_control')('control_class'), $this->_data);
     }
+
+    
 }

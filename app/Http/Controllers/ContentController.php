@@ -7,6 +7,8 @@ use App\Models\BaiGiang;
 use App\Models\Chuong;
 use App\Models\LopHocPhan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+
 use Session;
 
 class ContentController extends LayoutController
@@ -157,6 +159,89 @@ class ContentController extends LayoutController
             }
             return view(config('asset.view_admin_control')('control_content'), $this->_data);
         }
+        return view(config('asset.view_admin_control')('control_content'), $this->_data);
+    }
+
+
+    function admin_update(Request $request)
+    {
+        $get_req = $request->all();
+        $args = array();
+        $args['ma_tk'] = Session::get('admin_id');
+        $lessons = (new BaiGiang)->gets($args);
+        $this->_data['lessons'] = $lessons;
+        $segment = 2;
+        $id = trim(request()->segment($segment) ?? '');
+
+        if (!empty($get_req)) {
+
+            $id_content = $request->ma_bai;
+            $content = (new Bai())->get_by_id($id_content);
+            $validated = $request->validate(
+                [
+                    'alias_bg' => 'required',
+                    'ma_chuong' => 'required',
+                    'tieu_de' => 'required|max:255',
+                    'alias' => 'required|max:255' . ($content->alias == $request->alias ? '' : '|unique:bai'),       
+                         ],
+                [
+                    'alias_bg.required' => 'Vui lòng chọn bài giảng.',
+                    'ma_chuong.required' => 'Vui lòng chọn chương.',
+                    'tieu_de.required' => 'Vui lòng nhập tiêu đề.',
+                    'tieu_de.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+                    'alias.required' => 'Liên kết tĩnh không được để trống.',
+                    'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
+                    'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+                ]
+            );
+
+            if (empty($content)) {
+                abort(404);
+            }
+            if ($content->alias == $request->alias) {
+                $data = [
+                'ma_chuong' => $request->ma_chuong,
+                'tieu_de' => $request->tieu_de,
+                'mo_ta' => $request->mo_ta,
+                'noi_dung' => $request->noi_dung,
+                'video' => $request->video,
+                'lien_ket' => $request->lien_ket,
+                ];
+            } else {
+                $data = [
+                'ma_chuong' => $request->ma_chuong,
+                'tieu_de' => $request->tieu_de,
+                'alias' => $request->alias,
+                'mo_ta' => $request->mo_ta,
+                'noi_dung' => $request->noi_dung,
+                'video' => $request->video,
+                'lien_ket' => $request->lien_ket,
+                ];
+            }
+            $result = (new Bai())->admin_update($id_content, $data);
+            if ($result) {
+                Session::put('error', 'success');
+                Session::put('message', 'Cập nhật bài thành công.');
+            } else {
+                Session::put('error', 'danger');
+                Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');
+            }
+            return Redirect::to('danh-sach-bai');
+        }
+
+        $content = (new Bai())->get_by_id($id);
+        if (empty($content)) {
+            abort(404);
+        }
+        $chapter_id= $content->ma_chuong;
+        $chapter=(new Chuong())->get_by_id($chapter_id);
+        $lesson_id=$chapter->ma_bg;
+        $args['id_lesson'] = $lesson_id;
+        $chapters = (new Chuong)->gets($args);
+        $this->_data['chapters']= $chapters;
+        $this->_data['chapter_id'] = $chapter_id;
+        $this->_data['lesson_id'] = $lesson_id;
+        $this->_data['row'] = $content;
         return view(config('asset.view_admin_control')('control_content'), $this->_data);
     }
     function gets_chapter()
