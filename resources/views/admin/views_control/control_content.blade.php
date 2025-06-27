@@ -8,12 +8,13 @@
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em>Thông tin </h3>
                 </div>
                 <div class="box-body">
-                   
+
                     <form id="f-content" action="<?php echo isset($row) ? URL::to('cap-nhat-bai') : URL::to('them-bai'); ?>" method="post" enctype="multipart/form-data"
                         autocomplete="off">
                         {{ csrf_field() }}
                         <?php if(isset($row)): ?>
-                            <input type="hidden" value="{{$row->ma_bai}}" id="ma_bai" name="ma_bai" class="form-control" />
+                        <input type="hidden" value="{{ $row->ma_bai }}" id="ma_bai" name="ma_bai"
+                            class="form-control" />
                         <?php endif; ?>
                         <div class="row">
                             <div class="col-sm-12 col-md-12">
@@ -25,7 +26,8 @@
                                         if(isset($lessons) && is_array($lessons) && !empty($lessons)):
                                         foreach($lessons as $lesson):
                                         ?>
-                                        <option <?php echo isset($lesson_id) && $lesson_id == $lesson->ma_bg?'selected':'' ?> value="{{ $lesson->alias }}">{{ $lesson->ten_bg }}</option>
+                                        <option <?php echo isset($lesson_id) && $lesson_id == $lesson->ma_bg ? 'selected' : ''; ?> value="{{ $lesson->alias }}">{{ $lesson->ten_bg }}
+                                        </option>
                                         <?php
                                         endforeach;
                                         endif;
@@ -42,8 +44,7 @@
                                             if(isset($chapters) && !empty($chapters) && is_array($chapters)):
                                             foreach($chapters as $chapter):
                                             ?>
-                                        <option <?php echo
-                                        isset($chapter_id)&& $chapter_id==$chapter->ma_chuong?'selected':''
+                                        <option <?php echo isset($chapter_id) && $chapter_id == $chapter->ma_chuong ? 'selected' : '';
                                         ?> value="{{ $chapter->ma_chuong }}">
                                             {{ $chapter->ten_chuong }}</option>
                                         <?php
@@ -86,6 +87,13 @@
                                     <label for="video" class="control-label">Liên kết video</label>
                                     <input type="text" class="form-control" name="video" id="video"
                                         value="{{ isset($row) ? $row->video : old('video') }}">
+                                    <div class="note">
+                                        (Hướng dẫn lấy link:)
+                                        <ul>
+                                            <li>Bước 1: Vào video youtube muốn liên kết</li>
+                                            <li>Bước 2: Nhấn chia sẻ và nhấn copy link</li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="lien_ket" class="control-label">Liên kết file bài giảng</label>

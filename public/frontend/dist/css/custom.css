@@ -184,3 +184,6 @@ overflow-y: scroll;
 .color-course:hover{
     color: var(--avocado);
 }
+iframe{
+    height: 38vw;
+}

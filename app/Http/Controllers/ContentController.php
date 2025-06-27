@@ -6,6 +6,7 @@ use App\Models\Bai;
 use App\Models\BaiGiang;
 use App\Models\Chuong;
 use App\Models\LopHocPhan;
+use App\Models\Taikhoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -47,6 +48,10 @@ class ContentController extends LayoutController
         $chapters = (new Chuong)->gets($args);
         $contents = (new Bai)->gets($args);
 
+        $lecturer = (new Taikhoan)->get_by_id($lesson[0]->ma_tk);
+        if (!empty($lecturer)) {
+            $this->_data['lecturer'] = $lecturer;
+        }
         $this->_data['chapters'] = $chapters;
         $this->_data['contents'] = $contents;
         $this->_data['lessons'] = $lesson;
@@ -182,8 +187,8 @@ class ContentController extends LayoutController
                     'alias_bg' => 'required',
                     'ma_chuong' => 'required',
                     'tieu_de' => 'required|max:255',
-                    'alias' => 'required|max:255' . ($content->alias == $request->alias ? '' : '|unique:bai'),       
-                         ],
+                    'alias' => 'required|max:255' . ($content->alias == $request->alias ? '' : '|unique:bai'),
+                ],
                 [
                     'alias_bg.required' => 'Vui lòng chọn bài giảng.',
                     'ma_chuong.required' => 'Vui lòng chọn chương.',
@@ -200,22 +205,22 @@ class ContentController extends LayoutController
             }
             if ($content->alias == $request->alias) {
                 $data = [
-                'ma_chuong' => $request->ma_chuong,
-                'tieu_de' => $request->tieu_de,
-                'mo_ta' => $request->mo_ta,
-                'noi_dung' => $request->noi_dung,
-                'video' => $request->video,
-                'lien_ket' => $request->lien_ket,
+                    'ma_chuong' => $request->ma_chuong,
+                    'tieu_de' => $request->tieu_de,
+                    'mo_ta' => $request->mo_ta,
+                    'noi_dung' => $request->noi_dung,
+                    'video' => $request->video,
+                    'lien_ket' => $request->lien_ket,
                 ];
             } else {
                 $data = [
-                'ma_chuong' => $request->ma_chuong,
-                'tieu_de' => $request->tieu_de,
-                'alias' => $request->alias,
-                'mo_ta' => $request->mo_ta,
-                'noi_dung' => $request->noi_dung,
-                'video' => $request->video,
-                'lien_ket' => $request->lien_ket,
+                    'ma_chuong' => $request->ma_chuong,
+                    'tieu_de' => $request->tieu_de,
+                    'alias' => $request->alias,
+                    'mo_ta' => $request->mo_ta,
+                    'noi_dung' => $request->noi_dung,
+                    'video' => $request->video,
+                    'lien_ket' => $request->lien_ket,
                 ];
             }
             $result = (new Bai())->admin_update($id_content, $data);
@@ -233,12 +238,12 @@ class ContentController extends LayoutController
         if (empty($content)) {
             abort(404);
         }
-        $chapter_id= $content->ma_chuong;
-        $chapter=(new Chuong())->get_by_id($chapter_id);
-        $lesson_id=$chapter->ma_bg;
+        $chapter_id = $content->ma_chuong;
+        $chapter = (new Chuong())->get_by_id($chapter_id);
+        $lesson_id = $chapter->ma_bg;
         $args['id_lesson'] = $lesson_id;
         $chapters = (new Chuong)->gets($args);
-        $this->_data['chapters']= $chapters;
+        $this->_data['chapters'] = $chapters;
         $this->_data['chapter_id'] = $chapter_id;
         $this->_data['lesson_id'] = $lesson_id;
         $this->_data['row'] = $content;

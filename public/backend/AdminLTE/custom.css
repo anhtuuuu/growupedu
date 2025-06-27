@@ -24,3 +24,10 @@
 .question-item label{
     width: 110px !important;
 }
+.note{
+    margin-top: 5px;
+    padding: 5px;
+    width: fit-content;
+    font-size: 10px;
+    border: 1px dashed #ff0000;
+}
