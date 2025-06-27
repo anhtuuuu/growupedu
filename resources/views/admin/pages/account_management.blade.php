@@ -1,5 +1,7 @@
 @extends(config('asset.view_admin')('admin_layout'))
 @section('content')
+    @include(config('asset.view_admin_partial')('notify_message'))
+
     @include(config('asset.view_admin_partial')('search_nav'))
     <div class="row">
 
@@ -10,15 +12,16 @@
                     <a class="btn btn-success pull-right" href="<?php echo URL::to('them-tai-khoan'); ?>"><i class="fa fa-plus"></i> Thêm</a>
                 </div>
                 <div class="box-body">
+
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                                    <input class="flat-blue check-all" name="check_all[]"
-                                                                        type="checkbox" value="yes">
-                                                                </th> -->
+                                                                            <input class="flat-blue check-all" name="check_all[]"
+                                                                                type="checkbox" value="yes">
+                                                                        </th> -->
                                         <th class="text-center" style="width: 20px">Sắp xếp</th>
                                         <th class="text-center" style="width:120px">Ảnh đại diện</th>
                                         <th class="text-center" style="width:auto">Họ tên</th>
@@ -27,7 +30,7 @@
                                         <th class="text-center">Trạng thái kích hoạt</th>
                                         <th class="text-center" style="width: 160px;">Chức năng</th>
                                         <!-- <th class="text-center">Nổi bật</th>
-                                                        <th class="text-center">Mới nhất</th> -->
+                                                                <th class="text-center">Mới nhất</th> -->
                                         <!-- <th class="text-center">Chức năng</th> -->
 
                                     </tr>
@@ -38,34 +41,34 @@
                                     <tr>
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="{{$index + 1}}">
+                                                type="text" value="{{ $index + 1 }}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
                                         <td>
                                             <a class="img-fancybox d-flex justify-content-center"
-                                                href="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
+                                                href=""
                                                 title=""><img width="40" class="img-rounded img-responsive"
                                                     alt=""
-                                                    src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"></a>
+                                                    src="<?php echo URL::to(config('asset.images_path').$row->hinh_anh) ?>"></a>
                                         </td>
                                         <td class="text-center">
-                                            {{$row->ho_ten}}
+                                            {{ $row->ho_ten }}
                                         </td>
                                         <td class="text-center">
-                                            {{$row->email}}
+                                            {{ $row->email }}
                                         </td>
                                         <td class="text-center">
                                             <p class='text-bold text-primary'>
-                                                {{$row->vai_tro}}
+                                                {{ $row->vai_tro }}
                                             </p>
                                         </td>
                                         <td class="text-center">
                                             <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" <?php echo $row->kich_hoat ? 'checked' : '' ?>>
+                                                value="" <?php echo $row->kich_hoat ? 'checked' : ''; ?>>
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="">Sửa</a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-tai-khoan/' . $row->ma_tk); ?>">Sửa</a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
                                                 class="delete_bootbox">Xóa</a>

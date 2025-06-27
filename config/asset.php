@@ -13,5 +13,5 @@ return [
     'view_admin_page' =>  function($str){ return 'admin.pages.'.$str;},
     'view_admin_partial' =>  function($str){ return 'admin.partial.'.$str;},
     'view_admin_control' =>  function($str){ return 'admin.views_control.'.$str;},
-    'images_path' => 'storage/images/',
+    'images_path' => 'storage/uploads/',
 ];

@@ -132,6 +132,29 @@ class Taikhoan extends Model
 			->update(['hinh_anh' => $image]);
 		return $result;
 	}
+	public function get_by_id($id)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				// 'taikhoan.ho_ten as ho_ten',
+				// 'taikhoan.hinh_anh as avatar'
+			])
+			// ->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->where($this->table . '.ma_tk', $id);
+
+		return $query->first();
+	}
+	public function admin_update($id, $data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.ma_tk', $id)
+			->update($data);
+		return $result;
+	}
 	public function bo_mon()
 	{
 		return $this->belongsTo(BoMon::class, 'ma_bm');

@@ -89,6 +89,34 @@ class LopHocPhan extends Model
 
 		return $query->get()->toArray();
 	}
+		public function add($data){
+		if(empty($data)){
+			return false;
+		}
+		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
+		public function upload_image($alias, $image){
+		if(empty($image)){
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.alias', $alias)
+			->update(['hinh_anh' => $image]);
+		return $result;
+	}
+	public function admin_update($id, $data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.ma_lhp', $id)
+			->update($data);
+		return $result;
+	}
+
+
 	public function get_by_id($id)
 	{
 		$query = DB::table($this->table)

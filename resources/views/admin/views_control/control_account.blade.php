@@ -11,9 +11,17 @@
                 <div class="box-body">
                     <input type="hidden" value="' . $row['id'] . '" id="id" name="id" class="form-control" />
 
-                    <form id="f-content" action="{{ URL::to('them-tai-khoan') }}" method="post"
-                        enctype="multipart/form-data" autocomplete="off">
+                    <form id="f-content" action="<?php echo isset($row) ? URL::to('cap-nhat-tai-khoan') : URL::to('them-tai-khoan'); ?>" method="post" enctype="multipart/form-data"
+                        autocomplete="off">
                         {{ csrf_field() }}
+                        <?php 
+                         if(isset($row)):?>
+                        <input type="hidden" value="{{ $row->ma_tk }}" id="ma_tk" name="ma_tk"
+                            class="form-control" />
+                        <?php
+                        endif;?>
+
+
                         <div class="row">
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
@@ -31,7 +39,7 @@
                                 <div class="form-group required">
                                     <label for="ho_ten" class="control-label">Họ tên</label>
                                     <input type="text" class="form-control" name="ho_ten" id="ho_ten"
-                                        value="{{ old('ho_ten') }}">
+                                        value="{{ isset($row) ? $row->ho_ten : old('ho_ten') }}">
                                     @error('ho_ten')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -39,15 +47,16 @@
                                 <div class="form-group required">
                                     <label for="username" class="control-label">Tên đăng nhập</label>
                                     <input type="text" class="form-control" name="username" id="username"
-                                        value="{{ old('username') }}">
+                                        value="{{ isset($row) ? $row->username : old('username') }}">
                                     @error('username')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <?php if(!isset($row)): ?>
                                 <div class="form-group required">
                                     <label for="password" class="control-label">Mật khẩu</label>
                                     <input type="password" class="form-control" name="password" id="password"
-                                        value="{{ old('password') }}">
+                                        value="">
                                     @error('password')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -57,10 +66,11 @@
                                     <input type="password" class="form-control" name="password_confirmation"
                                         id="password_confirmation" value="">
                                 </div>
+                                <?php endif; ?>
                                 <div class="form-group required">
                                     <label for="email" class="control-label">Email</label>
                                     <input type="email" class="form-control" name="email" id="email"
-                                        value="{{ old('email') }}">
+                                        value="{{ isset($row) ? $row->email : old('email') }}">
                                     @error('email')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -75,6 +85,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Hình đại diện</label>
                                     <input type="file" class="file" name="hinh_anh">
+                                    <input type="hidden" name="hinh_anh_clone" value="{{ isset($row) ? $row->hinh_anh : old('hinh_anh') }}">
 
                                     <div style="margin-top: 10px;">
                                         <img width="100" src="" alt=""
@@ -86,13 +97,13 @@
                                 <div class="form-group">
                                     <label class="control-label">Ngày sinh</label>
                                     <input type="date" class="form-control" name="nam_sinh"
-                                        value="{{ old('ngay_sinh') }}">
+                                        value="{{ isset($row) ? $row->nam_sinh : old('nam_sinh') }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label class="control-label">Số điện thoại</label>
                                     <input type="text" class="form-control" name="sdt"
-                                        value="{{ old('sdt') }}">
+                                        value="{{ isset($row) ? $row->sdt : old('sdt') }}">
                                     @error('sdt')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -100,15 +111,15 @@
                                 <div class="form-group">
                                     <label class="control-label">Liên kết</label>
                                     <input type="text" class="form-control" name="lien_ket"
-                                        value="{{ old('lien_ket') }}">
-
+                                        value="{{ isset($row) ? $row->lien_ket : old('lien_ket') }}">
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success">Thêm mới</button>
+                                <button type="submit"
+                                    class="btn btn-success">{{ isset($row) ? 'Lưu thay đổi' : 'Thêm mới' }}</button>
                             </div>
                         </div>
                     </form>
