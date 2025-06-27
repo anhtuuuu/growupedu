@@ -83,6 +83,18 @@ class Bai extends Model
 
 		return $query->get()->toArray();
 	}
+	
+	public function admin_update($id, $data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.ma_bai', $id)
+			->update($data);
+		return $result;
+	}
+
 	public function get_by_id($id)
 	{
 
