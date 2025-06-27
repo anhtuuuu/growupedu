@@ -10,3 +10,17 @@
 .cke_notifications_area{
     display: none !important;
 }
+.question-item{
+    padding: 10px 3%;
+    border: 2px dashed rgb(250, 85, 85);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.question-item .question{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.question-item label{
+    width: 110px !important;
+}

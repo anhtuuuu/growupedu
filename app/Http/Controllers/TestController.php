@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use Illuminate\Http\Request;
 use App\Models\LopHocPhan;
 use App\Models\Baikiemtra;
@@ -49,7 +50,7 @@ class TestController extends LayoutController
       // $this->_data['test'] = 'test';
       // $this->_data['content'] = $content;
       // print_r($this->_data['test']);
-      return view(config('asset.view_page')('test-client'), $this->_data); 
+      return view(config('asset.view_page')('test-client'), $this->_data);
    }
    function test_list()
    {
@@ -84,6 +85,55 @@ class TestController extends LayoutController
       $args['order_by'] = 'desc';
       $tests = (new Baikiemtra)->gets($args);
       $this->_data['rows'] = $tests;
-      return view(config('asset.view_admin_page')('test_management'),$this->_data);
+      return view(config('asset.view_admin_page')('test_management'), $this->_data);
+   }
+
+   function admin_add(Request $request)
+   {
+      $get_req = $request->all();
+      $args = array();
+      $args['ma_tk'] = Session::get('admin_id');      
+      $class = (new LopHocPhan)->gets($args);
+      $this->_data['class'] = $class;
+      if (!empty($get_req)) {
+         $validated = $request->validate(
+            [
+               'tieu_de' => 'required|max:255',
+               'label' => 'required|max:255',
+               'answer1' => 'required',
+               'answer2' => 'required',
+               'answer3' => 'required',
+               'answer4' => 'required',
+            ],
+            [
+               'tieu_de.required' => 'Vui lòng nhập tiêu đề.',
+               'tieu_de.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+               'label.required' => 'Tiêu đề câu hỏi không được để trống.',
+               'label.max' => 'Tiêu đề câu hỏi không được vượt quá 255 ký tự.',
+               'answer1.required' => 'Đáp án không được bỏ trống.',
+               'answer2.required' => 'Đáp án không được bỏ trống.',
+               'answer3.required' => 'Đáp án không được bỏ trống.',
+               'answer4.required' => 'Đáp án không được bỏ trống.',
+            ]
+         );
+         $data = [
+            'ma_tk' => Session::get('admin_id'),
+            'ten_bg' => $request->ten_bg,
+            'alias' => $request->alias,
+            'mo_ta' => $request->mo_ta
+         ];
+         $result = (new BaiGiang)->add($data);
+         if ($result) {
+            Session::put('error', 'success');
+            Session::put('message', 'Thêm bài giảng thành công');
+         } else {
+            Session::put('error', 'danger');
+            Session::put('message', 'Thêm bài giảng thất bại');
+         }
+         return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
+      }
+      return view(config('asset.view_admin_control')('control_test'), $this->_data);
+
+      // print_r($result);
    }
 }
