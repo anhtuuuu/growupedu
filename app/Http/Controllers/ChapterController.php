@@ -61,6 +61,7 @@ class ChapterController extends LayoutController
         return view(config('asset.view_admin_control')('control_chapter'), $this->_data);
     }
 
+    
     function admin_update(Request $request)
    {
       $args = array();

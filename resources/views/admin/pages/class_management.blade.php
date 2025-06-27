@@ -6,11 +6,12 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý bài kiểm tra</b></h3>
-                    <a class="btn btn-success pull-right" href=""><i class="fa fa-plus"></i>
+                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-lop-hoc-phan'); ?>"><i class="fa fa-plus"></i>
                         Thêm</a>
                 </div>
                 <div class="box-body">
-                    <form class="form-inline" name="main" method="post" action="">
+                        @include(config('asset.view_admin_partial')('notify_message'))
+                    <form class="form-inline" name="main" method="post" action="them">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
@@ -20,6 +21,7 @@
                                                                     type="checkbox" value="yes">
                                                             </th> -->
                                         <th class="text-center" style="width: 20px">STT</th>
+                                        <th class="text-center" style="width: 20px">Ảnh LHP</th>
                                         <th class="text-center" style="width:auto">Tên lớp</th>
                                         <th class="text-center">Tên giảng viên</th>
                                         <th class="text-center">Tên học phần</th>
@@ -38,6 +40,11 @@
                                                 value="">
                                         </td>
                                         <td class="text-center">
+                                            <img width="60px" src="<?php echo
+                                            URL::to(config('asset.images_path').$row->hinh_anh) ?> " alt="">
+                                                                                        
+                                        </td>
+                                        <td class="text-center">
                                             {{$row->ten_lhp}}
                                         </td>
 
@@ -52,7 +59,7 @@
                                                 value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="">Sửa</a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-lop-hoc-phan/' . $row->ma_lhp); ?>">Sửa</a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
                                                 class="delete_bootbox">Xóa</a>

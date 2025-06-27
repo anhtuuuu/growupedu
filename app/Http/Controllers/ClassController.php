@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 use App\Models\Bai;
 use App\Models\BaiGiang;
 use App\Models\Chuong;
+use App\Models\HocPhan;
 use App\Models\TuongTac;
 use App\Models\LopHocPhan;
 use App\Models\Taikhoan;
 use App\Models\Nopbaikiemtra;
+use Illuminate\Support\Facades\Redirect;
+use Session;
 
 use Illuminate\Http\Request;
 
@@ -76,8 +79,9 @@ class ClassController extends LayoutController
         $class = (new LopHocPhan)->gets($args);
         return $class;
     }
-    function interact(){
-         $this->_initialize();
+    function interact()
+    {
+        $this->_initialize();
         $segment = 2;
         $class_alias = trim(request()->segment($segment) ?? '');
         if ($class_alias === '') {
@@ -105,9 +109,10 @@ class ClassController extends LayoutController
         $this->_data['type_side_none'] = 'lesson';
         // $this->_data['left_side_none'] = $class[0]->ten_lhp;
         $this->_data['left_side_none'] = '';
-        return view(config('asset.view_page')('interact'),$this->_data);
+        return view(config('asset.view_page')('interact'), $this->_data);
     }
-    function core_sheet(){
+    function core_sheet()
+    {
         $this->_initialize();
         $segment = 1;
         $segment2 = 2;
@@ -122,20 +127,21 @@ class ClassController extends LayoutController
         $args['class_alias'] = $class_alias;
         $section_class = (new LopHocPhan)->gets($args);
         $args['test_code'] = $test_code;
-        
-        $accounts=(new Taikhoan)->gets($args);
-        $submitted_tests=(new NopBaiKiemTra)->gets($args);
+
+        $accounts = (new Taikhoan)->gets($args);
+        $submitted_tests = (new NopBaiKiemTra)->gets($args);
         $lesson = (new BaiGiang)->gets($args);
 
         $this->_data['lessons'] = $lesson;
-        $this->_data['section_class']= $section_class;
-        $this->_data['submitted_tests']= $submitted_tests;
+        $this->_data['section_class'] = $section_class;
+        $this->_data['submitted_tests'] = $submitted_tests;
         $this->_data['type_side_none'] = 'lesson';
         $this->_data['left_side_none'] = '';
 
-    return view(config('asset.view_page')('score-sheet'),$this->_data);
+        return view(config('asset.view_page')('score-sheet'), $this->_data);
     }
-    function core_sheet_list(){
+    function core_sheet_list()
+    {
         $this->_initialize();
         $segment = 1;
         $class_alias = trim(request()->segment($segment) ?? '');
@@ -148,15 +154,155 @@ class ClassController extends LayoutController
         $args['alias'] = $class_alias;
         $section_class = (new LopHocPhan)->gets($args);
         $args['class_alias'] = $class_alias;
-        $submitted_tests=(new NopBaiKiemTra)->gets($args);
+        $submitted_tests = (new NopBaiKiemTra)->gets($args);
         $lesson = (new BaiGiang)->gets($args);
 
         $this->_data['lessons'] = $lesson;
-        $this->_data['section_class']= $section_class;
-        $this->_data['submitted_tests']= $submitted_tests;
+        $this->_data['section_class'] = $section_class;
+        $this->_data['submitted_tests'] = $submitted_tests;
         $this->_data['type_side_none'] = 'lesson';
         $this->_data['left_side_none'] = '';
 
-    return view(config('asset.view_page')('score-sheet-list'),$this->_data);
+        return view(config('asset.view_page')('score-sheet-list'), $this->_data);
+    }
+    function admin_update(Request $request)
+    {
+        $args = array();
+        $data = (new BaiGiang())->gets($args);
+        $this->_data['table_baigiang'] = $data;
+        $data_course = (new HocPhan())->gets($args);
+        $this->_data['table_hocphan'] = $data_course;
+        $get_req = $request->all();
+        $segment = 2;
+        $id = trim(request()->segment($segment) ?? '');
+
+        if (!empty($get_req)) {
+
+            $id_class = $request->ma_lhp;
+            $class = (new LopHocPhan())->get_by_id($id_class);
+            $validated = $request->validate(
+                [
+                    'ten_lhp' => 'required|max:255',
+                    'alias' => 'required|max:255' . ($class->alias == $request->alias ? '' : '|unique:lop_hoc_phan'),
+                ],
+                [
+                    'ten_lhp.required' => 'Vui lòng nhập tên chương.',
+                    'ten_lhp.max' => 'Tên chương không được vượt quá 255 ký tự.',
+                    'alias.required' => 'Liên kết tĩnh không được để trống.',
+                    'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
+                    'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+                ]
+            );
+
+            if (empty($class)) {
+                abort(404);
+            }
+            if ($class->alias == $request->alias) {
+                $data = [
+                'ten_lhp' => $request->ten_lhp,
+                'ma_tk' => Session::get('admin_id'),
+                'ma_bg' => $request->ma_bg,
+                'ma_hp' => $request->ma_hp,
+                'hinh_anh' => $request->hinh_anh,
+                'mo_ta' => $request->mo_ta
+                ];
+            } else {
+                $data = [
+                'ten_lhp' => $request->ten_lhp,
+                'alias' => $request->alias,
+                'ma_tk' => Session::get('admin_id'),
+                'ma_bg' => $request->ma_bg,
+                'ma_hp' => $request->ma_hp,
+                'hinh_anh' =>$request->hinh_anh,
+                'mo_ta' => $request->mo_ta
+                ];
+            } 
+            $result = (new LopHocPhan())->admin_update($id_class, $data);
+            
+            if ($result && $class->hinh_anh != $request->hinh_anh) {
+                $file = $request->file('hinh_anh');
+                $filename = $request->hinh_anh_clone;
+                if(!empty($request->hinh_anh)){
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('uploads', $filename, 'public');
+                }
+                $upload_img = (new LopHocPhan())->upload_image($request->alias, $filename);
+                Session::put('error', 'success');
+                Session::put('message', 'Cập nhật lớp học phần thành công');
+
+                if (!$upload_img) {
+                    Session::put('error', 'warning');
+                    Session::put('message', 'Cập nhật lớp học phần thành công nhưng chưa upload được hình ảnh.');
+                }
+            } else {
+                Session::put('error', 'danger');
+                Session::put('message', 'Cập nhật lớp học phần thất bại');
+            }
+            return Redirect::to('/danh-sach-lop-hoc-phan');
+        }
+        $class = (new LopHocPhan())->get_by_id($id);
+        if (empty($class)) {
+            abort(404);
+        }
+        $this->_data['row'] = $class;
+        return view(config('asset.view_admin_control')('control_class'), $this->_data);
+    }
+
+    function admin_add(Request $request)
+    {
+        $args = array();
+        $data = (new BaiGiang())->gets($args);
+        $this->_data['table_baigiang'] = $data;
+        $data_course = (new HocPhan())->gets($args);
+        $this->_data['table_hocphan'] = $data_course;
+
+        $get_req = $request->all();
+        if (!empty($get_req)) {
+            $validated = $request->validate(
+                [
+                    'ten_lhp' => 'required|max:255',
+                    'alias' => 'required|max:255|unique:lop_hoc_phan',
+                ],
+                [
+                    'ten_lhp.required' => 'Vui lòng nhập tên lớp học phần.',
+                    'ten_lhp.max' => 'Tên lớp học phần không được vượt quá 255 ký tự.',
+                    'alias.required' => 'Liên kết tĩnh không được để trống.',
+                    'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
+                    'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+                ]
+            );
+            $data = [
+                'ten_lhp' => $request->ten_lhp,
+                'alias' => $request->alias,
+                'ma_tk' => Session::get('admin_id'),
+                'ma_bg' => $request->ma_bg,
+                'ma_hp' => $request->ma_hp,
+                'hinh_anh' => null,
+                'mo_ta' => $request->mo_ta
+            ];
+            $result = (new LopHocPhan())->add($data);
+
+            if ($result) {
+                $file = $request->file('hinh_anh');
+                $upload_img = false;
+                if(!empty($request->hinh_anh)){
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('uploads', $filename, 'public');
+                    $upload_img = (new LopHocPhan())->upload_image($request->alias, $filename);
+                }
+                Session::put('error', 'success');
+                Session::put('message', 'Thêm lớp học phần thành công');
+
+                if (!$upload_img) {
+                    Session::put('error', 'warning');
+                    Session::put('message', 'Thêm lớp học phần thành công nhưng chưa upload hình ảnh.');
+                }
+            } else {
+                Session::put('error', 'danger');
+                Session::put('message', 'Thêm lớp học phần thất bại');
+            }
+            return view(config('asset.view_admin_control')('control_class'), $this->_data);
+        }
+        return view(config('asset.view_admin_control')('control_class'), $this->_data);
     }
 }
