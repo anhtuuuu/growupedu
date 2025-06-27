@@ -79,6 +79,9 @@ class LopHocPhan extends Model
 		if (isset($args['alias'])) {
 			$query = $query->where($this->table . '.alias', $args['alias']);
 		}
+		if (isset($args['ma_tk'])) {
+			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
+		}
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);

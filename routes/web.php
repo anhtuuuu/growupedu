@@ -80,6 +80,8 @@ Route::post('/them-chuong', [ChapterController::class, 'admin_add']);
 Route::get('/them-tai-khoan', [AccountController::class, 'admin_add']);
 Route::post('/them-tai-khoan', [AccountController::class, 'admin_add']);
 Route::get('/check-role/{value}', [AccountController::class, 'check_role']);
+Route::get('/them-bai-kiem-tra', [TestController::class, 'admin_add']);
+Route::post('/them-bai-kiem-tra', [TestController::class, 'admin_add']);
 
 Route::get('/cap-nhat-bai-giang/{value}', [LessonController::class, 'admin_update']);
 Route::post('/cap-nhat-bai-giang', [LessonController::class, 'admin_update']);

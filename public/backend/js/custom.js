@@ -29,3 +29,41 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function () {
+    $('#add-question').on('click', function () {
+        var html = `<div class="question-item">
+                        <div class="question">
+                            <label for="label control-label">Tiêu đề câu hỏi</label>
+                            <input type="text" class="form-control" name="label[]" id="label">
+                        </div>
+                        <div class="question">
+                            <label for="">Đáp án A</label>
+                            <input type="text" class="form-control" name="answer1[]" id="answer">
+                        </div>
+                        <div class="question">
+                            <label for="">Đáp án B</label>
+                            <input type="text" class="form-control" name="answer2[]" id="answer">
+                        </div>
+                        <div class="question">
+                            <label for="">Đáp án C</label>
+                            <input type="text" class="form-control" name="answer3[]" id="answer">
+                        </div>
+                        <div class="question">
+                            <label for="">Đáp án D</label>
+                            <input type="text" class="form-control" name="answer4[]" id="answer">
+                        </div>
+                        <div class="question">
+                            <label for="" class="text-danger">ĐÁP ÁN ĐÚNG</label>
+                            <select name="dap_an[]" class="form-control" id="dap_an">
+                                <option value="1">A</option>
+                                <option value="2">B</option>
+                                <option value="3">C</option>
+                                <option value="4">D</option>
+                            </select>
+                        </div>
+                    </div>`;
+
+        $('#questions').append(html);
+    });
+});
