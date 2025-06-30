@@ -231,8 +231,6 @@ class AccountController extends LayoutController
         return view(config('asset.view_admin_control')('control_account'), $this->_data);
     }
 
-
-
     function check_role()
     {
         $segment = 2;
@@ -251,5 +249,20 @@ class AccountController extends LayoutController
             $html .= '</select>';
         }
         return $html;
+    }
+    function admin_delete(Request $request)
+    {
+        $segment = 2;
+        $id_account = trim(request()->segment($segment) ?? '');
+        $result = (new Taikhoan)->admin_delete($id_account);
+
+        if ($result) {
+            Session::put('error', 'success');
+            Session::put('message', 'Xoá tài khoản thành công.');
+        } else {
+            Session::put('error', 'danger');
+            Session::put('message', 'Xoá tài khoản thất bại.');
+        }
+        return Redirect::to('/danh-sach-tai-khoan');
     }
 }
