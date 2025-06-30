@@ -155,6 +155,14 @@ class Taikhoan extends Model
 			->update($data);
 		return $result;
 	}
+	public function admin_delete($id)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)->where('ma_tk', $id)->delete();
+		return $result;
+	}
 	public function bo_mon()
 	{
 		return $this->belongsTo(BoMon::class, 'ma_bm');

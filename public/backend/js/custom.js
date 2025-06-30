@@ -67,3 +67,7 @@ $(document).ready(function () {
         $('#questions').append(html);
     });
 });
+
+function confirmSubmit() {
+    return confirm("Bạn có chắc chắn muốn xóa người dùng này?");
+}

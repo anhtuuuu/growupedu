@@ -25,7 +25,7 @@
                                             alt="">
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title hv-link"><a href="" class="text-dark">{{$row->ten_lhp}} - {{$row->ten_hp}}</a></h5>
+                                        <h5 class="card-title hv-link"><a href="{{$row->alias}}" class="text-dark">{{$row->ten_lhp}} - {{$row->ten_hp}}</a></h5>
                                         <p class="card-text hv-link"><a href="" class="text-dark">{{$row->mo_ta}}</a></p>
                                     </div>
                                     <div class="card-body d-flex justify-content-end">
