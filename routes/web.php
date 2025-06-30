@@ -58,7 +58,7 @@ Route::get('/danh-sach-giang-vien', [LecturerController::class, 'admin_index']);
 Route::get('/danh-sach-bai-giang', [LessonController::class, 'admin_index']);
 Route::get('/performance_management', [PerformanceController::class, 'admin_index']);
 Route::get('/danh-sach-hoc-phan', [CourseController::class, 'admin_index']);
-Route::get('/danh-sach-sinh-vien', [StudentController::class, 'admin_index']);
+Route::get('/danh-sach-sinh-vien/{alias_class}', [StudentController::class, 'admin_index']);
 Route::get('/danh-sach-bo-mon', [SubjectController::class, 'admin_index']);
 Route::get('/danh-sach-bai-kiem-tra', [TestController::class, 'admin_index']);
 
