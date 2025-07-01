@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Redirect;
 use Session;
 class AccountController extends LayoutController
 {
+    function login()
+    {
+        // Session::flush();
+
+        return view(config('asset.view_page')('form-login'));
+    }
     function index()
     {
 
@@ -27,7 +33,15 @@ class AccountController extends LayoutController
     {
         $args = array();
         $accounts = (new Taikhoan)->gets($args);
+        $roles = (new VaiTro)->gets();
         $this->_data['rows'] = $accounts;
+
+        $filter = array();
+        foreach($roles as $index => $value){
+            $filter['value'][$index] = $value->ma_tk;
+            $filter['title'][$index] = $value->tieu_de;
+        }
+        $this->_data['filter'] = $filter;
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('account_management'), $this->_data);
     }
     function gets()
