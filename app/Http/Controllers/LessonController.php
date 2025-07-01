@@ -87,7 +87,7 @@ class LessonController extends LayoutController
       $args['ma_gv'] = Session::get('admin_id');
       $lessons = (new BaiGiang)->gets($args);
       $this->_data['rows'] = $lessons;
-      return view(config('asset.view_admin_page')('lesson_management'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_page')('lesson_management'), $this->_data);
    }
    function admin_add(Request $request)
    {
@@ -120,9 +120,9 @@ class LessonController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Thêm bài giảng thất bại');
          }
-         return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
+         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_lesson'), $this->_data);
       }
-      return view(config('asset.view_admin_control')('control_lesson'));
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_lesson'));
 
       // print_r($result);
    }
@@ -181,7 +181,7 @@ class LessonController extends LayoutController
          abort(404);
       }
       $this->_data['row'] = $lesson;
-      return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_lesson'), $this->_data);
    }
    function admin_delete()
    {

@@ -71,7 +71,7 @@ class ClassController extends LayoutController
     function admin_index()
     {
         $this->_data['rows'] = $this->gets();
-        return view(config('asset.view_admin_page')('class_management'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_page')('class_management'), $this->_data);
     }
     function gets()
     {
@@ -245,7 +245,7 @@ class ClassController extends LayoutController
             abort(404);
         }
         $this->_data['row'] = $class;
-        return view(config('asset.view_admin_control')('control_class'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_class'), $this->_data);
     }
 
     function admin_add(Request $request)
@@ -301,9 +301,9 @@ class ClassController extends LayoutController
                 Session::put('error', 'danger');
                 Session::put('message', 'Thêm lớp học phần thất bại');
             }
-            return view(config('asset.view_admin_control')('control_class'), $this->_data);
+            return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_class'), $this->_data);
         }
-        return view(config('asset.view_admin_control')('control_class'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_class'), $this->_data);
     }
     // function admin_delete()
     // {
