@@ -16,10 +16,6 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <!-- <th class="text-center">
-                                                                    <input class="flat-blue check-all" name="check_all[]"
-                                                                        type="checkbox" value="yes">
-                                                                </th> -->
                                         <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tiêu đề</th>
                                         <th class="text-center">Tên giảng viên</th>
@@ -32,9 +28,9 @@
                                     foreach($rows as $index => $row): ?>
                                     <tr>
                                         <!-- <td class="text-center">
-                                                                    <input type="checkbox" class="flat-blue check"
-                                                                        value="" name="idcheck[]">
-                                                                </td> -->
+                                                                        <input type="checkbox" class="flat-blue check"
+                                                                            value="" name="idcheck[]">
+                                                                    </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
                                                 type="text" value="{{ $index + 1 }}">
@@ -55,8 +51,10 @@
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a
                                                 href="<?php echo URL::to('cap-nhat-bai-giang/' . $row->ma_bg); ?>"><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox"><b>Xóa</b></a>
+                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em><a
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
+                                                href="<?php echo URL::to('xoa-bai-giang/' . $row->ma_bg); ?>">Xóa</a>
+
                                         </td>
                                     </tr>
                                     <?php endforeach; endif;?>
@@ -68,9 +66,9 @@
                     </form>
 
                     <!-- <div class="callout callout-warning">
-                                                <h4>Thông báo!</h4>
-                                                <p><b>Không</b> có bài viết nào!</p>
-                                            </div> -->
+                                                    <h4>Thông báo!</h4>
+                                                    <p><b>Không</b> có bài viết nào!</p>
+                                                </div> -->
 
                 </div>
                 <div class="box-footer clearfix">

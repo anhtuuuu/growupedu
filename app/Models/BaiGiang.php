@@ -57,7 +57,8 @@ class BaiGiang extends Model
 				'taikhoan.ho_ten as ho_ten',
 				'taikhoan.hinh_anh as avatar'
 			])
-			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk');
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->where($this->table . '.trang_thai', 1);
 
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
@@ -65,6 +66,9 @@ class BaiGiang extends Model
 
 		if (isset($args['alias_lesson'])) {
 			$query = $query->where($this->table . '.alias', $args['alias_lesson']);
+		}
+				if (isset($args['ma_gv'])) {
+			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
 		}
 		// $query = $this->generateWhere($query, $args);
 
@@ -105,6 +109,21 @@ class BaiGiang extends Model
 		$result = DB::table($this->table)
 			->where($this->table . '.ma_bg', $id)
 			->update($data);
+		return $result;
+	}
+	public function admin_delete($id, $ma_tk)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+			])
+			// ->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->where($this->table . '.ma_bg', $id)
+			->where('bai_giang.ma_tk', $ma_tk)
+			->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}
 	public function taikhoan()

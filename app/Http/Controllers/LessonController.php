@@ -83,6 +83,8 @@ class LessonController extends LayoutController
    function admin_index()
    {
       $args = array();
+      $args['order_by'] = 'desc';
+      $args['ma_gv'] = Session::get('admin_id');
       $lessons = (new BaiGiang)->gets($args);
       $this->_data['rows'] = $lessons;
       return view(config('asset.view_admin_page')('lesson_management'), $this->_data);
@@ -173,7 +175,7 @@ class LessonController extends LayoutController
          }
          return Redirect::to('danh-sach-bai-giang');
       }
-      
+
       $lesson = (new BaiGiang)->get_by_id($id);
       if (empty($lesson)) {
          abort(404);
@@ -181,5 +183,42 @@ class LessonController extends LayoutController
       $this->_data['row'] = $lesson;
       return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
    }
+   function admin_delete()
+   {
+      $role = Session::get('admin_role');
+      if (!$role) {
+         return Redirect::to('/admin');
+      }
+      Session::put('error', 'warning');
+      Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+      if ($role == 2) {
+         $ma_tk = Session::get('admin_id');
+         $segment = 2;
+         $code_baigiang = trim(request()->segment($segment) ?? '');
+         if (empty($code_baigiang)) {
+            abort(404);
+         }
+         $args = array();
+         $args['id_lesson'] = $code_baigiang;
+         
+         $chuong_list = (new Chuong())->gets($args);
+         $lhp_list = (new LopHocPhan())->gets($args);
 
+         Session::put('error', 'warning');
+         Session::put('message', 'Yêu cầu xóa dữ liệu chương hoặc lớp học phần liên quan bài giảng trước khi xóa bài giảng!');
+         if (empty($chuong_list) && empty($lhp_list)) {
+            $result = (new BaiGiang())->admin_delete($code_baigiang, $ma_tk);
+            if ($result) {
+               Session::put('error', 'success');
+               Session::put('message', 'Xoá bài giảng thành công.');
+            } else {
+               return back();
+            }
+         }
+         return back();
+
+      }
+      return back();
+
+   }
 }
