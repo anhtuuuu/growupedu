@@ -111,6 +111,14 @@ Route::post('/cap-nhat-bai-kiem-tra', [TestController::class, 'admin_update']);
 // xóa
 Route::post('/xoa-tai-khoan/{value}', [AccountController::class, 'admin_delete']);
 Route::get('/xoa-bai-kiem-tra/{value}', [TestController::class, 'admin_delete']);
+Route::get('/xoa-danh-gia/{value}', [AssessController::class, 'admin_delete']);
+Route::get('/xoa-sinh-vien/{value}', [StudentController::class, 'admin_delete']);
+Route::get('/xoa-bai/{value}', [ContentController::class, 'admin_delete']);
+Route::get('/xoa-chuong/{value}', [ChapterController::class, 'admin_delete']);
+Route::get('/xoa-bai-giang/{value}', [LessonController::class, 'admin_delete']);
+// Route::get('/xoa-lop-hoc-phan/{value}', [ClassController::class, 'admin_delete']);
+
+
 
 
 Route::get('/{any}', [ClassController::class, 'index']);

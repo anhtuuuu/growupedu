@@ -65,11 +65,18 @@ class Bai extends Model
 				'bai_giang.ten_bg as ten_bg'
 			])
 			->join('chuong', 'chuong.ma_chuong', '=', $this->table . '.ma_chuong')
-			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg');
+			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->where($this->table . '.trang_thai', 1);
 
 		if (isset($args['alias_lesson'])) {
 			$query = $query->where('bai_giang.alias', $args['alias_lesson']);
 		}
+		if (isset($args['id_chapter'])) {
+			$query = $query->where('chuong.ma_chuong', $args['id_chapter']);
+		}
+		if (isset($args['ma_gv'])) {
+			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
+		} 
 		if (isset($args['order_by'])) {
 			$query = $query->orderBy('ngay_tao', $args['order_by']);
 		}
@@ -133,6 +140,8 @@ class Bai extends Model
 			->join('chuong', 'chuong.ma_chuong', '=', $this->table . '.ma_chuong')
 			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
 			->where($this->table . '.alias', $alias);
+			if (isset($args['ma_gv'])) {
+			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);}
 
 
 		// $query = $this->generateWhere($query, $args);
@@ -152,6 +161,23 @@ class Bai extends Model
 			return false;
 		}
 		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
+	public function admin_delete($id, $ma_tk)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+			])
+			->join('chuong', 'chuong.ma_chuong', '=', 'bai.ma_chuong')
+			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+
+			->where($this->table .'.ma_bai', $id)
+			->where('bai_giang.ma_tk', $ma_tk)
+			->update([$this->table .'.trang_thai' => 0]);
 		return $result;
 	}
 	public function chuong()

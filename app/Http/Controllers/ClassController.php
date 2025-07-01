@@ -305,6 +305,29 @@ class ClassController extends LayoutController
         }
         return view(config('asset.view_admin_control')('control_class'), $this->_data);
     }
+    // function admin_delete()
+    // {
+    //     $role = Session::get('admin_role');
+    //     if (!$role) {
+    //         return Redirect::to('/admin');
+    //     }
+    //     Session::put('error', 'warning');
+    //     Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+    //     if ($role == 2) {
+    //         $ma_tk = Session::get('admin_id');
+    //         $segment = 2;
+    //         $code_bai = trim(request()->segment($segment) ?? '');
+    //         $result = (new Bai())->admin_delete($code_bai, $ma_tk);
+    //         if ($result) {
+    //             Session::put('error', 'success');
+    //             Session::put('message', 'Xoá bài thành công.');
+    //         } else {
+    //             return back();
+    //         }
+    //         return back();
+    //     }
+    //     return back();
+    // }
 
     
 }

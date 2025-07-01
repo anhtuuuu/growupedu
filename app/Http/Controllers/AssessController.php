@@ -43,7 +43,7 @@ class AssessController extends LayoutController
       $args['order_by'] = 'desc';
       $assess = (new DanhGia)->gets($args);
       $this->_data['rows'] = $assess;
-      return $this->_auth_login() ?? view(config('asset.view_admin_page')('assess_management'), $this->_data);
+      return view(config('asset.view_admin_page')('assess_management'), $this->_data);
    }
    function assess_detail()
    {
@@ -59,6 +59,6 @@ class AssessController extends LayoutController
 
       $this->_data['data_assess'] = $detail;
       $this->_data['data_class'] = $class;
-      return $this->_auth_login() ?? view(config('asset.view_admin_page')('assess_detail'), $this->_data);
+      return view(config('asset.view_admin_page')('assess_detail'), $this->_data);
    }
 }

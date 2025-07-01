@@ -6,7 +6,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý bài</b></h3>
-                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai') ?>"><i class="fa fa-plus"></i>
+                    <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai'); ?>"><i class="fa fa-plus"></i>
                         Thêm</a>
                 </div>
                 <div class="box-body">
@@ -29,33 +29,36 @@
                                         foreach($rows as $index => $row): ?>
                                     <tr>
                                         <!-- <td class="text-center">
-                                                                <input type="checkbox" class="flat-blue check"
-                                                                    value="" name="idcheck[]">
-                                                            </td> -->
+                                                                    <input type="checkbox" class="flat-blue check"
+                                                                        value="" name="idcheck[]">
+                                                                </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="{{$index + 1}}">
+                                                type="text" value="{{ $index + 1 }}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>
                                         <td class="text-center">
-                                            {{$row->tieu_de}}
+                                            {{ $row->tieu_de }}
                                         </td>
                                         <td class="text-center">
-                                            {{$row->ten_bg}}
+                                            {{ $row->ten_bg }}
                                         </td>
                                         <td class="text-center">
-                                            {{$row->ten_chuong}}
+                                            {{ $row->ten_chuong }}
                                         </td>
                                         <td class="text-center" style="width: 150px">
                                             <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
+                                                value="" <?php echo $row->hien_thi ? 'checked' : ''; ?>>
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-bai/' . $row->ma_bai); ?>"><b>Sửa</b></a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a
+                                                href="<?php echo URL::to('cap-nhat-bai/' . $row->ma_bai); ?>"><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox"><b>Xóa</b></a>
+                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em><a
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
+                                                href="<?php echo URL::to('xoa-bai/' . $row->ma_bai); ?>">Xóa</a>
+
                                         </td>
                                     </tr>
                                     <?php endforeach; endif; ?>
@@ -67,9 +70,9 @@
                     </form>
 
                     <!-- <div class="callout callout-warning">
-                                            <h4>Thông báo!</h4>
-                                            <p><b>Không</b> có bài viết nào!</p>
-                                        </div> -->
+                                                <h4>Thông báo!</h4>
+                                                <p><b>Không</b> có bài viết nào!</p>
+                                            </div> -->
 
                 </div>
                 <div class="box-footer clearfix">
