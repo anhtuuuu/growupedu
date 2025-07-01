@@ -104,7 +104,11 @@ Route::post('/cap-nhat-lop-hoc-phan', [ClassController::class, 'admin_update']);
 Route::get('/cap-nhat-bai/{value}', [ContentController::class, 'admin_update']);
 Route::post('/cap-nhat-bai', [ContentController::class, 'admin_update']);
 
+
+
+// xóa
 Route::post('/xoa-tai-khoan/{value}', [AccountController::class, 'admin_delete']);
+Route::get('/xoa-bai-kiem-tra/{value}', [TestController::class, 'admin_delete']);
 
 
 Route::get('/{any}', [ClassController::class, 'index']);

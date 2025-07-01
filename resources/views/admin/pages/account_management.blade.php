@@ -68,10 +68,18 @@
                                                 value="" <?php echo $row->kich_hoat ? 'checked' : ''; ?>>
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-tai-khoan/' . $row->ma_tk); ?>">Sửa</a>
-                                            &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
+                                            <form action="<?php echo URL::to('xoa-tai-khoan/' . $row->ma_tk); ?>" method="post"
+                                                onsubmit="return confirmSubmit();">
+                                                {{ csrf_field() }}
+
+                                                <em class="fa fa-edit fa-lg">&nbsp;</em> <a
+                                                    href="<?php echo URL::to('cap-nhat-tai-khoan/' . $row->ma_tk); ?>">Sửa</a>
+                                                &nbsp;-&nbsp;
+                                                <em class="fa fa-trash-o fa-lg">&nbsp;</em>
+                                                <button class="delete_bootbox">
+                                                    Xóa
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php endforeach; endif;?>
