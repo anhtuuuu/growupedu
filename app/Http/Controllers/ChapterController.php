@@ -19,7 +19,7 @@ class ChapterController extends LayoutController
         $args = array();
         $chapter = (new Chuong)->gets($args);
         $this->_data['rows'] = $chapter;
-        return view(config('asset.view_admin_page')('chapter_management'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_page')('chapter_management'), $this->_data);
     }
     function admin_add(Request $request)
     {
@@ -56,9 +56,9 @@ class ChapterController extends LayoutController
                 $this->_data['error'] = 'danger';
                 $this->_data['message'] = 'Thêm chương thất bại';
             }
-            return view(config('asset.view_admin_control')('control_chapter'), $this->_data);
+            return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_chapter'), $this->_data);
         }
-        return view(config('asset.view_admin_control')('control_chapter'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_chapter'), $this->_data);
     }
 
     
