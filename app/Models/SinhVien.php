@@ -71,15 +71,8 @@ class SinhVien extends Model
 				if (isset($args['alias_class'])) {
 			$query = $query->where( 'lop_hoc_phan.alias', $args['alias_class']);
 		}
-		// $query = $this->generateWhere($query, $args);
-
-		// $query = $this->generateOrderBy($query, $args);
-
-		// if ($offset >= 0) {
-		// 	$query->offset($offset)->limit($perPage);
-		// }
-
-		return $query->get()->toArray();
+		$per_page = $args['per_page'] ?? 10;
+		return $query->paginate($per_page);
 	}
 	public function admin_delete($id, $ma_tk)
 	{

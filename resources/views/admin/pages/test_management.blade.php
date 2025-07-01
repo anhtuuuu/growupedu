@@ -12,7 +12,7 @@
                         Thêm</a>
                 </div>
                 <div class="box-body">
-                    <?php if(isset($rows) && !empty($rows) && is_array($rows)):?>
+                    <?php if(isset($rows) && !empty($rows)):?>
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
@@ -74,25 +74,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="box-footer clearfix">
-                    <section id="blog-pagination" class="blog-pagination section">
-                        <div class="container">
-                            <div class="">
-                                <ul class="pagination">
-                                    <li><a href="" class="active">1</a></li>
-                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
-                                            data-ci-pagination-page="4" rel="start">2</a></li>
-                                    <li class="page"><a href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/8"
-                                            data-ci-pagination-page="8">3</a></li>
-                                    <li class="next page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/4"
-                                            data-ci-pagination-page="4" rel="next">»</a></li>
-                                    <li class="next page"><a
-                                            href="https://localhost/sportszone-local/danh-muc-bai-viet/blog/20"
-                                            data-ci-pagination-page="20">→</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
+                    {{ isset($rows) ? $rows->links() : '' }}
                 </div>
             </div>
         </div>

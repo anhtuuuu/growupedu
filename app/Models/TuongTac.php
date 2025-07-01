@@ -56,17 +56,8 @@ class TuongTac extends Model
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
 			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', $this->table . '.ma_lhp');
-
-
-		// $query = $this->generateWhere($query, $args);
-
-		// $query = $this->generateOrderBy($query, $args);
-
-		// if ($offset >= 0) {
-		// 		$query->offset($offset)->limit($perPage);
-		// 	}
-
-		return $query->get()->toArray();
+		$per_page = $args['per_page'] ?? 10;
+		return $query->paginate($per_page);
 	}
 	public function lop_hoc_phan()
 	{

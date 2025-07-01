@@ -15,7 +15,8 @@ class DepartmentController extends LayoutController
     }
     function admin_index()
     {
-        $args = array();
+        $args = array();       
+        $args['per_page'] = 5;
         $department = (new Khoa)->gets($args);
         $this->_data['rows'] = $department;
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('department_management'), $this->_data);

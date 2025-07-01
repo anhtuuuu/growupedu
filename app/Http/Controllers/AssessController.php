@@ -7,6 +7,8 @@ use App\Models\BaiGiang;
 use App\Models\DanhGia;
 use App\Models\LopHocPhan;
 use Illuminate\Http\Request;
+use Session;
+use Illuminate\Support\Facades\Redirect;
 class AssessController extends LayoutController
 {
    function index()
@@ -40,7 +42,11 @@ class AssessController extends LayoutController
    function admin_index()
    {
       $args = array();
+      $ma_tk = Session::get('admin_id');
+      $args['ma_gv'] = $ma_tk;
+
       $args['order_by'] = 'desc';
+      $args['per_page'] = 5;
       $assess = (new DanhGia)->gets($args);
       $this->_data['rows'] = $assess;
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('assess_management'), $this->_data);
@@ -53,12 +59,38 @@ class AssessController extends LayoutController
          abort(404);
       }
       $detail = (new DanhGia)->get_by_id($id);
-      
+
       $class_id = $detail->ma_lhp;
       $class = (new LopHocPhan)->get_by_id($class_id);
 
       $this->_data['data_assess'] = $detail;
       $this->_data['data_class'] = $class;
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('assess_detail'), $this->_data);
+   }
+   function admin_delete()
+   {
+      $role = Session::get('admin_role');
+      if (!$role) {
+         return Redirect::to('/admin');
+      }
+      Session::put('error', 'warning');
+      Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+      if ($role == 2) {
+         // $ma_tk = Session::get('admin_id');
+         $segment = 2;
+         $id_assess = trim(request()->segment($segment) ?? '');
+         $result = (new DanhGia())->admin_delete($id_assess);
+
+         if ($result) {
+            Session::put('error', 'success');
+            Session::put('message', 'Xoá đánh giá thành công.');
+         } else {
+            return back();
+         }
+         return back();
+
+      }
+      return back();
+
    }
 }

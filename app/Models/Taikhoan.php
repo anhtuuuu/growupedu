@@ -92,9 +92,10 @@ class Taikhoan extends Model
 		if (isset($args['role'])) {
 			$query = $query->where($this->table . '.vai_tro', $args['role']);
 		}
-		// $query = $this->generateWhere($query, $args);
+			if (isset($args['ma_gv'])) {
+			$query = $query->where($this->table .'.ma_tk', $args['ma_gv']);
+		}
 
-		// $query = $this->generateOrderBy($query, $args);
 
 		if ($offset >= 0) {
 			$query->offset($offset)->limit($perPage);

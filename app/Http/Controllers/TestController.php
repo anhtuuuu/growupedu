@@ -86,7 +86,7 @@ class TestController extends LayoutController
       $args = array();
       $args['order_by'] = 'desc';
       $args['ma_gv'] = Session::get('admin_id');
-
+      $args['per_page'] = 5;
       $tests = (new Baikiemtra)->gets($args);
       $this->_data['rows'] = $tests;
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('test_management'), $this->_data);

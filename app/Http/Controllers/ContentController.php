@@ -67,6 +67,7 @@ class ContentController extends LayoutController
     function admin_index()
     {
         $args = array();
+        $args['per_page'] = 5;
         $args['order_by'] = 'desc';
         $args['ma_gv'] = Session::get('admin_id');
         $contents = (new Bai)->gets($args);
