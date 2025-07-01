@@ -76,7 +76,9 @@ class LopHocPhan extends Model
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
 			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg')
-			->join('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp');
+			->join('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp')
+			->where($this->table . '.trang_thai', 1);
+
 		if (isset($args['alias'])) {
 			$query = $query->where($this->table . '.alias', $args['alias']);
 		}
@@ -86,9 +88,12 @@ class LopHocPhan extends Model
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
-		// $query = $this->generateWhere($query, $args);
-
-		// $query = $this->generateOrderBy($query, $args);
+		if (isset($args['ma_gv'])) {
+			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
+		}
+		if (isset($args['id_course'])) {
+			$query = $query->where('hoc_phan.ma_hp', $args['id_course']);
+		}
 
 		// if ($offset >= 0) {
 		// 	$query->offset($offset)->limit($perPage);
@@ -96,15 +101,18 @@ class LopHocPhan extends Model
 
 		return $query->get()->toArray();
 	}
-		public function add($data){
-		if(empty($data)){
+
+	public function add($data)
+	{
+		if (empty($data)) {
 			return false;
 		}
 		$result = DB::table($this->table)->insert($data);
 		return $result;
 	}
-		public function upload_image($alias, $image){
-		if(empty($image)){
+	public function upload_image($alias, $image)
+	{
+		if (empty($image)) {
 			return false;
 		}
 		$result = DB::table($this->table)
@@ -112,7 +120,7 @@ class LopHocPhan extends Model
 			->update(['hinh_anh' => $image]);
 		return $result;
 	}
-	public function admin_delete($id, $ma_tk)
+	public function admin_delete($args, $id)
 	{
 		if (empty($id)) {
 			return false;
@@ -121,24 +129,15 @@ class LopHocPhan extends Model
 			->select([
 				$this->table . '.*',
 			])
-			->join('chuong', 'chuong.ma_chuong', '=', 'bai.ma_chuong')
-			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->join('taikhoan', 'taikhoan.ma_tk', '=', 'lop_hoc_phan.ma_tk')
+			->where($this->table . '.ma_lhp', $id);
+			if(isset($args['is_leturer'])) {
+				$result = $result->where('lop_hoc_phan.ma_tk', $args['is_leturer']);
+			}
+			$result = $result->update([$this->table . '.trang_thai' => 0]);
+		return $result;
+	}
 
-			->where($this->table .'.ma_bai', $id)
-			->where('bai_giang.ma_tk', $ma_tk)
-			->update([$this->table .'.trang_thai' => 0]);
-		return $result;
-	}
-	public function admin_update($id, $data)
-	{
-		if (empty($data)) {
-			return false;
-		}
-		$result = DB::table($this->table)
-			->where($this->table . '.ma_lhp', $id)
-			->update($data);
-		return $result;
-	}
 
 
 	public function get_by_id($id)

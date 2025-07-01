@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BoMon;
 use App\Models\bm;
+use App\Models\HocPhan;
 use App\Models\Khoa;
 use Illuminate\Support\Facades\Redirect;
 use Session;
@@ -123,5 +124,40 @@ class SubjectController extends LayoutController
       }
       $this->_data['row'] = $subject;
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_subject'), $this->_data);
+   }
+   function admin_delete()
+   {
+      $role = Session::get('admin_role');
+      if (!$role) {
+         return Redirect::to('/admin');
+      }
+      Session::put('error', 'warning');
+      Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+      if ($role == 1) {
+         // $ma_tk = Session::get('admin_id');
+         $segment = 2;
+         $code_subject = trim(request()->segment($segment) ?? '');
+         if (empty($code_subject)) {
+            abort(404);
+         }
+         $args = array();
+         $args['id_subject'] = $code_subject;
+         $hocphan_list = (new HocPhan())->gets($args);
+         Session::put('error', 'warning');
+         Session::put('message', 'Yêu cầu xóa dữ liệu học phần trong bộ môn trước khi xóa bộ môn!');
+         if (empty($hocphan_list)) {
+            $result = (new BoMon())->admin_delete($code_subject);
+            if ($result) {
+               Session::put('error', 'success');
+               Session::put('message', 'Xoá bộ môn thành công.');
+            } else {
+               return back();
+            }
+         }
+         return back();
+
+      }
+      return back();
+
    }
 }
