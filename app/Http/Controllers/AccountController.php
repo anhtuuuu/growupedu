@@ -26,6 +26,8 @@ class AccountController extends LayoutController
     function admin_index()
     {
         $args = array();
+        $args['per_page'] = 5;
+
         $accounts = (new Taikhoan)->gets($args);
         $this->_data['rows'] = $accounts;
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('account_management'), $this->_data);

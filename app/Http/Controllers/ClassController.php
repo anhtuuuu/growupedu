@@ -73,10 +73,13 @@ class ClassController extends LayoutController
         $args = array();
         $args['order_by'] = 'desc';
         $args['ma_tk'] = Session::get('admin_id');
+        $args['per_page'] = 5;
         $class = (new LopHocPhan())->gets($args);
         $this->_data['rows'] = $class;
         if(Session::get('admin_id') ==  1){
-        $this->_data['rows'] = $this->gets();
+             $args = array();
+             $args['per_page'] = 5;
+        $this->_data['rows'] = (new LopHocPhan())->gets($args);
         }
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('class_management'), $this->_data);
     }

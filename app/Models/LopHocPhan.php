@@ -65,7 +65,7 @@ class LopHocPhan extends Model
 		'trang_thai',
 		'thong_bao'
 	];
-	public function gets($args, $perPage = 5, $offset = -1)
+	public function gets($args)
 	{
 		$query = DB::table($this->table)
 			->select([
@@ -95,11 +95,9 @@ class LopHocPhan extends Model
 			$query = $query->where('hoc_phan.ma_hp', $args['id_course']);
 		}
 
-		// if ($offset >= 0) {
-		// 	$query->offset($offset)->limit($perPage);
-		// }
-
-		return $query->get()->toArray();
+		$per_page = $args['per_page'] ?? 10;
+		return $query->paginate($per_page);
+		// return $query->get()->toArray();
 	}
 
 	public function add($data)
