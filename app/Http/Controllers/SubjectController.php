@@ -20,7 +20,7 @@ class SubjectController extends LayoutController
       $args = array();
       $subject = (new BoMon)->gets($args);
       $this->_data['rows'] = $subject;
-      return view(config('asset.view_admin_page')('subject_management'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_page')('subject_management'), $this->_data);
    }
    function admin_add(Request $request)
    {
@@ -57,9 +57,9 @@ class SubjectController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Chưa có dữ liệu nào được thêm mới.');
          }
-         return view(config('asset.view_admin_control')('control_subject'), $this->_data);
+         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_subject'), $this->_data);
       }
-      return view(config('asset.view_admin_control')('control_subject'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_subject'), $this->_data);
    }
 
    function admin_update(Request $request)
@@ -122,6 +122,6 @@ class SubjectController extends LayoutController
          abort(404);
       }
       $this->_data['row'] = $subject;
-      return view(config('asset.view_admin_control')('control_subject'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_subject'), $this->_data);
    }
 }

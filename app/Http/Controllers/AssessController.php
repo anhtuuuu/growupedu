@@ -7,8 +7,6 @@ use App\Models\BaiGiang;
 use App\Models\DanhGia;
 use App\Models\LopHocPhan;
 use Illuminate\Http\Request;
-use Session;
-use Illuminate\Support\Facades\Redirect;
 class AssessController extends LayoutController
 {
    function index()
@@ -43,11 +41,9 @@ class AssessController extends LayoutController
    {
       $args = array();
       $args['order_by'] = 'desc';
-      $args['ma_gv'] = Session::get('admin_id');
-
       $assess = (new DanhGia)->gets($args);
       $this->_data['rows'] = $assess;
-      return view(config('asset.view_admin_page')('assess_management'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_page')('assess_management'), $this->_data);
    }
    function assess_detail()
    {
@@ -63,31 +59,6 @@ class AssessController extends LayoutController
 
       $this->_data['data_assess'] = $detail;
       $this->_data['data_class'] = $class;
-      return view(config('asset.view_admin_page')('assess_detail'), $this->_data);
-   }
-   function admin_delete()
-   {
-      $role = Session::get('admin_role');
-      if (!$role) {
-         return Redirect::to('/admin');
-      }
-      Session::put('error', 'warning');
-      Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
-      if ($role == 2) {
-         $ma_tk = Session::get('admin_id');
-         $segment = 2;
-         $id_assess = trim(request()->segment($segment) ?? '');
-         $result = (new DanhGia())->admin_delete($id_assess, $ma_tk);
-
-         if ($result) {
-            Session::put('error', 'success');
-            Session::put('message', 'Xoá đánh giá thành công.');
-         } else {
-            return back();
-         }
-         return Redirect::to('/danh-sach-danh-gia');
-      }
-      return back();
-
+      return $this->_auth_login() ?? view(config('asset.view_admin_page')('assess_detail'), $this->_data);
    }
 }

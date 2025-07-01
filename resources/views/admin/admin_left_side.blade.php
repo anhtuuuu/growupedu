@@ -119,7 +119,7 @@
                     <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm bài</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            {{-- <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý sinh viên</span>
                     <i class="fa fa-angle-left pull-right"></i>
@@ -129,7 +129,7 @@
                             sách sinh viên</a></li>
                     <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm sinh viên</a></li>
                 </ul>
-            </li>
+            </li> --}}
             <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý giảng viên</span>

@@ -71,7 +71,7 @@ class ContentController extends LayoutController
         $args['ma_gv'] = Session::get('admin_id');
         $contents = (new Bai)->gets($args);
         $this->_data['rows'] = $contents;
-        return view(config('asset.view_admin_page')('content_management'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_page')('content_management'), $this->_data);
     }
 
     function files()
@@ -164,9 +164,9 @@ class ContentController extends LayoutController
                 Session::put('error', 'danger');
                 Session::put('message', 'Chưa có dữ liệu nào được thêm.');
             }
-            return view(config('asset.view_admin_control')('control_content'), $this->_data);
+            return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_content'), $this->_data);
         }
-        return view(config('asset.view_admin_control')('control_content'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_content'), $this->_data);
     }
 
 
@@ -249,7 +249,7 @@ class ContentController extends LayoutController
         $this->_data['chapter_id'] = $chapter_id;
         $this->_data['lesson_id'] = $lesson_id;
         $this->_data['row'] = $content;
-        return view(config('asset.view_admin_control')('control_content'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_content'), $this->_data);
     }
     function gets_chapter()
     {

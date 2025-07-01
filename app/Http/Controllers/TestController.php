@@ -89,7 +89,7 @@ class TestController extends LayoutController
 
       $tests = (new Baikiemtra)->gets($args);
       $this->_data['rows'] = $tests;
-      return view(config('asset.view_admin_page')('test_management'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_page')('test_management'), $this->_data);
    }
 
    function admin_add(Request $request)
@@ -160,7 +160,7 @@ class TestController extends LayoutController
          }
          return Redirect::to('/danh-sach-bai-kiem-tra');
       }
-      return view(config('asset.view_admin_control')('control_test'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_test'), $this->_data);
 
       // print_r($result);
    }
@@ -248,7 +248,7 @@ class TestController extends LayoutController
          abort(404);
       }
       $this->_data['row'] = $test_content;
-      return view(config('asset.view_admin_control')('control_test'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_test'), $this->_data);
    }
    function admin_delete()
    {
