@@ -62,8 +62,9 @@
                                             <em class="fa fa-eye fa-lg">&nbsp;</em> <a href="<?php echo URL::to('/danh-sach-sinh-vien/'.$row->alias) ?>"><b>Danh sách SV</b></a>&nbsp;-&nbsp;
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-lop-hoc-phan/' . $row->ma_lhp); ?>">Sửa</a>
                                             &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox">Xóa</a>
+                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em><a
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
+                                                href="<?php echo URL::to('xoa-lop-hoc-phan/' . $row->ma_lhp); ?>">Xóa</a>
                                         </td>
                                     </tr>
                                     <?php endforeach; endif; ?>

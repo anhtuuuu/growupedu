@@ -43,8 +43,10 @@ class Khoa extends Model
 		$query = DB::table($this->table)
 			->select([
 				$this->table . '.*'
-			]);
-			
+			])
+			->where($this->table . '.trang_thai', 1);
+
+
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);
@@ -55,8 +57,9 @@ class Khoa extends Model
 
 		return $query->get()->toArray();
 	}
-		public function add($data){
-		if(empty($data)){
+	public function add($data)
+	{
+		if (empty($data)) {
 			return false;
 		}
 		$result = DB::table($this->table)->insert($data);
@@ -83,6 +86,21 @@ class Khoa extends Model
 		$result = DB::table($this->table)
 			->where($this->table . '.ma_khoa', $id)
 			->update($data);
+		return $result;
+	}
+	public function admin_delete($id)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+			])
+			// ->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->where($this->table . '.ma_khoa', $id)
+			// ->where('bai_giang.ma_tk', $ma_tk)
+			->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}
 	public function bo_mons()

@@ -50,8 +50,9 @@
                                         <td class="text-center">
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-khoa/' . $row->ma_khoa); ?>"><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox"><b>Xóa</b></a>
+                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em><a
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
+                                                href="<?php echo URL::to('xoa-khoa/' . $row->ma_khoa); ?>">Xóa</a>
                                         </td>
                                     </tr>
                                     <?php endforeach; endif; ?>

@@ -129,39 +129,39 @@ class ChapterController extends LayoutController
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_chapter'), $this->_data);
    }
 
-   function admin_delete()
-   {
-      $role = Session::get('admin_role');
-      if (!$role) {
-         return Redirect::to('/admin');
-      }
-      Session::put('error', 'warning');
-      Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
-      if ($role == 2) {
-         $ma_tk = Session::get('admin_id');
-         $segment = 2;
-         $code_chuong = trim(request()->segment($segment) ?? '');
-         if (empty($code_chuong)) {
-            abort(404);
+      function admin_delete()
+      {
+         $role = Session::get('admin_role');
+         if (!$role) {
+            return Redirect::to('/admin');
          }
-         $args = array();
-         $args['id_chapter'] = $code_chuong;
-         $bai_list = (new Bai())->gets($args);
          Session::put('error', 'warning');
-         Session::put('message', 'Yêu cầu xóa dữ liệu bài trong chương trước khi xóa chương!');
-         if (empty($bai_list)) {
-            $result = (new Chuong())->admin_delete($code_chuong, $ma_tk);
-            if ($result) {
-               Session::put('error', 'success');
-               Session::put('message', 'Xoá chương thành công.');
-            } else {
-               return back();
+         Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+         if ($role == 2) {
+            $ma_tk = Session::get('admin_id');
+            $segment = 2;
+            $code_chuong = trim(request()->segment($segment) ?? '');
+            if (empty($code_chuong)) {
+               abort(404);
             }
+            $args = array();
+            $args['id_chapter'] = $code_chuong;
+            $bai_list = (new Bai())->gets($args);
+            Session::put('error', 'warning');
+            Session::put('message', 'Yêu cầu xóa dữ liệu bài trong chương trước khi xóa chương!');
+            if (empty($bai_list)) {
+               $result = (new Chuong())->admin_delete($code_chuong, $ma_tk);
+               if ($result) {
+                  Session::put('error', 'success');
+                  Session::put('message', 'Xoá chương thành công.');
+               } else {
+                  return back();
+               }
+            }
+            return back();
+
          }
          return back();
 
       }
-      return back();
-
-   }
 }

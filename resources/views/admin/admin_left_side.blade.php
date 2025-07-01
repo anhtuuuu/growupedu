@@ -74,7 +74,6 @@
                 </ul>
             </li>
             <?php endif; ?>
-            <?php if(Session::get('admin_role') == 2): ?>
             <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý lớp học phần</span>
@@ -86,6 +85,7 @@
                     <li><a href=""><i class="fa fa-angle-double-right"></i> Thêm lớp học phần</a></li>
                 </ul>
             </li>
+            <?php if(Session::get('admin_role') == 2): ?>
             <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý bài giảng</span>

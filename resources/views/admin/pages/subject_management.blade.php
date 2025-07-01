@@ -1,5 +1,6 @@
 @extends(config('asset.view_admin')('admin_layout'))
 @section('content')
+    @include(config('asset.view_admin_partial')('notify_message'))
     @include(config('asset.view_admin_partial')('search_nav'))
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -50,8 +51,9 @@
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a
                                                 href="<?php echo URL::to('cap-nhat-bo-mon/' . $row->ma_bm); ?>"><b>Sửa</b></a>
                                             &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href=""
-                                                class="delete_bootbox"><b>Xóa</b></a>
+                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em><a
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
+                                                href="<?php echo URL::to('xoa-bo-mon/' . $row->ma_bm); ?>">Xóa</a>
                                         </td>
                                     </tr>
                                     <?php endforeach; endif; ?>

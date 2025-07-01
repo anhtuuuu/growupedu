@@ -70,7 +70,14 @@ class ClassController extends LayoutController
     }
     function admin_index()
     {
+        $args = array();
+        $args['order_by'] = 'desc';
+        $args['ma_tk'] = Session::get('admin_id');
+        $class = (new LopHocPhan())->gets($args);
+        $this->_data['rows'] = $class;
+        if(Session::get('admin_id') ==  1){
         $this->_data['rows'] = $this->gets();
+        }
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('class_management'), $this->_data);
     }
     function gets()
@@ -305,29 +312,46 @@ class ClassController extends LayoutController
         }
         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_class'), $this->_data);
     }
-    // function admin_delete()
-    // {
-    //     $role = Session::get('admin_role');
-    //     if (!$role) {
-    //         return Redirect::to('/admin');
-    //     }
-    //     Session::put('error', 'warning');
-    //     Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
-    //     if ($role == 2) {
-    //         $ma_tk = Session::get('admin_id');
-    //         $segment = 2;
-    //         $code_bai = trim(request()->segment($segment) ?? '');
-    //         $result = (new Bai())->admin_delete($code_bai, $ma_tk);
-    //         if ($result) {
-    //             Session::put('error', 'success');
-    //             Session::put('message', 'Xoá bài thành công.');
-    //         } else {
-    //             return back();
-    //         }
-    //         return back();
-    //     }
-    //     return back();
-    // }
+
+    function admin_delete()
+    {
+        $role = Session::get('admin_role');
+        if (!$role) {
+            return Redirect::to('/admin');
+        }
+        Session::put('error', 'warning');
+        Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+        if ($role == 2) {
+            $ma_tk = Session::get('admin_id');
+            $args = array();
+            $args['is_lecturer'] = $ma_tk;
+            $segment = 2;
+            $code_class = trim(request()->segment($segment) ?? '');
+            $result = (new LopHocPhan())->admin_delete($args, $code_class);
+            if ($result) {
+                Session::put('error', 'success');
+                Session::put('message', 'Xoá bài thành công.');
+            } else {
+                return back();
+            }
+            return back();
+        }
+        if ($role == 1) {
+            $args = array();
+            $segment = 2;
+            $code_class = trim(request()->segment($segment) ?? '');
+            $result = (new LopHocPhan())->admin_delete($args, $code_class);
+            if ($result) {
+                Session::put('error', 'success');
+                Session::put('message', 'Xoá bài thành công.');
+            } else {
+                return back();
+            }
+            return back();
+        }
+        
+        return back();
+    }
 
     
 }

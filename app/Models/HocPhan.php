@@ -50,7 +50,13 @@ class HocPhan extends Model
 				'bo_mon.ma_bm as ma_bm',
 				'bo_mon.ten_bm as ten_bm'
 			])
-			->join('bo_mon', 'bo_mon.ma_bm', '=', $this->table . '.ma_bm');
+			->join('bo_mon', 'bo_mon.ma_bm', '=', $this->table . '.ma_bm')
+			->where($this->table . '.trang_thai', 1);
+
+		if (isset($args['id_subject'])) {
+			$query = $query->where('bo_mon.ma_bm', $args['id_subject']);
+		}
+		
 
 		// $query = $this->generateWhere($query, $args);
 
@@ -62,8 +68,9 @@ class HocPhan extends Model
 
 		return $query->get()->toArray();
 	}
-	public function add($data){
-		if(empty($data)){
+	public function add($data)
+	{
+		if (empty($data)) {
 			return false;
 		}
 		$result = DB::table($this->table)->insert($data);
@@ -92,6 +99,22 @@ class HocPhan extends Model
 			->update($data);
 		return $result;
 	}
+	public function admin_delete($id)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+			])
+			// ->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->where($this->table . '.ma_hp', $id)
+			// ->where('bai_giang.ma_tk', $ma_tk)
+			->update([$this->table . '.trang_thai' => 0]);
+		return $result;
+	}
+
 	public function bo_mon()
 	{
 		return $this->belongsTo(BoMon::class, 'ma_bm');

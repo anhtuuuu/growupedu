@@ -51,9 +51,11 @@ class BoMon extends Model
 				'khoa.ma_khoa as ma_khoa',
 				'khoa.ten_khoa as ten_khoa'
 			])
-			->join('khoa', 'khoa.ma_khoa', '=', $this->table . '.ma_khoa');
-
-		
+			->join('khoa', 'khoa.ma_khoa', '=', $this->table . '.ma_khoa')
+			->where($this->table . '.trang_thai', 1);
+				if (isset($args['id_khoa'])) {
+			$query = $query->where('Khoa.ma_khoa', $args['id_khoa']);
+		}
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);
@@ -98,7 +100,21 @@ class BoMon extends Model
 			->update($data);
 		return $result;
 	}
-
+public function admin_delete($id)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+			])
+			// ->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->where($this->table . '.ma_bm', $id)
+			// ->where('bai_giang.ma_tk', $ma_tk)
+			->update([$this->table . '.trang_thai' => 0]);
+		return $result;
+	}
 	public function hoc_phans()
 	{
 		return $this->hasMany(HocPhan::class, 'ma_bm');

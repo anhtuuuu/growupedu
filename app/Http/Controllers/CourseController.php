@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BoMon;
 use App\Models\HocPhan;
+use App\Models\LopHocPhan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Session;
@@ -14,6 +15,7 @@ class CourseController extends LayoutController
     }
     function admin_index(){
         $args = array();
+        
         $course = (new HocPhan)->gets($args);
         $this->_data['rows'] = $course;
        return $this->_auth_login() ?? view(config('asset.view_admin_page')('course_management'), $this->_data);
@@ -120,4 +122,39 @@ class CourseController extends LayoutController
       $this->_data['row'] = $course;
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_course'), $this->_data);
    }
+      function admin_delete()
+      {
+         $role = Session::get('admin_role');
+         if (!$role) {
+            return Redirect::to('/admin');
+         }
+         Session::put('error', 'warning');
+         Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+         if ($role == 1) {
+            // $ma_tk = Session::get('admin_id');
+            $segment = 2;
+            $code_course = trim(request()->segment($segment) ?? '');
+            if (empty($code_course)) {
+               abort(404);
+            }
+            $args = array();
+            $args['id_course'] = $code_course;
+            $lhp_list = (new LopHocPhan())->gets($args);
+            Session::put('error', 'warning');
+            Session::put('message', 'Yêu cầu xóa dữ liệu lớp học phần trong học phần trước khi xóa học phần!');
+            if (empty($lhp_list)) {
+               $result = (new HocPhan())->admin_delete($code_course);
+               if ($result) {
+                  Session::put('error', 'success');
+                  Session::put('message', 'Xoá học phần thành công.');
+               } else {
+                  return back();
+               }
+            }
+            return back();
+
+         }
+         return back();
+
+      }
 }
