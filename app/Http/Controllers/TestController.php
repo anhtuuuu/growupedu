@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\LopHocPhan;
 use App\Models\Baikiemtra;
 use App\Models\Baigiang;
+use Illuminate\Support\Facades\Redirect;
+
 use Illuminate\Support\Arr;
 
 class TestController extends LayoutController
@@ -83,6 +85,8 @@ class TestController extends LayoutController
    {
       $args = array();
       $args['order_by'] = 'desc';
+      $args['ma_gv'] = Session::get('admin_id');
+
       $tests = (new Baikiemtra)->gets($args);
       $this->_data['rows'] = $tests;
       return view(config('asset.view_admin_page')('test_management'), $this->_data);
@@ -92,7 +96,7 @@ class TestController extends LayoutController
    {
       $get_req = $request->all();
       $args = array();
-      $args['ma_tk'] = Session::get('admin_id');      
+      $args['ma_tk'] = Session::get('admin_id');
       $class = (new LopHocPhan)->gets($args);
       $this->_data['class'] = $class;
       if (!empty($get_req)) {
@@ -135,5 +139,31 @@ class TestController extends LayoutController
       return view(config('asset.view_admin_control')('control_test'), $this->_data);
 
       // print_r($result);
+   }
+   function admin_delete()
+   {
+      $role = Session::get('admin_role');
+      if (!$role) {
+         return Redirect::to('/admin');
+      }
+      Session::put('error', 'warning');
+      Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+      if ($role == 2) {
+         $ma_tk = Session::get('admin_id');
+
+         $segment = 2;
+         $id_test = trim(request()->segment($segment) ?? '');
+         $result = (new Baikiemtra())->admin_delete($id_test, $ma_tk);
+
+         if ($result) {
+            Session::put('error', 'success');
+            Session::put('message', 'Xoá bài kiểm tra thành công.');
+         } else {
+            return back();
+         }
+         return Redirect::to('/danh-sach-bai-kiem-tra');
+      }
+      return back();
+
    }
 }

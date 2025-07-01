@@ -54,11 +54,10 @@ class BaiKiemTra extends Model
 				$this->table . '.*',
 				'lop_hoc_phan.ten_lhp as ten_lhp',
 				'lop_hoc_phan.alias as alias_lhp',
-
-				])
-			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp');
-
-
+				'lop_hoc_phan.ma_tk as ma_tk',
+			])
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp')
+			->where($this->table .'.trang_thai', 1);
 
 		if (isset($args['class_alias'])) {
 			$query = $query->where('lop_hoc_phan.alias', $args['class_alias']);
@@ -66,6 +65,10 @@ class BaiKiemTra extends Model
 		}
 		if (isset($args['test_code'])) {
 			$query = $query->where('bai_kiem_tra.ma_bkt', $args['test_code']);
+
+		}
+		if (isset($args['ma_gv'])) {
+			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);
 
 		}
 		if (isset($args['order_by'])) {
@@ -80,6 +83,22 @@ class BaiKiemTra extends Model
 		// }
 
 		return $query->get()->toArray();
+	}
+
+	public function admin_delete($id, $ma_tk)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+			])
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp')
+			->where($this->table .'.ma_bkt', $id)
+			->where('lop_hoc_phan.ma_tk', $ma_tk)
+			->update([$this->table .'.trang_thai' => 0]);
+		return $result;
 	}
 	public function lop_hoc_phan()
 	{

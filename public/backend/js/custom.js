@@ -69,5 +69,5 @@ $(document).ready(function () {
 });
 
 function confirmSubmit() {
-    return confirm("Bạn có chắc chắn muốn xóa người dùng này?");
+    return confirm("Bạn có chắc chắn muốn xóa dữ liệu này?");
 }
