@@ -30,8 +30,11 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
+var index = 0;
+
+$(document).ready(function () {    
     $('#add-question').on('click', function () {
+        index = index + 1;
         var html = `<div class="question-item">
                         <div class="question">
                             <label for="label control-label">Tiêu đề câu hỏi</label>
@@ -71,3 +74,5 @@ $(document).ready(function () {
 function confirmSubmit() {
     return confirm("Bạn có chắc chắn muốn xóa dữ liệu này?");
 }
+
+

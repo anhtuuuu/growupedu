@@ -14,7 +14,7 @@
         <ul class="sidebar-menu">
             <li class="header">MENU</li>
             <li>
-                <a href="" class="">
+                <a href="{{ URL::to('/dashboard') }}" class="">
                     <i class="fa fa-dashboard"></i> <span>Bảng điều khiển</span>
                 </a>
             </li>
