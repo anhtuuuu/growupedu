@@ -116,7 +116,7 @@ Route::get('/xoa-sinh-vien/{value}', [StudentController::class, 'admin_delete'])
 Route::get('/xoa-bai/{value}', [ContentController::class, 'admin_delete']);
 Route::get('/xoa-chuong/{value}', [ChapterController::class, 'admin_delete']);
 Route::get('/xoa-bai-giang/{value}', [LessonController::class, 'admin_delete']);
-// Route::get('/xoa-lop-hoc-phan/{value}', [ClassController::class, 'admin_delete']);
+Route::get('/xoa-lop-hoc-phan/{value}', [ClassController::class, 'admin_delete']);
 
 
 

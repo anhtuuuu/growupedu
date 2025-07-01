@@ -112,6 +112,23 @@ class LopHocPhan extends Model
 			->update(['hinh_anh' => $image]);
 		return $result;
 	}
+	public function admin_delete($id, $ma_tk)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+			])
+			->join('chuong', 'chuong.ma_chuong', '=', 'bai.ma_chuong')
+			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+
+			->where($this->table .'.ma_bai', $id)
+			->where('bai_giang.ma_tk', $ma_tk)
+			->update([$this->table .'.trang_thai' => 0]);
+		return $result;
+	}
 	public function admin_update($id, $data)
 	{
 		if (empty($data)) {
