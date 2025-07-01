@@ -57,8 +57,8 @@ class Chuong extends Model
 				'bai_giang.ten_bg as ten_bg',
 				'bai_giang.alias as alias_lesson'
 			])
-			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg');
-
+			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg')
+			->where($this->table . '.trang_thai', 1);
 		if (isset($args['alias_lesson'])) {
 			$query = $query->where('bai_giang.alias', $args['alias_lesson']);
 		}
@@ -68,6 +68,10 @@ class Chuong extends Model
 		if (isset($args['order_by'])) {
 			$query = $query->orderBy('ngay_tao', $args['order_by']);
 		}
+		if (isset($args['ma_gv'])) {
+			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
+		}
+
 		// $query = $this->generateWhere($query, $args);
 
 		// $query = $this->generateOrderBy($query, $args);
@@ -78,14 +82,15 @@ class Chuong extends Model
 
 		return $query->get()->toArray();
 	}
-	public function add($data){
-		if(empty($data)){
+	public function add($data)
+	{
+		if (empty($data)) {
 			return false;
 		}
 		$result = DB::table($this->table)->insert($data);
 		return $result;
 	}
-public function get_by_id($id)
+	public function get_by_id($id)
 	{
 		$query = DB::table($this->table)
 			->select([
@@ -97,6 +102,21 @@ public function get_by_id($id)
 			->where($this->table . '.ma_chuong', $id);
 
 		return $query->first();
+	}
+	public function admin_delete($id, $ma_tk)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+			])
+			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
+			->where($this->table . '.ma_chuong', $id)
+			->where('bai_giang.ma_tk', $ma_tk)
+			->update([$this->table . '.trang_thai' => 0]);
+		return $result;
 	}
 	public function admin_update($id, $data)
 	{

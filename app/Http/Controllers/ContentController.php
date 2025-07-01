@@ -67,6 +67,8 @@ class ContentController extends LayoutController
     function admin_index()
     {
         $args = array();
+        $args['order_by'] = 'desc';
+        $args['ma_gv'] = Session::get('admin_id');
         $contents = (new Bai)->gets($args);
         $this->_data['rows'] = $contents;
         return view(config('asset.view_admin_page')('content_management'), $this->_data);
@@ -262,5 +264,28 @@ class ContentController extends LayoutController
             $html .= '<option value="' . $chap->ma_chuong . '" >' . $chap->ten_chuong . '</option>';
         }
         return $html;
+    }
+    function admin_delete()
+    {
+        $role = Session::get('admin_role');
+        if (!$role) {
+            return Redirect::to('/admin');
+        }
+        Session::put('error', 'warning');
+        Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+        if ($role == 2) {
+            $ma_tk = Session::get('admin_id');
+            $segment = 2;
+            $code_bai = trim(request()->segment($segment) ?? '');
+            $result = (new Bai())->admin_delete($code_bai, $ma_tk);
+            if ($result) {
+                Session::put('error', 'success');
+                Session::put('message', 'Xoá bài thành công.');
+            } else {
+                return back();
+            }
+            return back();
+        }
+        return back();
     }
 }

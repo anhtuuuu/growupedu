@@ -75,9 +75,13 @@ class LopHocPhan extends Model
 				'hoc_phan.ten_hp as ten_hp'
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg')
 			->join('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp');
 		if (isset($args['alias'])) {
 			$query = $query->where($this->table . '.alias', $args['alias']);
+		}
+		if (isset($args['id_lesson'])) {
+			$query = $query->where('bai_giang.ma_bg', $args['id_lesson']);
 		}
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
