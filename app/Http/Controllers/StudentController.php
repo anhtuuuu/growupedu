@@ -19,7 +19,7 @@ class StudentController extends LayoutController
         $args = array();
         $args['alias_class'] = $id;
         $args['ma_gv'] = Session::get('admin_id');
-
+        $args['per_page'] = 5;
         $students = (new SinhVien)->gets($args);
         $this->_data['rows'] = $students;
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('student_management'), $this->_data);

@@ -66,15 +66,9 @@ class DanhGia extends Model
 		if (isset($args['ma_gv'])) {
 			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);
 		}
-		// $query = $this->generateWhere($query, $args);
-
-		// $query = $this->generateOrderBy($query, $args);
-
-		// if ($offset >= 0) {
-		// 	$query->offset($offset)->limit($perPage);
-		// }
-
-		return $query->get()->toArray();
+		
+		$per_page = $args['per_page'] ?? 10;
+		return $query->paginate($per_page);
 	}
 	public function get_by_id($id)
 	{
@@ -92,7 +86,7 @@ class DanhGia extends Model
 		return $query->first();
 	}
 
-	public function admin_delete($id, $ma_tk)
+	public function admin_delete($id)
 	{
 		if (empty($id)) {
 			return false;
@@ -103,7 +97,7 @@ class DanhGia extends Model
 			])
 			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'danh_gia.ma_lhp')
 			->where($this->table . '.id', $id)
-			->where('lop_hoc_phan.ma_tk', $ma_tk)
+			// ->where('lop_hoc_phan.ma_tk', $ma_tk)
 			->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}

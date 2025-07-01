@@ -57,16 +57,8 @@ class HocPhan extends Model
 			$query = $query->where('bo_mon.ma_bm', $args['id_subject']);
 		}
 		
-
-		// $query = $this->generateWhere($query, $args);
-
-		// $query = $this->generateOrderBy($query, $args);
-
-		// if ($offset >= 0) {
-		// 	$query->offset($offset)->limit($perPage);
-		// }
-
-		return $query->get()->toArray();
+		$per_page = $args['per_page'] ?? 10;
+		return $query->paginate($per_page);
 	}
 	public function add($data)
 	{

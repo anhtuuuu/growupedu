@@ -19,6 +19,7 @@ class SubjectController extends LayoutController
    function admin_index()
    {
       $args = array();
+      $args['per_page'] = 5;
       $subject = (new BoMon)->gets($args);
       $this->_data['rows'] = $subject;
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('subject_management'), $this->_data);

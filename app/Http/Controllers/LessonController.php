@@ -85,6 +85,7 @@ class LessonController extends LayoutController
       $args = array();
       $args['order_by'] = 'desc';
       $args['ma_gv'] = Session::get('admin_id');
+      $args['per_page'] = 5;
       $lessons = (new BaiGiang)->gets($args);
       $this->_data['rows'] = $lessons;
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('lesson_management'), $this->_data);
@@ -200,7 +201,7 @@ class LessonController extends LayoutController
          }
          $args = array();
          $args['id_lesson'] = $code_baigiang;
-         
+
          $chuong_list = (new Chuong())->gets($args);
          $lhp_list = (new LopHocPhan())->gets($args);
 
