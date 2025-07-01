@@ -22,7 +22,7 @@ class StudentController extends LayoutController
 
         $students = (new SinhVien)->gets($args);
         $this->_data['rows'] = $students;
-        return view(config('asset.view_admin_page')('student_management'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_page')('student_management'), $this->_data);
     }
     function admin_delete()
     {

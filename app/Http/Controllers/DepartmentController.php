@@ -17,7 +17,7 @@ class DepartmentController extends LayoutController
         $args = array();
         $department = (new Khoa)->gets($args);
         $this->_data['rows'] = $department;
-        return view(config('asset.view_admin_page')('department_management'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_page')('department_management'), $this->_data);
     }
     function admin_add(Request $request)
     {
@@ -50,9 +50,9 @@ class DepartmentController extends LayoutController
                 $this->_data['error'] = 'danger';
                 $this->_data['message'] = 'Thêm khoa thất bại';
             }
-            return view(config('asset.view_admin_control')('control_department'), $this->_data);
+            return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_department'), $this->_data);
         }
-        return view(config('asset.view_admin_control')('control_department'));
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_department'));
 
     }
 
@@ -111,7 +111,7 @@ class DepartmentController extends LayoutController
          abort(404);
       }
       $this->_data['row'] = $department;
-      return view(config('asset.view_admin_control')('control_department'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_department'), $this->_data);
    }
 
 }

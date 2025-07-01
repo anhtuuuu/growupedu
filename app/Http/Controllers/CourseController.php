@@ -16,7 +16,7 @@ class CourseController extends LayoutController
         $args = array();
         $course = (new HocPhan)->gets($args);
         $this->_data['rows'] = $course;
-       return view(config('asset.view_admin_page')('course_management'), $this->_data);
+       return $this->_auth_login() ?? view(config('asset.view_admin_page')('course_management'), $this->_data);
     }
     function admin_add(Request $request)
     {
@@ -53,9 +53,9 @@ class CourseController extends LayoutController
                 $this->_data['error'] = 'danger';
                 $this->_data['message'] = 'Thêm học phần thất bại';
             }
-            return view(config('asset.view_admin_control')('control_course'), $this->_data);
+            return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_course'), $this->_data);
         }
-        return view(config('asset.view_admin_control')('control_course'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_course'), $this->_data);
     }
 
     function admin_update(Request $request)
@@ -118,6 +118,6 @@ class CourseController extends LayoutController
          abort(404);
       }
       $this->_data['row'] = $course;
-      return view(config('asset.view_admin_control')('control_course'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_course'), $this->_data);
    }
 }

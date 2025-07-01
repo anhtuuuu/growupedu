@@ -23,7 +23,7 @@ class ChapterController extends LayoutController
       $args['ma_gv'] = Session::get('admin_id');
       $chapter = (new Chuong)->gets($args);
       $this->_data['rows'] = $chapter;
-      return view(config('asset.view_admin_page')('chapter_management'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_page')('chapter_management'), $this->_data);
    }
    function admin_add(Request $request)
    {
@@ -62,7 +62,7 @@ class ChapterController extends LayoutController
          }
          return view(config('asset.view_admin_control')('control_chapter'), $this->_data);
       }
-      return view(config('asset.view_admin_control')('control_chapter'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_chapter'), $this->_data);
    }
 
 
@@ -126,7 +126,7 @@ class ChapterController extends LayoutController
          abort(404);
       }
       $this->_data['row'] = $chapter;
-      return view(config('asset.view_admin_control')('control_chapter'), $this->_data);
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_chapter'), $this->_data);
    }
 
    function admin_delete()
