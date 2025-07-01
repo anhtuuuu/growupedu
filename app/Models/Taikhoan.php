@@ -99,8 +99,10 @@ class Taikhoan extends Model
 		if ($offset >= 0) {
 			$query->offset($offset)->limit($perPage);
 		}
+		$per_page = $args['per_page'] ?? 10;
+		return $query->paginate($per_page);
 
-		return $query->get()->toArray();
+		// return $query->get()->toArray();
 	}
 	public function check_login($email)
 	{
