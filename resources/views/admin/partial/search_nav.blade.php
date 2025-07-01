@@ -18,7 +18,12 @@
                         </div>
                         <div class="form-group search_input">
                             <select class="form-control input-sm" name="catid">
-                                <option value="0">Tất cả chủ đề</option>                                
+                                <option value="0">Tất cả chủ đề</option>
+                                <?php if(isset($filter) && !empty($filter)):
+                                    foreach($filter as $value):?>
+                                    <option value="0">Tất cả chủ đề</option>
+
+                                <?php endforeach; endif; ?>
                             </select>
                         </div>
 
