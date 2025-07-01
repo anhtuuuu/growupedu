@@ -53,7 +53,7 @@
                                         </td>
 
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-bai-kiem-tra/'); ?>">Sửa</a>
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-bai-kiem-tra/'. $row->ma_bkt); ?>">Sửa</a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em><a onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
                                                 href="<?php echo URL::to('xoa-bai-kiem-tra/' . $row->ma_bkt); ?>">Xóa</a>

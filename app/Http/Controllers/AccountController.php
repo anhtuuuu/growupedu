@@ -28,7 +28,7 @@ class AccountController extends LayoutController
         $args = array();
         $accounts = (new Taikhoan)->gets($args);
         $this->_data['rows'] = $accounts;
-        return view(config('asset.view_admin_page')('account_management'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_page')('account_management'), $this->_data);
     }
     function gets()
     {
@@ -104,7 +104,7 @@ class AccountController extends LayoutController
             return view(config('asset.view_admin_control')('control_account'), $this->_data);
         }
 
-        return view(config('asset.view_admin_control')('control_account'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_account'), $this->_data);
 
         // print_r($result);
     }
@@ -228,7 +228,7 @@ class AccountController extends LayoutController
             abort(404);
         }
         $this->_data['row'] = $account;
-        return view(config('asset.view_admin_control')('control_account'), $this->_data);
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_account'), $this->_data);
     }
 
     function check_role()

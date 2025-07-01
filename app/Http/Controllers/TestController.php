@@ -103,42 +103,152 @@ class TestController extends LayoutController
          $validated = $request->validate(
             [
                'tieu_de' => 'required|max:255',
-               'label' => 'required|max:255',
-               'answer1' => 'required',
-               'answer2' => 'required',
-               'answer3' => 'required',
-               'answer4' => 'required',
+               'label.*' => 'required|max:255',
+               'answer1.*' => 'required',
+               'answer2.*' => 'required',
+               'answer3.*' => 'required',
+               'answer4.*' => 'required',
             ],
             [
                'tieu_de.required' => 'Vui lòng nhập tiêu đề.',
                'tieu_de.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
-               'label.required' => 'Tiêu đề câu hỏi không được để trống.',
-               'label.max' => 'Tiêu đề câu hỏi không được vượt quá 255 ký tự.',
-               'answer1.required' => 'Đáp án không được bỏ trống.',
-               'answer2.required' => 'Đáp án không được bỏ trống.',
-               'answer3.required' => 'Đáp án không được bỏ trống.',
-               'answer4.required' => 'Đáp án không được bỏ trống.',
+               'label.*.required' => 'Tiêu đề câu hỏi không được để trống.',
+               'label.*.max' => 'Tiêu đề câu hỏi không được vượt quá 255 ký tự.',
+               'answer1.*.required' => 'Đáp án không được bỏ trống.',
+               'answer2.*.required' => 'Đáp án không được bỏ trống.',
+               'answer3.*.required' => 'Đáp án không được bỏ trống.',
+               'answer4.*.required' => 'Đáp án không được bỏ trống.',
             ]
          );
+
+         $questions = array();
+         $labels = $request->input('label');
+         $answer1 = $request->input('answer1');
+         $answer2 = $request->input('answer2');
+         $answer3 = $request->input('answer3');
+         $answer4 = $request->input('answer4');
+
+         $answers = $request->input('dap_an');
+         $dap_an = '';
+         foreach ($answers as $ans) {
+            $dap_an .= ($ans . ";");
+         }
+         foreach ($labels as $i => $label) {
+            $questions[] = [
+               'label' => $label,
+               'answer1' => $answer1[$i] ?? null,
+               'answer2' => $answer2[$i] ?? null,
+               'answer3' => $answer3[$i] ?? null,
+               'answer4' => $answer4[$i] ?? null,
+            ];
+         }
+
+         $attributes = serialize($questions);
          $data = [
-            'ma_tk' => Session::get('admin_id'),
-            'ten_bg' => $request->ten_bg,
-            'alias' => $request->alias,
-            'mo_ta' => $request->mo_ta
+            'ma_lhp' => $request->ma_lhp,
+            'tieu_de' => $request->tieu_de,
+            'noi_dung' => $attributes,
+            'dap_an' => $dap_an
          ];
-         $result = (new BaiGiang)->add($data);
+         $result = (new BaiKiemTra)->add($data);
          if ($result) {
             Session::put('error', 'success');
-            Session::put('message', 'Thêm bài giảng thành công');
+            Session::put('message', 'Thêm bài kiểm tra thành công');
          } else {
             Session::put('error', 'danger');
-            Session::put('message', 'Thêm bài giảng thất bại');
+            Session::put('message', 'Thêm bài kiểm tra thất bại');
          }
-         return view(config('asset.view_admin_control')('control_lesson'), $this->_data);
+         return Redirect::to('/danh-sach-bai-kiem-tra');
       }
       return view(config('asset.view_admin_control')('control_test'), $this->_data);
 
       // print_r($result);
+   }
+
+   function admin_update(Request $request)
+   {
+      $args = array();
+      $args['ma_tk'] = Session::get('admin_id');
+      $class = (new LopHocPhan)->gets($args);
+      $this->_data['class'] = $class;
+      $get_req = $request->all();
+      $segment = 2;
+      $id = trim(request()->segment($segment) ?? '');
+
+      if (!empty($get_req)) {
+
+         $id_test = $request->ma_bkt;
+         $test = (new Baikiemtra)->get_by_id($id_test);
+         $validated = $request->validate(
+            [
+               'tieu_de' => 'required|max:255',
+               'label.*' => 'required|max:255',
+               'answer1.*' => 'required',
+               'answer2.*' => 'required',
+               'answer3.*' => 'required',
+               'answer4.*' => 'required',
+            ],
+            [
+               'tieu_de.required' => 'Vui lòng nhập tiêu đề.',
+               'tieu_de.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+               'label.*.required' => 'Tiêu đề câu hỏi không được để trống.',
+               'label.*.max' => 'Tiêu đề câu hỏi không được vượt quá 255 ký tự.',
+               'answer1.*.required' => 'Đáp án không được bỏ trống.',
+               'answer2.*.required' => 'Đáp án không được bỏ trống.',
+               'answer3.*.required' => 'Đáp án không được bỏ trống.',
+               'answer4.*.required' => 'Đáp án không được bỏ trống.',
+            ]
+         );
+
+         if (empty($test)) {
+            abort(404);
+         }
+         $questions = array();
+         $labels = $request->input('label');
+         $answer1 = $request->input('answer1');
+         $answer2 = $request->input('answer2');
+         $answer3 = $request->input('answer3');
+         $answer4 = $request->input('answer4');
+
+         $answers = $request->input('dap_an');
+         $dap_an = '';
+         foreach ($answers as $ans) {
+            $dap_an .= ($ans . ";");
+         }
+         foreach ($labels as $i => $label) {
+            $questions[] = [
+               'label' => $label,
+               'answer1' => $answer1[$i] ?? null,
+               'answer2' => $answer2[$i] ?? null,
+               'answer3' => $answer3[$i] ?? null,
+               'answer4' => $answer4[$i] ?? null,
+            ];
+         }
+
+         $attributes = serialize($questions);
+         $data = [
+            'ma_lhp' => $request->ma_lhp,
+            'tieu_de' => $request->tieu_de,
+            'noi_dung' => $attributes,
+            'dap_an' => $dap_an
+         ];
+         $result = (new Baikiemtra)->admin_update($id_test, $data);
+         if ($result) {
+            Session::put('error', 'success');
+            Session::put('message', 'Cập nhật bài kiểm tra thành công.');
+         } else {
+            Session::put('error', 'danger');
+            Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');
+         }
+         return Redirect::to('danh-sach-bai-kiem-tra');
+      }
+
+      $test_content = (new Baikiemtra)->get_by_id($id);
+      if (empty($test_content)) {
+         abort(404);
+      }
+      $this->_data['row'] = $test_content;
+      return view(config('asset.view_admin_control')('control_test'), $this->_data);
    }
    function admin_delete()
    {
