@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Nội dung</label>
-                                    <textarea class="form-control" id="editor" name="noi_dung" data-autoresize rows="3">{{ isset($row) ? $row->noi_dung : old('noi_dung') }}</textarea>
+                                    <textarea class="form-control" id="editor" name="noi_dung">{{ isset($row) ? $row->noi_dung : old('noi_dung') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="video" class="control-label">Liên kết video</label>

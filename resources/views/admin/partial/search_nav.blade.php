@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <form name="filter" method="get" action="">
+        <form name="filter" method="post" action="{{ isset($filter_link) ? URL::to($filter_link) : '' }}">
+            {{ csrf_field() }}
             <nav class="search_bar navbar navbar-default" role="search">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -17,25 +18,21 @@
                             Loại chủ đề
                         </div>
                         <div class="form-group search_input">
-                            <select class="form-control input-sm" name="catid">
+                            <select class="form-control input-sm" name="cat_id">
                                 <option value="0">Tất cả chủ đề</option>
                                 <?php if(isset($filter) && !empty($filter)):
-                                    foreach($filter as $value):?>
-                                    <option value="0">Tất cả chủ đề</option>
-
-                                <?php endforeach; endif; ?>
+                                    for($i = 0; $i <= count($filter); $i++):?>
+                                <option value="{{ $filter['value'][$i] }}">{{ $filter['title'][$i] }}</option>
+                                <?php endfor; endif; ?>
                             </select>
                         </div>
-
-
-
 
                         <div class="form-group search_title">
                             Từ khóa tìm kiếm
                         </div>
                         <div class="form-group search_input">
                             <input class="form-control input-sm" type="text" value="" maxlength="64"
-                                name="q" placeholder="Từ khóa tìm kiếm">
+                                name="key_word" placeholder="Từ khóa tìm kiếm">
                         </div>
 
                         <div class="form-group search_action pull-right">

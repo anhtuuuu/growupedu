@@ -72,8 +72,11 @@ class Chuong extends Model
 			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
 		}
 
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function add($data)
 	{

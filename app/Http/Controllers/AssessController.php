@@ -18,9 +18,9 @@ class AssessController extends LayoutController
       if ($class_alias === '') {
          abort(404);
       }
-      $args = array();
-      $section_class_none = (new LopHocPhan)->gets($args);
+      $section_class_none = $this->section_class();
       $this->_data['load_section_class'] = $section_class_none;
+      $args = array();      
       $args['alias'] = $class_alias;
       $section_class = (new LopHocPhan)->gets($args);
 

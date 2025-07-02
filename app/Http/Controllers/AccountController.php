@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\BoMon;
+use App\Models\SinhVien;
 use App\Models\Taikhoan;
 use App\Models\VaiTro;
 use Illuminate\Http\Request;
@@ -9,25 +10,29 @@ use Illuminate\Support\Facades\Redirect;
 use Session;
 class AccountController extends LayoutController
 {
-    function login()
-    {
-        // Session::flush();
-
-        return view(config('asset.view_page')('form-login'));
-    }
     function index()
     {
-
-        $segment = 2;
-        $id = trim(request()->segment($segment) ?? '');
+        $id = Session::get('client_id');
         if ($id === '') {
             abort(404);
         }
-        // print_r($id);
+        $section_class_none = $this->section_class();
+        $this->_data['load_section_class'] = $section_class_none;
+
         $args = array();
-        $args['ma_tk'] = $id;
-        $value_account = (new Taikhoan)->gets($args);
-        return view(config('asset.view_page')('persional-management'))->with('value_account', $value_account);
+        $args['ma_sv'] = $id;
+        $class_info = (new SinhVien)->gets($args);
+        $this->_data['class_info'] = $class_info;
+
+        $value_account = (new Taikhoan)->get_by_id($id);
+        $this->_data['row'] = $value_account;
+        return view(config('asset.view_page')('persional-management'), $this->_data);
+    }
+     function logout()
+    {
+        $this->_auth_login_client();
+        Session::flush();
+        return Redirect::to('/');
     }
     function admin_index()
     {
@@ -39,11 +44,39 @@ class AccountController extends LayoutController
         $this->_data['rows'] = $accounts;
 
         $filter = array();
-        foreach($roles as $index => $value){
-            $filter['value'][$index] = $value->ma_tk;
+        foreach ($roles as $index => $value) {
+            $filter['value'][$index] = $value->ma_vt;
             $filter['title'][$index] = $value->tieu_de;
         }
         $this->_data['filter'] = $filter;
+        $this->_data['filter_link'] = 'danh-sach-tai-khoan/';
+
+        return $this->_auth_login() ?? view(config('asset.view_admin_page')('account_management'), $this->_data);
+    }
+    function filter(Request $request)
+    {
+        $value = $request->cat_id;
+        $key_word = $request->key_word;
+        $args = array();
+        $args['per_page'] = 5;
+        if ($value != 0) {
+            $args['role'] = $value;
+        }
+        if (!empty($key_word)) {
+            $args['key_word'] = $key_word;
+        }
+        $roles = (new VaiTro)->gets();
+
+        $filter = array();
+        foreach ($roles as $index => $value) {
+            $filter['value'][$index] = $value->ma_vt;
+            $filter['title'][$index] = $value->tieu_de;
+        }
+        $this->_data['filter'] = $filter;
+        $this->_data['filter_link'] = 'danh-sach-tai-khoan/';
+
+        $data = (new Taikhoan)->gets($args);
+        $this->_data['rows'] = $data;
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('account_management'), $this->_data);
     }
     function gets()
@@ -266,19 +299,30 @@ class AccountController extends LayoutController
         }
         return $html;
     }
-    function admin_delete(Request $request)
+    function admin_delete()
     {
-        $segment = 2;
-        $id_account = trim(request()->segment($segment) ?? '');
-        $result = (new Taikhoan)->admin_delete($id_account);
-
-        if ($result) {
-            Session::put('error', 'success');
-            Session::put('message', 'Xoá tài khoản thành công.');
-        } else {
-            Session::put('error', 'danger');
-            Session::put('message', 'Xoá tài khoản thất bại.');
+        $role = Session::get('admin_role');
+        if (!$role) {
+            return Redirect::to('/admin');
         }
-        return Redirect::to('/danh-sach-tai-khoan');
+        Session::put('error', 'warning');
+        Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+        if ($role == 1) {
+            $segment = 2;
+            $id_account = trim(request()->segment($segment) ?? '');
+            if (empty($id_account)) {
+                abort(404);
+            }
+            $result = (new Taikhoan)->admin_delete($id_account);
+            if ($result) {
+                Session::put('error', 'success');
+                Session::put('message', 'Xoá tài khoản thành công.');
+            } else {
+                Session::put('error', 'danger');
+                Session::put('message', 'Xoá tài khoản thất bại.');
+            }
+            return back();
+        }
+        return back();
     }
 }

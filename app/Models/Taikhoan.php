@@ -92,30 +92,39 @@ class Taikhoan extends Model
 		if (isset($args['role'])) {
 			$query = $query->where($this->table . '.vai_tro', $args['role']);
 		}
-			if (isset($args['ma_gv'])) {
-			$query = $query->where($this->table .'.ma_tk', $args['ma_gv']);
+		if (isset($args['key_word'])) {
+			$query = $query->whereFullText('ho_ten', $args['key_word']);
 		}
-
-
-		if ($offset >= 0) {
-			$query->offset($offset)->limit($perPage);
+		if (isset($args['ma_gv'])) {
+			$query = $query->where($this->table . '.ma_tk', $args['ma_gv']);
 		}
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
-
-		// return $query->get()->toArray();
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
-	public function check_login($email)
+	public function check_login($args, $email)
 	{
 		$query = DB::table($this->table)
 			->select([
 				$this->table . '.*'
 			])
-			->where($this->table . '.email', $email)
-			->where(function ($query) {
+			->where($this->table . '.email', $email);
+
+		if (isset($args['is_admin']) && $args['is_admin']) {
+			$query = $query->where(function ($query) {
 				$query->where('vai_tro', 1)
 					->orWhere('vai_tro', 2);
 			});
+		}
+		if (isset($args['is_client']) && $args['is_client']) {
+			$query = $query->where(function ($query) {
+				$query->where('vai_tro', 2)
+					->orWhere('vai_tro', 3);
+			});
+		}	
+
 		return $query->first();
 	}
 	public function add($data)
@@ -126,8 +135,9 @@ class Taikhoan extends Model
 		$result = DB::table($this->table)->insert($data);
 		return $result;
 	}
-	public function upload_image($username, $image){
-		if(empty($image)){
+	public function upload_image($username, $image)
+	{
+		if (empty($image)) {
 			return false;
 		}
 		$result = DB::table($this->table)

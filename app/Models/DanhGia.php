@@ -67,8 +67,11 @@ class DanhGia extends Model
 			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);
 		}
 		
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function get_by_id($id)
 	{

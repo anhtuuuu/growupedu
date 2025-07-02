@@ -57,8 +57,11 @@ class HocPhan extends Model
 			$query = $query->where('bo_mon.ma_bm', $args['id_subject']);
 		}
 		
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function add($data)
 	{

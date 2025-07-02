@@ -38,19 +38,17 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="mdropdown-content">
-                    <?php 
-                    if(isset($load_section_class) &&  !empty($load_section_class) && is_array($load_section_class)):
+                    <?php if(isset($load_section_class) &&  !empty($load_section_class) && is_array($load_section_class)):
                         foreach($load_section_class as $row): ?>
-                    
-                    <a href="<?php echo URL::to($row->alias)?>" class="text-dark">{{$row->ten_lhp}}</a>
-                    <?php
-                    endforeach;     
-                    endif; ?>
+                        <a href="<?php echo URL::to($row->alias)?>" class="text-dark">{{$row->ten_lhp}}</a>
+                    <?php endforeach; endif;?>
                 </div>
             </div>
         </div>
         <div class="rightNav">
-            <a href="../account-manager.html" class="text-lghtgoldyellow">Quản lý tài khoản</a>
+            <a href="{{URL::to('thong-tin-tai-khoan')}}" class="text-lghtgoldyellow">Quản lý tài khoản</a>
+            <a href="{{URL::to('dang-xuat')}}" class="text-lghtgoldyellow">Đăng xuất</a>
+
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>

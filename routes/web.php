@@ -21,11 +21,14 @@ use App\Http\Controllers\FormLoginController;
 /* Client sites start */
 Route::get('/', [LayoutController::class, 'index']);
 Route::get('/login', [FormLoginController::class, 'index']);
+Route::post('/login', [FormLoginController::class, 'index']);
+Route::get('/dang-xuat', [AccountController::class, 'logout']);
+
 Route::get('/{alias_class}/{alias_lesson}/files-bai-giang', [ContentController::class, 'files']);
 Route::get('/bai-giang/{alias_lesson}', [LessonController::class, 'index']);
 Route::get('/{alias_class}/{alias_lesson}/{alias_chapter}/{alias_content}', [ContentController::class, 'index']);
 
-Route::get('/persional-management/{num}', [AccountController::class, 'index']);
+Route::get('/thong-tin-tai-khoan', [AccountController::class, 'index']);
 Route::get('{alias_class}/{test_code}/test', [TestController::class, 'index']);
 Route::get('{alias_class}/test', [TestController::class, 'test_list']);
 Route::get('/section-class/{any}', [ClassController::class, 'index']);
@@ -109,7 +112,7 @@ Route::post('/cap-nhat-bai-kiem-tra', [TestController::class, 'admin_update']);
 
 
 // xóa
-Route::post('/xoa-tai-khoan/{value}', [AccountController::class, 'admin_delete']);
+Route::get('/xoa-tai-khoan/{value}', [AccountController::class, 'admin_delete']);
 Route::get('/xoa-bai-kiem-tra/{value}', [TestController::class, 'admin_delete']);
 Route::get('/xoa-danh-gia/{value}', [AssessController::class, 'admin_delete']);
 Route::get('/xoa-sinh-vien/{value}', [StudentController::class, 'admin_delete']);
@@ -120,6 +123,9 @@ Route::get('/xoa-lop-hoc-phan/{value}', [ClassController::class, 'admin_delete']
 Route::get('/xoa-hoc-phan/{value}', [CourseController::class, 'admin_delete']);
 Route::get('/xoa-bo-mon/{value}', [SubjectController::class, 'admin_delete']);
 Route::get('/xoa-khoa/{value}', [DepartmentController::class, 'admin_delete']);
+
+// filter
+Route::post('/danh-sach-tai-khoan', [AccountController::class, 'filter']);
 
 
 

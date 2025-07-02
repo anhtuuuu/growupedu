@@ -46,8 +46,11 @@ class Khoa extends Model
 			])
 			->where($this->table . '.trang_thai', 1);
 
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function add($data)
 	{

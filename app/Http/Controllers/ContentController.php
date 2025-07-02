@@ -29,7 +29,7 @@ class ContentController extends LayoutController
             abort(404);
         }
         $args = array();
-        $section_class_none = (new LopHocPhan)->gets($args);
+        $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
         $args['alias'] = $class_alias;
         $section_class = (new LopHocPhan)->gets($args);
@@ -86,29 +86,21 @@ class ContentController extends LayoutController
         }
 
         $args = array();
-        $section_class_none = (new LopHocPhan)->gets($args);
+        $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
         $args['alias_class'] = $class_alias;
         $args['alias_lesson'] = $lesson_alias;
 
         $lesson = (new BaiGiang)->gets($args);
 
-
         if (empty($lesson)) {
             abort(404);
             return;
         }
 
-        // $courses = (new Chuong)->gets($args);
         $contents = (new Bai)->gets($args);
-
-        // $data = array();
-        // $data['courses'] = $courses;
-        // $data['contents'] = $contents;
         $args['alias'] = $class_alias;
-
         $section_class = (new LopHocPhan())->gets($args);
-
 
         $this->_data['contents'] = $contents;
         $this->_data['section_class'] = $section_class;
@@ -125,6 +117,7 @@ class ContentController extends LayoutController
         $args['ma_tk'] = Session::get('admin_id');
         $lessons = (new BaiGiang)->gets($args);
         $this->_data['lessons'] = $lessons;
+        session(['KCFINDER' => ['disabled' => false]]);
 
         // $data=(new Chuong())->gets($args);
         // $this->_data['table_chuong'] = $data;

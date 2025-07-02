@@ -23,7 +23,7 @@ class TestController extends LayoutController
          abort(404);
       }
       $args = array();
-      $section_class_none = (new LopHocPhan)->gets($args);
+      $section_class_none = $this->section_class();
       $this->_data['load_section_class'] = $section_class_none;
       $args['alias'] = $class_alias;
 
@@ -62,7 +62,7 @@ class TestController extends LayoutController
          abort(404);
       }
       $args = array();
-      $section_class_none = (new LopHocPhan)->gets($args);
+      $section_class_none = $this->section_class();
       $this->_data['load_section_class'] = $section_class_none;
       $args['class_alias'] = $class_alias;
       $args['alias'] = $class_alias;
