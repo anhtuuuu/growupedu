@@ -56,8 +56,11 @@ class BoMon extends Model
 				if (isset($args['id_khoa'])) {
 			$query = $query->where('Khoa.ma_khoa', $args['id_khoa']);
 		}
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function add($data){
 		if(empty($data)){

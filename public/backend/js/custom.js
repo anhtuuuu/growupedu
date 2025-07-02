@@ -75,4 +75,20 @@ function confirmSubmit() {
     return confirm("Bạn có chắc chắn muốn xóa dữ liệu này?");
 }
 
+// $(document).ready(function () {
+//     $('#filter').on('change', function () {
+//         var filter_link = $(this).val();
+//         $.ajax({
+//             url: filter_link,
+//             method: 'GET',
+//             success: function (response) {
+//                 $('#body_load').html(response);
+//             },
+//             error: function (xhr) {
+//                 alert('Có lỗi xảy ra: ' + xhr.status);
+//             }
+//         });
+//     });
+// });
+
 

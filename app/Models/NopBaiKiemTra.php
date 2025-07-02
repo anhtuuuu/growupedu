@@ -73,8 +73,11 @@ class NopBaiKiemTra extends Model
 		if (isset($args['test_code'])) {
 			$query = $query->where('bai_kiem_tra.ma_bkt', $args['test_code']);
 		}
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function bai_kiem_tra()
 	{

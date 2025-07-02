@@ -29,6 +29,8 @@ class ChapterController extends LayoutController
    function admin_add(Request $request)
    {
       $args = array();
+      $id_account = Session::get('admin_id');
+      $args['ma_tk'] = $id_account;
       $data = (new BaiGiang())->gets($args);
       $this->_data['table_baigiang'] = $data;
 
@@ -55,13 +57,13 @@ class ChapterController extends LayoutController
          ];
          $result = (new Chuong())->add($data);
          if ($result) {
-            $this->_data['error'] = 'success';
-            $this->_data['message'] = 'Thêm chương thành công';
+            Session::put('error', 'success');
+            Session::put('message', 'Thêm chương thành công.');
          } else {
-            $this->_data['error'] = 'danger';
-            $this->_data['message'] = 'Thêm chương thất bại';
+            Session::put('error', 'danger');
+            Session::put('message', 'Thêm chương thất bại.');
          }
-         return view(config('asset.view_admin_control')('control_chapter'), $this->_data);
+         return Redirect::to('/danh-sach-chuong');
       }
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_chapter'), $this->_data);
    }

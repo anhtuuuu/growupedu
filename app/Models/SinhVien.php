@@ -62,17 +62,24 @@ class SinhVien extends Model
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
 			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', $this->table . '.ma_lhp')
-			->where($this->table .'.trang_thai', 1);
-			if (isset($args['ma_lhp'])) {
+			->where($this->table . '.trang_thai', 1);
+		if (isset($args['ma_lhp'])) {
 			$query = $query->where($this->table . '.ma_lhp', $args['ma_lhp']);
 		}
-			if (isset($args['ma_gv'])) {
-			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);}
-				if (isset($args['alias_class'])) {
-			$query = $query->where( 'lop_hoc_phan.alias', $args['alias_class']);
+		if (isset($args['ma_sv'])) {
+			$query = $query->where($this->table . '.ma_tk', $args['ma_sv']);
 		}
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['ma_gv'])) {
+			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);
+		}
+		if (isset($args['alias_class'])) {
+			$query = $query->where('lop_hoc_phan.alias', $args['alias_class']);
+		}
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function admin_delete($id, $ma_tk)
 	{
@@ -85,9 +92,9 @@ class SinhVien extends Model
 			])
 			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'sinh_vien.ma_lhp')
 			->join('taikhoan', 'taikhoan.ma_tk', '=', 'sinh_vien.ma_tk')
-			->where($this->table .'.id', $id)
+			->where($this->table . '.id', $id)
 			->where('lop_hoc_phan.ma_tk', $ma_tk)
-			->update([$this->table .'.trang_thai' => 0]);
+			->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}
 	public function lop_hoc_phan()

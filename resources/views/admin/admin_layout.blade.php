@@ -39,7 +39,7 @@
 
         @include(config('asset.view_admin')('admin_footer'))
     </div>
-{{-- 
+    {{-- 
     <script src={{ URL::to(config('asset.dist_admin_path') . 'plugins/jQuery/jQuery-2.1.3.min.js') }}
         type="text/javascript"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -52,8 +52,13 @@
     <script src={{ URL::to(config('asset.admin_path') . 'ckeditor/ckeditor.js') }}></script>
     <script>
         CKEDITOR.replace('editor', {
-            filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
-            filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+            language: 'vi',
+            filebrowserBrowseUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/browse.php?opener=ckeditor&type=files' }}',
+            filebrowserImageBrowseUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/browse.php?opener=ckeditor&type=images&dir=images/news'}}',
+            filebrowserFlashBrowseUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/browse.php?opener=ckeditor&type=flash'}}',
+            filebrowserUploadUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/upload.php?opener=ckeditor&type=files'}}',
+            filebrowserImageUploadUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/upload.php?opener=ckeditor&type=images&dir=images/news'}}',
+            filebrowserFlashUploadUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/upload.php?opener=ckeditor&type=flash'}}'
         });
     </script>
     <script type="text/javascript">

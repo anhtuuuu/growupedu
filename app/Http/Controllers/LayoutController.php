@@ -70,29 +70,45 @@ class LayoutController extends Controller
         // $this->_data['num_rows_contact'] = modules::run('contact/num_rows_new');
         // $this->_data['num_rows_order'] = modules::run('shops/orders/counts', array('viewed' => 0));
     }
-    public function _auth_login(){
-        if(!Session::has('admin_id')){
+    public function _auth_login()
+    {
+        if (!Session::has('admin_id')) {
             return Redirect::to('admin');
         }
     }
+    public function _auth_login_client()
+    {
+        if (!Session::has('client_id')) {
+            return Redirect::to('login');
+        }
+    }
+    public function section_class()
+    {
+        $args = array();
+        $id_student = Session::get('client_id');
+        if (empty($id_student)) {
+            return Redirect::to('login');
+        }
+        $args['ma_sv'] = $id_student;
+        $section_class_none = (new LopHocPhan())->gets($args);
+        return $section_class_none;
+    }
     function index()
     {
-        $this->_initialize();
-        $args = array();
-        $section_class_none = (new LopHocPhan())->gets($args);
+        $section_class_none = $this->section_class();
         $this->_data['section_class_none'] = $section_class_none;
-        
+
         $this->_data['type_side_none'] = 'home';
         $this->_data['left_side_none'] = $section_class_none;
 
-       $this->_data['load_section_class'] = $section_class_none; 
+        $this->_data['load_section_class'] = $section_class_none;
 
         // $posts_news = modules::run('posts/get_items_cat_type', 'news', 0);
         // $partial = array();
         // $partial['data'] = $posts_news;
         // $this->_data['posts_news'] = $this->load->view('layout/site/partial/post_news', $partial, true);
-        
-        return view(config('asset.view_page')('main'), $this->_data);
+
+        return $this->_auth_login_client() ?? view(config('asset.view_page')('main'), $this->_data);
     }
     function gets()
     {

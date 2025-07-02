@@ -22,8 +22,8 @@
                                     <label for="post_cat_id" class="control-label">Bài giảng</label>
                                     <select class="form-control" name="ma_bg" id="ma_bg">
                                         <?php
-                                        if(isset($table_bg) && is_array($table_bg) && !empty($table_bg)):
-                                        foreach($table_bg as $row_bg):
+                                        if(isset($table_baigiang) && is_array($table_baigiang) && !empty($table_baigiang)):
+                                        foreach($table_baigiang as $row_bg):
                                         ?>
                                         <option value="{{$row_bg->ma_bg }}" <?php echo isset($row) && $row->ma_bg == $row_bg->ma_bg ? 'selected' : '' ?>>
                                             {{ $row_bg->ten_bg }}

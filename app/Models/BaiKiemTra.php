@@ -74,8 +74,11 @@ class BaiKiemTra extends Model
 		if (isset($args['order_by'])) {
 			$query = $query->orderBy('ngay_tao', $args['order_by']);
 		}
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function get_by_id($id)
 	{

@@ -88,6 +88,10 @@ class LopHocPhan extends Model
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
+		if (isset($args['ma_sv'])) {
+			$query = $query->join('sinh_vien', 'sinh_vien.ma_lhp', '=', $this->table . '.ma_lhp')
+			->where('sinh_vien.ma_tk', $args['ma_sv']);
+		}
 		if (isset($args['ma_gv'])) {
 			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
 		}
@@ -95,9 +99,11 @@ class LopHocPhan extends Model
 			$query = $query->where('hoc_phan.ma_hp', $args['id_course']);
 		}
 
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
-		// return $query->get()->toArray();
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 
 	public function add($data)
@@ -116,6 +122,16 @@ class LopHocPhan extends Model
 		$result = DB::table($this->table)
 			->where($this->table . '.alias', $alias)
 			->update(['hinh_anh' => $image]);
+		return $result;
+	}
+	public function admin_update($id, $data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.ma_lhp', $id)
+			->update($data);
 		return $result;
 	}
 	public function admin_delete($args, $id)

@@ -18,20 +18,19 @@ class ClassController extends LayoutController
 {
     function index()
     {
-        $this->_initialize();
         $segment = 1;
         $class_alias = trim(request()->segment($segment) ?? '');
         if ($class_alias === '') {
             abort(404);
         }
         $args = array();
-        $section_class_none = (new LopHocPhan())->gets($args);
+        $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
 
         $args['alias'] = $class_alias;
         $class = (new LopHocPhan)->gets($args);
 
-        $args['ma_tk'] = $class[0]->ma_tk;
+        $args['ma_bg'] = $class[0]->ma_bg;
         $lessons = (new BaiGiang)->gets($args);
 
         $interacts = (new TuongTac)->gets($args);
@@ -98,7 +97,7 @@ class ClassController extends LayoutController
             abort(404);
         }
         $args = array();
-        $section_class_none = (new LopHocPhan())->gets($args);
+        $section_class_none = $this->section_class();
         $lessons = (new BaiGiang)->gets($args);
         $this->_data['load_section_class'] = $section_class_none;
 
@@ -132,7 +131,7 @@ class ClassController extends LayoutController
             abort(404);
         }
         $args = array();
-        $section_class_none = (new LopHocPhan)->gets($args);
+        $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
         $args['class_alias'] = $class_alias;
         $section_class = (new LopHocPhan)->gets($args);
@@ -159,7 +158,7 @@ class ClassController extends LayoutController
             abort(404);
         }
         $args = array();
-        $section_class_none = (new LopHocPhan)->gets($args);
+        $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
         $args['alias'] = $class_alias;
         $section_class = (new LopHocPhan)->gets($args);

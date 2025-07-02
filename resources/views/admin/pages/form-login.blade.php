@@ -10,12 +10,13 @@
 </head>
 
 <body>
-    {{-- <p><?php //print_r(session()->all()) ?></p> --}}
+    {{-- <p><?php //print_r(session()->all())
+    ?></p> --}}
     <?php if(Session::has('message')): ?>
     <div class="message">
-        <p>{{Session::get('message')}}</p>
+        <p>{{ Session::get('message') }}</p>
     </div>
-    <?php endif; ?>
+    <?php Session::forget('message'); Session::forget('error'); endif; ?>
     <div class="container">
         <div class="box1"></div>
         <div class="box2"></div>
@@ -23,8 +24,8 @@
         <div class="box4"></div>
         <div class="box5"></div>
         <div class="box6"></div>
-        <form action="<?php echo URL::to('admin-dashboard') ?>" method="post">
-            {{csrf_field()}}
+        <form action="<?php echo URL::to('admin-dashboard'); ?>" method="post">
+            {{ csrf_field() }}
             <h1>Welcome!</h1>
             <div class="fill">
                 <input type="text" name="email" id="email" required>

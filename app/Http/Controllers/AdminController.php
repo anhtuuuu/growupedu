@@ -20,7 +20,9 @@ class AdminController extends LayoutController
     {
         $email = $request->email;
         $password = $request->password;
-        $result = (new Taikhoan)->check_login($email);
+        $args = array();
+        $args['is_admin'] = true;
+        $result = (new Taikhoan)->check_login($args, $email);
         if ($result && Hash::check($password, $result->password)) {
             Session::put('admin_name', $result->ho_ten);
             Session::put('admin_id', $result->ma_tk);

@@ -63,15 +63,20 @@ class BaiGiang extends Model
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
-
+		if (isset($args['ma_bg'])) {
+			$query = $query->where($this->table . '.ma_bg', $args['ma_bg']);
+		}
 		if (isset($args['alias_lesson'])) {
 			$query = $query->where($this->table . '.alias', $args['alias_lesson']);
 		}
-				if (isset($args['ma_gv'])) {
+		if (isset($args['ma_gv'])) {
 			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
 		}
-		$per_page = $args['per_page'] ?? 10;
-		return $query->paginate($per_page);
+		if (isset($args['per_page'])) {
+			$per_page = $args['per_page'] ?? 10;
+			return $query->paginate($per_page);
+		}
+		return $query->get()->toArray();
 	}
 	public function get_by_id($id)
 	{

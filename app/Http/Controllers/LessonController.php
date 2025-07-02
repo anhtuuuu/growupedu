@@ -121,7 +121,7 @@ class LessonController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Thêm bài giảng thất bại');
          }
-         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_lesson'), $this->_data);
+         return Redirect::to('/danh-sach-bai-giang');
       }
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_lesson'));
 
