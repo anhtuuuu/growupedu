@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NopBaiKiemTra;
 use Session;
 use Illuminate\Http\Request;
 use App\Models\LopHocPhan;
@@ -49,10 +50,57 @@ class TestController extends LayoutController
       $this->_data['lessons'] = $lessons;
       $this->_data['type_side_none'] = 'lesson';
       $this->_data['left_side_none'] = '';
-      // $this->_data['test'] = 'test';
-      // $this->_data['content'] = $content;
-      // print_r($this->_data['test']);
+
       return view(config('asset.view_page')('test-client'), $this->_data);
+   }
+   function test_submit(Request $request)
+   {
+      $get_req = $request->all();
+      if (empty($get_req)) {
+         abort(404);
+      }
+      // $validated = $request->validate(
+      //    [
+      //       'question.*' => 'required',
+      //    ],
+      //    [
+      //       'question.*.required' => 'Vui lòng chọn đáp án.',
+      //    ]
+      // );
+      $questions = $request->question;
+      $answers = '';
+      foreach ($questions as $ques) {
+         $answers .= $ques . ";";
+      }
+      $test_data = (new Baikiemtra)->get_by_id($request->ma_bkt);
+      $answers_req = explode(";", $answers);
+      $answers_true = explode(";", $test_data->dap_an);
+      $result = 0;
+      foreach ($answers_true as $index => $asw) {
+         if ($asw == $answers_req[$index]) {
+            $result++;
+         }
+      }
+      $result = $result - 1;
+      $count = count($answers_true) - 1;
+      $score = ($result / $count) * 10;
+      $score = round($score, 1);
+      $data = [
+         'ma_tk' => Session::get('client_id'),
+         'ma_bkt' => $request->ma_bkt,
+         'tra_loi' => $answers,
+         'diem_so' => $score,
+      ];
+      $result_insert = (new NopBaiKiemTra)->add($data);
+      if ($result_insert) {
+         Session::put('error', 'success');
+         Session::put('message', 'Nộp bài tập thành công.');
+      } else {
+         Session::put('error', 'warning');
+         Session::put('message', 'Nộp bài tập thất bại!');
+      }
+      return back();
+
    }
    function test_list()
    {
@@ -75,6 +123,13 @@ class TestController extends LayoutController
       $this->_data['lessons'] = $lessons;
       $this->_data['type_side_none'] = 'lesson';
       $this->_data['left_side_none'] = '';
+
+      $args = [];
+      $args['ma_tk'] = Session::get('client_id');
+      $check_submited = (new NopBaiKiemTra)->gets($args);
+      if (!empty($check_submited)) {
+         $this->_data['check_submited'] = $check_submited;
+      }
       // $this->_data['content'] = $content;
       // print_r($array_question);
       // print_r($tests);
@@ -275,5 +330,21 @@ class TestController extends LayoutController
       }
       return back();
 
+   }
+
+   function test_list_submited()
+   {
+      $role = Session::get('admin_id');
+      if (empty($role)) {
+         Redirect::to('/');
+      }
+      $args = array();
+      $args['ma_gv'] = $role;
+      $args['order_by'] = 'desc';
+      $args['per_page'] = 10;
+      $tests = (new NopBaiKiemTra())->gets($args);
+      // print_r($tests);
+      $this->_data['rows'] = $tests;
+      return $this->_auth_login() ?? view(config('asset.view_admin_page')('test_submited'), $this->_data);
    }
 }

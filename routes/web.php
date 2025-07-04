@@ -27,13 +27,18 @@ Route::get('/dang-xuat', [AccountController::class, 'logout']);
 Route::get('/{alias_class}/{alias_lesson}/files-bai-giang', [ContentController::class, 'files']);
 Route::get('/bai-giang/{alias_lesson}', [LessonController::class, 'index']);
 Route::get('/{alias_class}/{alias_lesson}/{alias_chapter}/{alias_content}', [ContentController::class, 'index']);
-
 Route::get('/thong-tin-tai-khoan', [AccountController::class, 'index']);
+Route::post('/cap-nhat-thong-tin', [AccountController::class, 'update_info']);
 Route::get('{alias_class}/{test_code}/test', [TestController::class, 'index']);
 Route::get('{alias_class}/test', [TestController::class, 'test_list']);
+Route::post('/nop-bai-kiem-tra', [TestController::class, 'test_submit']);
 Route::get('/section-class/{any}', [ClassController::class, 'index']);
 Route::get('/interact/{alias_class}', [ClassController::class, 'interact']);
+Route::post('/gui-tuong-tac', [ClassController::class, 'submit_interact']);
+Route::get('/xoa-tuong-tac/{id}', [ClassController::class, 'delete_interact']);
+
 Route::get('/assess/{alias_class}', [AssessController::class, 'index']);
+Route::post('/gui-danh-gia', [AssessController::class, 'assess_request']);
 Route::get('/{alias_class}/bang-diem', [ClassController::class, 'core_sheet_list']);
 Route::get('/{alias_class}/{test_code}/bang-diem', [ClassController::class, 'core_sheet']);
 
@@ -49,6 +54,8 @@ Route::get('/admin', [AdminController::class, 'login']);
 Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
 Route::post('/admin-dashboard', [AdminController::class, 'admin_index']);
 Route::get('/logout', [AdminController::class, 'logout']);
+Route::get('/cap-nhat-cau-hinh', [LayoutController::class, 'update_config']);
+Route::post('/cap-nhat-cau-hinh', [LayoutController::class, 'update_config']);
 
 Route::get('/danh-sach-tai-khoan', [AccountController::class, 'admin_index']);
 Route::get('/danh-sach-danh-gia', [AssessController::class, 'admin_index']);
@@ -64,6 +71,8 @@ Route::get('/danh-sach-hoc-phan', [CourseController::class, 'admin_index']);
 Route::get('/danh-sach-sinh-vien/{alias_class}', [StudentController::class, 'admin_index']);
 Route::get('/danh-sach-bo-mon', [SubjectController::class, 'admin_index']);
 Route::get('/danh-sach-bai-kiem-tra', [TestController::class, 'admin_index']);
+Route::get('/danh-sach-nop-bai-kiem-tra', [TestController::class, 'test_list_submited']);
+
 
 //thêm
 Route::get('/them-bai-giang', [LessonController::class, 'admin_add']);

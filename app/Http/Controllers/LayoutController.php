@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\CauHinh;
 use App\Models\LopHocPhan;
 use Session;
 use Illuminate\Http\Request;
@@ -10,66 +11,7 @@ class LayoutController extends Controller
 {
     protected $_data = array();
 
-    public function _initialize_global($configs)
-    {
-        // $parse = parse_url(base_url());
-        // $this->_data['host'] = $parse['host'];
 
-        // $this->_data['site_name'] = $configs['site_name'];
-        // $this->_data['title'] = $configs['site_name'];
-    }
-    // public function _initialize_user()
-    // {
-    //     $this->_data['logged_in'] = FALSE;
-    //     if ($this->session->has_userdata('logged_in')) {
-    //         $this->_data['logged_in'] = TRUE;
-    //         $session_data = $this->session->userdata('logged_in');
-    //         $this->_data['ma_tk'] = $session_data['ma_tk'];
-    //         $this->_data['username'] = $session_data['username'];
-    //         $this->_data['ho_ten'] = $session_data['ho_ten'];
-    //         $this->_data['hinh_anh'] = $session_data['hinh_anh'];
-    //         $this->_data['vai_tro'] = isset($session_data['vai_tro']) ? $session_data['vai_tro'] : '';
-    //         $this->_data['ngay_tao'] = isset($session_data['ngay_tao']) ? $session_data['ngay_tao'] : '';
-    //     }
-    //     if ($this->session->has_userdata('logged_in_by')) {
-    //         $this->_data['logged_in'] = TRUE;
-    //         $session_data = $this->session->userdata('logged_in_by');
-    //         $this->_data['ma_tk'] = $session_data['ma_tk'];
-    //         $this->_data['username'] = $session_data['username'];
-    //         $this->_data['ho_ten'] = $session_data['ho_ten'];
-    //         $this->_data['hinh_anh'] = $session_data['hinh_anh'];
-    //         $this->_data['vai_tro'] = isset($session_data['vai_tro']) ? $session_data['vai_tro'] : '';
-    //         $this->_data['ngay_tao'] = isset($session_data['ngay_tao']) ? $session_data['ngay_tao'] : '';
-    //     }
-    // }
-
-    public function _initialize()
-    {
-
-        // $this->_initialize_global($configs);
-
-        // $this->_data['postcat_list'] = modules::run('posts/postcat/get_menu_list');
-        // $this->_data['postcat_data'] = modules::run('posts/postcat/get_data');
-        // $this->_data['postcat_input'] = modules::run('posts/postcat/get_input');
-
-        // $this->_load_menu_main();
-
-        //search
-        // $this->_data['q'] = $this->input->get('q');
-
-        // $info_hotline_none = modules::run('info/get_by_type', 'hotline', TRUE);
-        // $this->_data['info_hotline_none'] = $info_hotline_none;
-    }
-
-    public function _initialize_admin()
-    {
-        // $configs = $this->get_configs();
-        // $this->_initialize_global($configs);
-        // $this->_initialize_user();
-
-        // $this->_data['num_rows_contact'] = modules::run('contact/num_rows_new');
-        // $this->_data['num_rows_order'] = modules::run('shops/orders/counts', array('viewed' => 0));
-    }
     public function _auth_login()
     {
         if (!Session::has('admin_id')) {
@@ -103,12 +45,107 @@ class LayoutController extends Controller
 
         $this->_data['load_section_class'] = $section_class_none;
 
-        // $posts_news = modules::run('posts/get_items_cat_type', 'news', 0);
-        // $partial = array();
-        // $partial['data'] = $posts_news;
-        // $this->_data['posts_news'] = $this->load->view('layout/site/partial/post_news', $partial, true);
-
         return $this->_auth_login_client() ?? view(config('asset.view_page')('main'), $this->_data);
+    }
+    function update_config(Request $request)
+    {
+        $get_req = $request->all();
+        if (!empty($get_req)) {
+            $validated = $request->validate(
+                [
+                    'ten_site' => 'required|max:255',
+                    'dia_chi' => 'required|max:255',
+                    'sdt' => 'required|max:255',
+                    'email' => 'required|max:255',
+                    'website' => 'required|max:255'
+                ],
+                [
+                    'ten_site.required' => 'Vui lòng nhập tên trang web.',
+                    'ten_site.max' => 'Tên trang web không được vượt quá 255 ký tự.',
+                    'dia_chi.required' => 'Vui lòng nhập địa chỉ.',
+                    'dia_chi.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
+                    'sdt.required' => 'Vui lòng nhập số điện thoại.',
+                    'sdt.max' => 'Số điện thoại không được vượt quá 255 ký tự.',
+                    'email.required' => 'Vui lòng nhập email.',
+                    'email.max' => 'Email không được vượt quá 255 ký tự.',
+                    'website.max' => 'Liên kết không được vượt quá 255 ký tự.',
+                ]
+            );
+            $data = [
+                'ten_site' => $request->ten_site,
+                'dia_chi' => $request->dia_chi,
+                'sdt' => $request->sdt,
+                'email' => $request->email,
+                'website' => $request->website,
+                'logo' => null,
+                'favicon' => null,
+                'lien_ket' => $request->lien_ket,
+                'facebook' => $request->facebook
+            ];
+            $result = (new CauHinh)->admin_update($data);
+            if ($result) {
+                // $file = $request->file('logo');
+                // $filename = $request->logo_clone;
+                // if (!empty($request->logo)) {
+                //     $filename = time() . '_' . $file->getClientOriginalName();
+                //     $path = $file->storeAs('uploads', $filename, 'public');
+                // }
+                // $upload_img = (new CauHinh)->upload_image('logo', $filename);
+                $filename = $request->logo_clone;
+                if (!empty($request->logo)) {
+                    $file = $request->file('logo');
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('uploads', $filename, 'public');
+                }
+                $upload_img = (new CauHinh)->upload_image('logo', $filename);
+
+                $filename2 = $request->favicon_clone;
+                if (!empty($request->favicon)) {
+                    $file = $request->file('favicon');
+                    $filename2 = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('uploads', $filename2, 'public');
+                }
+                $upload_img = (new CauHinh)->upload_image('favicon', $filename2);
+
+                Session::put('error', 'success');
+                Session::put('message', 'Cập nhật thông tin thành công');
+            } else {
+                Session::put('error', 'warning');
+                Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');
+                if (!empty($request->logo)) {
+                    $file = $request->file('logo');
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('uploads', $filename, 'public');
+                    $upload_img = (new CauHinh)->upload_image('logo', $filename);
+                    Session::put('error', 'success');
+                    Session::put('message', 'Cập nhật thông tin thành công');
+                    if (!$upload_img) {
+                        Session::put('error', 'warning');
+                        Session::put('message', 'Cập nhật thông tin thành công nhưng chưa upload được hình ảnh.');
+                    }
+                }
+                if (!empty($request->favicon)) {
+                    $file = $request->file('favicon');
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('uploads', $filename, 'public');
+                    $upload_img = (new CauHinh)->upload_image('favicon', $filename);
+                    Session::put('error', 'success');
+                    Session::put('message', 'Cập nhật thông tin thành công');
+                    if (!$upload_img) {
+                        Session::put('error', 'warning');
+                        Session::put('message', 'Cập nhật thông tin thành công nhưng chưa upload được hình ảnh.');
+                    }
+                }
+            }
+            return back();
+        }
+
+        $config = (new CauHinh())->get();
+        if (empty($config)) {
+            abort(404);
+        }
+        $this->_data['row'] = $config;
+        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_configuration'), $this->_data);
     }
     function gets()
     {

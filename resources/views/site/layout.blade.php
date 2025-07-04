@@ -69,6 +69,8 @@
     <!--end body container-->
     <script src="https://vjs.zencdn.net/8.22.0/video.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-youtube/2.6.1/Youtube.min.js"></script>
+    <script type="text/javascript" src={{ URL::to(config('asset.js_path') . 'custom.js') }}></script>
+
 </body>
 
 </html>

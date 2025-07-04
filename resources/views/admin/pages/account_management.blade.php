@@ -19,9 +19,9 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                                                    <input class="flat-blue check-all" name="check_all[]"
-                                                                                        type="checkbox" value="yes">
-                                                                                </th> -->
+                                                                                        <input class="flat-blue check-all" name="check_all[]"
+                                                                                            type="checkbox" value="yes">
+                                                                                    </th> -->
                                         <th class="text-center" style="width: 20px">Sắp xếp</th>
                                         <th class="text-center" style="width:120px">Ảnh đại diện</th>
                                         <th class="text-center" style="width:auto">Họ tên</th>
@@ -30,7 +30,7 @@
                                         <th class="text-center">Trạng thái kích hoạt</th>
                                         <th class="text-center" style="width: 160px;">Chức năng</th>
                                         <!-- <th class="text-center">Nổi bật</th>
-                                                                        <th class="text-center">Mới nhất</th> -->
+                                                                            <th class="text-center">Mới nhất</th> -->
                                         <!-- <th class="text-center">Chức năng</th> -->
 
                                     </tr>
@@ -82,8 +82,8 @@
                     </form>
                 </div>
                 <div class="box-footer clearfix">
-                    {{ isset($rows) ? $rows->links() : '' }}
-
+                    {{-- {{ isset($rows) ? $rows->links() : '' }} --}}
+                    <x-pagination :paginator="$rows" base-url="{{ URL::to('/danh-sach-tai-khoan') }}" />
                 </div>
             </div>
         </div>

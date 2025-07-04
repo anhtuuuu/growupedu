@@ -25,8 +25,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-angle-double-right"></i>Cấu hình chung</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i>Cấu hình site</a></li>
+                    <li><a href="{{ URL::to('/cap-nhat-cau-hinh') }}"><i class="fa fa-angle-double-right"></i>Cấu hình chung</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -141,7 +140,7 @@
                     <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm sinh viên</a></li>
                 </ul>
             </li> --}}
-            
+
             <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý đánh giá</span>
@@ -161,6 +160,8 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ URL::to('/danh-sach-bai-kiem-tra') }}"><i
                                 class="fa fa-angle-double-right"></i>Danh sách bài kiểm tra</a></li>
+                    <li><a href="{{ URL::to('/danh-sach-nop-bai-kiem-tra') }}"><i
+                                class="fa fa-angle-double-right"></i>Danh sách bài kiểm tra đã nộp</a></li>
                     {{-- <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm </a></li> --}}
                 </ul>
             </li>
