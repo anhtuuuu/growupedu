@@ -1,5 +1,7 @@
 @extends('site.layout')
 @section('content')
+    @include(config('asset.view_admin_partial')('notify_message'))
+
     <!-- content -->
     <div class="col-xs-12 col-sm-9">
         <div class="panel panel-default">
@@ -33,8 +35,9 @@
                         </div>
 
                         <div class="comment-line px-0 pt-3 mt-3">
-                            <div class="comment-list">
+                            <div class="comment-list" id="comment-list">
                                 <?php 
+                                    $count = 0;
                                     if(isset($interacts) && !empty($interacts)):
                                     foreach($interacts as $interact):
                                     if($section_class[0]->ma_lhp == $interact->ma_lhp):
@@ -43,32 +46,47 @@
                                     <div class="d-flex col-2 justify-content-center col-2 col-md-1 ">
                                         <img class="avatar-student-smaller" src="<?php echo URL::to(config('asset.images_path') . $interact->avatar); ?>" alt="">
                                     </div>
-                                    <div class="my-auto col-10 p-1">
+                                    <div class="my-auto col-8 p-1">
                                         <div class="d-flex">
                                             <h6 class="small-text"><b>{{ $interact->ho_ten }}</b></h6>
                                             <h6 class="small-text px-2">{{ $interact->ngay_tao }}</h6>
+                                            <?php if(isset($is_lecturer) && !empty($is_lecturer)):?>
+                                            <div class="btn-del">
+                                                <a href="{{URL::to('/xoa-tuong-tac/'.$interact->id)}}" class="d-flex align-items-center" onclick="return confirm('Xác nhận xóa tương tác này?')"><em
+                                                        class="fa fa-trash-o fa-lg text-danger">&nbsp;</em></a>
+                                            </div>
+                                            <?php endif; ?>
                                         </div>
-                                        <h6 class="small-title">{{ $interact->noi_dung }}</h6>
+                                        <h6 class="small-title" style="word-wrap: break-word;">{{ $interact->noi_dung }}
+                                        </h6>
                                     </div>
                                 </div>
-                                <?php endif; endforeach; endif; ?>
+                                <?php $count++; endif; endforeach; endif; ?>
                             </div>
                             <button onclick="showHidenCmt(1)" class="small-text ms-5 coler-button-showall"
-                                id="show-all-cmt">Tất cả bình luận (3)</button>
-                            <form class="form-inline d-flex justify-content-between align-items-center row p-0 m-0 mt-3">
+                                id="show-all-cmt">Hiển thị tất cả bình luận</button>
+                            <form id="tuong-tac"
+                                class="form-inline d-flex justify-content-between align-items-center row p-0 m-0 mt-3">
+                                @csrf
                                 <div class="d-flex justify-content-center col-2 col-md-1 p-0">
                                     <img class="avatar-student-smaller"
-                                        src="{{ URL::to(config('asset.images_path') . '1.png') }}" alt="">
+                                        src="{{ URL::to(config('asset.images_path') . Session::get('client_avatar')) }}"
+                                        alt="">
                                 </div>
+                                <input type="hidden" hidden name="ma_lhp" value="{{ $section_class[0]->ma_lhp }}">
                                 <div class="form-group mb-0 col-8 col-md-10 py-0 px-1">
-                                    <input type="password" class="form-control w-100 h-100 py-2" id="inputPassword2"
-                                        placeholder="Thêm nhận xét...">
+                                    <input type="text" class="form-control w-100 h-100 py-2" id=""
+                                        name="noi_dung" placeholder="Thêm nhận xét...">
                                 </div>
                                 <div class="col-2 col-md-1 p-0">
                                     <button type="submit" class="btn btn-primary py-2 btn-bgr"><i
                                             class="fa fa-send"></i></button>
                                 </div>
                             </form>
+                            @error('noi_dung')
+                                <div class="text-danger px-1 px-md-5 mx-5">{{ $message }}</div>
+                            @enderror
+                            <div class="text-danger px-1 px-md-5 mx-5" id="message"></div>
                         </div>
                     </div>
 
@@ -90,5 +108,23 @@
 
             }
         }
+
+        $(document).ready(function() {
+            $('#tuong-tac').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/gui-tuong-tac',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#comment-list').append(response);
+                        $('#tuong-tac')[0].reset();
+                    },
+                    error: function(xhr) {
+                        $('#message').html('Có lỗi xảy ra!');
+                    }
+                });
+            });
+        });
     </script>
 @endsection

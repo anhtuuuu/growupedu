@@ -91,4 +91,19 @@ function confirmSubmit() {
 //     });
 // });
 
-
+// $(document).ready(function () { 
+//   $('#tuong-tac').on('submit', function(e) {
+//     e.preventDefault(); 
+//     $.ajax({
+//       url: '/gui-tuong-tac',
+//       method: 'POST',
+//       data: $(this).serialize(),
+//       success: function(response) {
+//         $('#comment-list').append(response);
+//       },
+//       error: function(xhr) {
+//         $('#message').html('Có lỗi xảy ra!');
+//       }
+//     });
+//   });
+// });

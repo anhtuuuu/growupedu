@@ -59,7 +59,7 @@
                                                 value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
                                         </td>
                                         <td class="text-center">
-                                            <em class="fa fa-eye fa-lg">&nbsp;</em> <a href="<?php echo URL::to('/danh-sach-sinh-vien/'.$row->alias) ?>"><b>Danh sách SV</b></a>&nbsp;-&nbsp;
+                                            <em class="fa fa-eye fa-lg">&nbsp;</em> <a href="<?php echo URL::to('/danh-sach-sinh-vien/'.$row->alias) ?>"><b>Danh sách lớp</b></a>&nbsp;-&nbsp;
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-lop-hoc-phan/' . $row->ma_lhp); ?>">Sửa</a>
                                             &nbsp;-&nbsp;
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em><a

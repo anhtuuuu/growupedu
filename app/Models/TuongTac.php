@@ -62,6 +62,37 @@ class TuongTac extends Model
 		}
 		return $query->get()->toArray();
 	}
+	public function get_by_id($id)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ho_ten as ho_ten',
+				'taikhoan.hinh_anh as avatar'
+			])
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', $this->table . '.ma_lhp')
+			->where($this->table .'.id', $id);
+				
+		return $query->first();
+	}
+	public function add($data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)->insertGetId($data);
+		return $result;
+	}
+	public function delete_interact($id)
+	{
+		if (empty($id)) {
+			return false;
+		}
+		$result = DB::table($this->table)->where('id', $id)->delete();
+		return $result;
+	}
+	
 	public function lop_hoc_phan()
 	{
 		return $this->belongsTo(LopHocPhan::class, 'ma_lhp');

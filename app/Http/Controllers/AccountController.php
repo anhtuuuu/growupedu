@@ -5,6 +5,7 @@ use App\Models\BoMon;
 use App\Models\SinhVien;
 use App\Models\Taikhoan;
 use App\Models\VaiTro;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Session;
@@ -28,11 +29,81 @@ class AccountController extends LayoutController
         $this->_data['row'] = $value_account;
         return view(config('asset.view_page')('persional-management'), $this->_data);
     }
-     function logout()
+    function logout()
     {
         $this->_auth_login_client();
         Session::flush();
         return Redirect::to('/');
+    }
+    function update_info(Request $request)
+    {
+        $get_req = $request->all();
+        if (empty($get_req)) {
+            abort(404);
+        }
+
+        $id_account = $request->ma_tk;
+        $account = (new Taikhoan())->get_by_id($id_account);
+        if (empty($account)) {
+            abort(404);
+        }
+        $validated = $request->validate(
+            [
+                'sdt' => 'numeric',
+                'old_password' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($account) {
+                        if (!Hash::check($value, $account->password)) {
+                            $fail('Mật khẩu không trùng khớp với mật khẩu cũ.');
+                        }
+                    },
+                ],
+                'password' => [
+                    'required',
+                    'min:6',
+                    'max:20',
+                    'confirmed',
+                    function ($attribute, $value, $fail) use ($account) {
+                        if (Hash::check($value, $account->password)) {
+                            $fail('Mật mới khẩu không được trùng với mật khẩu cũ.');
+                        }
+                    },
+                ]
+            ],
+            [
+                'sdt.numeric' => 'Số điện thoại chỉ chứa số.',
+                'old_password.required' => 'Vui lòng nhập mật khẩu cũ.',
+                'password.required' => 'Vui lòng nhập mật khẩu.',
+                'password.min' => 'Mật khẩu ít nhất 6 ký tự.',
+                'password.max' => 'Mật khẩu tối đa 20 ký tự.',
+                'password.confirmed' => 'Mật khẩu xác nhận chưa chính xác.',
+            ]
+        );
+        if ($request->sdt != $account->sdt) {
+            $request->validate(
+                [
+                    'sdt' => 'numeric|unique:taikhoan',
+                ],
+                [
+                    'sdt.numeric' => 'Số điện thoại chỉ chứa số.',
+                    'sdt.unique' => 'Số điện thoại đã tồn tại.',
+                ]
+            );
+        }
+
+        $data = [
+            'sdt' => $request->sdt,
+            'password' => bcrypt($request->password),
+        ];
+        $result = (new Taikhoan())->admin_update($id_account, $data);
+        if ($result) {
+            Session::put('error', 'success');
+            Session::put('message', 'Cập nhật tài khoản thành công');
+        } else {
+            Session::put('error', 'warning');
+            Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');
+        }
+        return back();
     }
     function admin_index()
     {
@@ -163,7 +234,6 @@ class AccountController extends LayoutController
 
     function admin_update(Request $request)
     {
-
         $get_req = $request->all();
         $roles = (new VaiTro)->gets();
         $this->_data['roles'] = $roles;
@@ -204,11 +274,6 @@ class AccountController extends LayoutController
                 }
             }
 
-            // $this->_data['test'] = $data;
-            // $this->_data['test2'] = $request;
-
-            // return view(config('asset.view_admin_control')('test'), $this->_data);
-
             if (isset($data['username']) && isset($data['email']) && isset($data['sdt'])) {
                 $request->validate(
                     [
@@ -223,20 +288,6 @@ class AccountController extends LayoutController
                     ]
                 );
             }
-            // $data = [
-            //     'ma_bm' => $request->ma_bm,
-            //     'ho_ten' => $request->ho_ten,
-            //     'username' => $request->username,
-            //     'password' => bcrypt($request->password),
-            //     'email' => $request->email,
-            //     'gioi_tinh' => $request->gioi_tinh,
-            //     'hinh_anh' => null,
-            //     'nam_sinh' => $request->nam_sinh,
-            //     'sdt' => $request->sdt,
-            //     'lien_ket' => $request->lien_ket,
-            //     'vai_tro' => $request->vai_tro,
-            // ];
-
             $result = (new Taikhoan())->admin_update($id_account, $data);
             if ($result) {
                 $file = $request->file('hinh_anh');
@@ -248,11 +299,6 @@ class AccountController extends LayoutController
                 $upload_img = (new Taikhoan)->upload_image($request->username, $filename);
                 Session::put('error', 'success');
                 Session::put('message', 'Cập nhật tài khoản thành công');
-
-                // if (!$upload_img) {
-                //     Session::put('error', 'warning');
-                //     Session::put('message', 'Cập nhật tài khoản thành công nhưng chưa upload được hình ảnh.');
-                // }
             } else {
                 Session::put('error', 'warning');
                 Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');

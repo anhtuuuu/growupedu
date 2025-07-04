@@ -81,6 +81,14 @@ class SinhVien extends Model
 		}
 		return $query->get()->toArray();
 	}
+	public function add($data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
 	public function admin_delete($id, $ma_tk)
 	{
 		if (empty($id)) {

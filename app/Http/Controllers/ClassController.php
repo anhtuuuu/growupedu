@@ -5,6 +5,7 @@ use App\Models\Bai;
 use App\Models\BaiGiang;
 use App\Models\Chuong;
 use App\Models\HocPhan;
+use App\Models\SinhVien;
 use App\Models\TuongTac;
 use App\Models\LopHocPhan;
 use App\Models\Taikhoan;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Session;
 
 use Illuminate\Http\Request;
+use URL;
 
 class ClassController extends LayoutController
 {
@@ -75,10 +77,10 @@ class ClassController extends LayoutController
         $args['per_page'] = 5;
         $class = (new LopHocPhan())->gets($args);
         $this->_data['rows'] = $class;
-        if(Session::get('admin_id') ==  1){
-             $args = array();
-             $args['per_page'] = 5;
-        $this->_data['rows'] = (new LopHocPhan())->gets($args);
+        if (Session::get('admin_id') == 1) {
+            $args = array();
+            $args['per_page'] = 5;
+            $this->_data['rows'] = (new LopHocPhan())->gets($args);
         }
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('class_management'), $this->_data);
     }
@@ -90,7 +92,6 @@ class ClassController extends LayoutController
     }
     function interact()
     {
-        $this->_initialize();
         $segment = 2;
         $class_alias = trim(request()->segment($segment) ?? '');
         if ($class_alias === '') {
@@ -112,17 +113,75 @@ class ClassController extends LayoutController
             abort(404);
             return;
         }
+        $is_lecturer = Session::get('client_role');
+        if ($is_lecturer == 2) {
+            $this->_data['is_lecturer'] = $is_lecturer;
+        }
+
         $this->_data['section_class'] = $class;
         $this->_data['lessons'] = $lessons;
         $this->_data['interacts'] = $interacts;
         $this->_data['type_side_none'] = 'lesson';
-        // $this->_data['left_side_none'] = $class[0]->ten_lhp;
         $this->_data['left_side_none'] = '';
         return view(config('asset.view_page')('interact'), $this->_data);
     }
+    function submit_interact(Request $request)
+    {
+        $get_req = $request->all();
+        $html = '';
+        if (!empty($get_req)) {
+            $validated = $request->validate(
+                [
+                    'noi_dung' => 'required|max:500',
+                ],
+                [
+                    'noi_dung.required' => 'Vui lòng nhập nội dung.',
+                    'noi_dung.max' => 'Nội dung chỉ trong khoảng 500 ký tự.',
+                ]
+            );
+            $data = [
+                'ma_tk' => Session::get('client_id'),
+                'ma_lhp' => $request->ma_lhp,
+                'noi_dung' => $request->noi_dung,
+            ];
+            $result = (new TuongTac)->add($data);
+            if (!empty($result)) {
+                $interact = (new TuongTac)->get_by_id($result);
+                $html .= '<div class="row col-12 d-flex p-0 m-0 mt-3 comment-hide comment-item1">
+                                <div class="d-flex col-2 justify-content-center col-2 col-md-1 ">
+                                    <img class="avatar-student-smaller" width="20px" src="' . URL::to(config('asset.images_path') . $interact->avatar) . '" alt="">
+                                </div>
+                                <div class="my-auto col-10 p-1">
+                                    <div class="d-flex">
+                                        <h6 class="small-text"><b>' . $interact->ho_ten . '</b></h6>
+                                        <h6 class="small-text px-2">' . $interact->ngay_tao . '</h6>
+                                    </div>
+                                    <h6 class="small-title">' . $interact->noi_dung . '</h6>
+                                </div>
+                            </div>';
+            }
+        }
+        return response($html);
+    }
+    function delete_interact()
+    {
+        $segment = 2;
+        $interact_id = trim(request()->segment($segment) ?? '');
+        if (empty($interact_id)) {
+            abort(404);
+        }
+        $result = (new TuongTac)->delete_interact($interact_id);
+        if ($result) {
+            Session::put('error', 'success');
+            Session::put('message', 'Đã xóa tương tác.');
+        } else {
+            Session::put('error', 'danger');
+            Session::put('message', 'Chưa thể xóa tương tác này.');
+        }
+        return back();
+    }
     function core_sheet()
     {
-        $this->_initialize();
         $segment = 1;
         $segment2 = 2;
         $class_alias = trim(request()->segment($segment) ?? '');
@@ -151,7 +210,6 @@ class ClassController extends LayoutController
     }
     function core_sheet_list()
     {
-        $this->_initialize();
         $segment = 1;
         $class_alias = trim(request()->segment($segment) ?? '');
         if ($class_alias === '') {
@@ -208,30 +266,30 @@ class ClassController extends LayoutController
             }
             if ($class->alias == $request->alias) {
                 $data = [
-                'ten_lhp' => $request->ten_lhp,
-                'ma_tk' => Session::get('admin_id'),
-                'ma_bg' => $request->ma_bg,
-                'ma_hp' => $request->ma_hp,
-                'hinh_anh' => $request->hinh_anh,
-                'mo_ta' => $request->mo_ta
+                    'ten_lhp' => $request->ten_lhp,
+                    'ma_tk' => Session::get('admin_id'),
+                    'ma_bg' => $request->ma_bg,
+                    'ma_hp' => $request->ma_hp,
+                    'hinh_anh' => $request->hinh_anh,
+                    'mo_ta' => $request->mo_ta
                 ];
             } else {
                 $data = [
-                'ten_lhp' => $request->ten_lhp,
-                'alias' => $request->alias,
-                'ma_tk' => Session::get('admin_id'),
-                'ma_bg' => $request->ma_bg,
-                'ma_hp' => $request->ma_hp,
-                'hinh_anh' =>$request->hinh_anh,
-                'mo_ta' => $request->mo_ta
+                    'ten_lhp' => $request->ten_lhp,
+                    'alias' => $request->alias,
+                    'ma_tk' => Session::get('admin_id'),
+                    'ma_bg' => $request->ma_bg,
+                    'ma_hp' => $request->ma_hp,
+                    'hinh_anh' => $request->hinh_anh,
+                    'mo_ta' => $request->mo_ta
                 ];
-            } 
+            }
             $result = (new LopHocPhan())->admin_update($id_class, $data);
-            
+
             if ($result && $class->hinh_anh != $request->hinh_anh) {
                 $file = $request->file('hinh_anh');
                 $filename = $request->hinh_anh_clone;
-                if(!empty($request->hinh_anh)){
+                if (!empty($request->hinh_anh)) {
                     $filename = time() . '_' . $file->getClientOriginalName();
                     $path = $file->storeAs('uploads', $filename, 'public');
                 }
@@ -262,7 +320,7 @@ class ClassController extends LayoutController
         $args = array();
         $data = (new BaiGiang())->gets($args);
         $this->_data['table_baigiang'] = $data;
-        $data_course = (new HocPhan())->gets($args); 
+        $data_course = (new HocPhan())->gets($args);
         $this->_data['table_hocphan'] = $data_course;
 
         $get_req = $request->all();
@@ -290,11 +348,16 @@ class ClassController extends LayoutController
                 'mo_ta' => $request->mo_ta
             ];
             $result = (new LopHocPhan())->add($data);
-
-            if ($result) {
+            $class_id = (new LopHocPhan())->get_by_alias($request->alias)->ma_lhp;
+            $data_lecturer = [
+                'ma_tk' => Session::get('admin_id'),
+                'ma_lhp' => $class_id
+            ];
+            $result_add_lecturer = (new SinhVien())->add($data_lecturer);
+            if ($result && $result_add_lecturer) {
                 $file = $request->file('hinh_anh');
                 $upload_img = false;
-                if(!empty($request->hinh_anh)){
+                if (!empty($request->hinh_anh)) {
                     $filename = time() . '_' . $file->getClientOriginalName();
                     $path = $file->storeAs('uploads', $filename, 'public');
                     $upload_img = (new LopHocPhan())->upload_image($request->alias, $filename);
@@ -310,7 +373,7 @@ class ClassController extends LayoutController
                 Session::put('error', 'danger');
                 Session::put('message', 'Thêm lớp học phần thất bại');
             }
-            return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_class'), $this->_data);
+            return $this->_auth_login() ?? Redirect::to('danh-sanh-lop-hoc-phan');
         }
         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_class'), $this->_data);
     }
@@ -351,9 +414,9 @@ class ClassController extends LayoutController
             }
             return back();
         }
-        
+
         return back();
     }
 
-    
+
 }

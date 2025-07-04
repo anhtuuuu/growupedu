@@ -20,7 +20,7 @@ class AssessController extends LayoutController
       }
       $section_class_none = $this->section_class();
       $this->_data['load_section_class'] = $section_class_none;
-      $args = array();      
+      $args = array();
       $args['alias'] = $class_alias;
       $section_class = (new LopHocPhan)->gets($args);
 
@@ -32,12 +32,57 @@ class AssessController extends LayoutController
 
       // $section_class = (new LopHocPhan)->gets($args);
       $this->_data['class_name'] = $section_class[0]->ten_lhp;
+      $this->_data['class_id'] = $section_class[0]->ma_lhp;
+
       $this->_data['section_class'] = $section_class;
       $this->_data['lessons'] = $lessons;
       $this->_data['type_side_none'] = 'lesson';
       $this->_data['left_side_none'] = '';
 
       return view(config('asset.view_page')('assess'), $this->_data);
+   }
+   function assess_request(Request $request)
+   {
+      $get_req = $request->all();
+      if (empty($get_req)) {
+         abort(404);
+      }
+      $validated = $request->validate(
+         [
+            'noi_dung' => 'required|max:255',
+         ],
+         [
+            'noi_dung.required' => 'Vui lòng nhập nội dung.',
+            'noi_dung.max' => 'Nội dung tối đa 255 ký tự.'
+         ]
+      );
+      $data = [
+         'ma_tk' => Session::get('client_id'),
+         'ma_lhp' => $request->ma_lhp,
+         'so_sao' => $request->so_sao,
+         'noi_dung' => $request->noi_dung,
+      ];
+      $ma_tk = Session::get('client_id');
+      $ma_lhp = $request->ma_lhp;      
+      $args = array();
+      $args['ma_tk'] = $ma_tk;
+      $args['ma_lhp'] = $ma_lhp;
+      $check_existed = (new DanhGia)->gets( $args);
+      if(!empty($check_existed)){
+         $get_assess_id = $check_existed[0]->id;
+         $result = (new DanhGia)->admin_update($get_assess_id,$data);
+      }
+      else{
+         $result = (new DanhGia)->add($data);
+      }
+      if ($result) {
+         Session::put('error', 'success');
+         Session::put('message', 'Đã gửi đánh giá thành công.');
+      } else {
+         Session::put('error', 'danger');
+         Session::put('message', 'Gửi đánh giá thất bại.');
+      }
+      return back();
    }
    function admin_index()
    {

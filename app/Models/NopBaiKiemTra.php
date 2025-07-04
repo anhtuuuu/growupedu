@@ -54,17 +54,18 @@ class NopBaiKiemTra extends Model
 			->select([
 				$this->table . '.*',
 				'taikhoan.ho_ten as ho_ten',
-				'taikhoan.ma_tk as ma_tk',
+				// 'taikhoan.ma_tk as ma_tk',
 				// 'taikhoan.hinh_anh as avatar',
 				'lop_hoc_phan.ten_lhp as ten_lhp',
 				'lop_hoc_phan.alias as alias_lhp',
 				'bai_kiem_tra.tieu_de as tieu_de',
 
-				])
+			])
+			->distinct()
 			->join('bai_kiem_tra', 'bai_kiem_tra.ma_bkt', '=', $this->table . '.ma_bkt')
-			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp')
 			->join('sinh_vien', 'sinh_vien.ma_tk', '=', $this->table . '.ma_tk')
-			->join('taikhoan', 'taikhoan.ma_tk', '=',  'sinh_vien.ma_tk');
+			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp')
+			->join('taikhoan', 'taikhoan.ma_tk', '=', 'sinh_vien.ma_tk');
 
 
 		if (isset($args['class_alias'])) {
@@ -73,11 +74,28 @@ class NopBaiKiemTra extends Model
 		if (isset($args['test_code'])) {
 			$query = $query->where('bai_kiem_tra.ma_bkt', $args['test_code']);
 		}
+		if (isset($args['order_by'])) {
+			$query = $query->orderBy('ngay_nop', $args['order_by']);
+		}
+		if (isset($args['ma_gv'])) {
+			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);
+		}
+		if (isset($args['ma_tk'])) {
+			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
+		}
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
 			return $query->paginate($per_page);
 		}
 		return $query->get()->toArray();
+	}
+	public function add($data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)->insert($data);
+		return $result;
 	}
 	public function bai_kiem_tra()
 	{

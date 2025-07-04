@@ -46,7 +46,7 @@ class DanhGia extends Model
 		'ngay_tao',
 		'trang_thai'
 	];
-	public function gets($args, $perPage = 5, $offset = -1)
+	public function gets($args)
 	{
 		$query = DB::table($this->table)
 			->select([
@@ -66,7 +66,14 @@ class DanhGia extends Model
 		if (isset($args['ma_gv'])) {
 			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);
 		}
-		
+
+		if (isset($args['ma_tk'])) {
+			$query = $query->where($this->table .'.ma_tk', $args['ma_tk']);
+		}
+		if (isset($args['ma_lhp'])) {
+			$query = $query->where($this->table .'.ma_lhp', $args['ma_lhp']);
+		}
+
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
 			return $query->paginate($per_page);
@@ -88,7 +95,24 @@ class DanhGia extends Model
 			->where($this->table . '.id', $id);
 		return $query->first();
 	}
-
+	public function add($data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)->insert($data);
+		return $result;
+	}
+	public function admin_update($id, $data)
+	{
+		if (empty($data)) {
+			return false;
+		}
+		$result = DB::table($this->table)
+			->where($this->table . '.id', $id)
+			->update($data);
+		return $result;
+	}
 	public function admin_delete($id)
 	{
 		if (empty($id)) {

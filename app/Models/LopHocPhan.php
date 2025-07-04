@@ -151,9 +151,6 @@ class LopHocPhan extends Model
 			$result = $result->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}
-
-
-
 	public function get_by_id($id)
 	{
 		$query = DB::table($this->table)
@@ -166,6 +163,20 @@ class LopHocPhan extends Model
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
 			->join('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp')
 			->where($this->table . '.ma_lhp', $id);
+		return $query->first();
+	}
+	public function get_by_alias($alias)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*',
+				'taikhoan.ho_ten as ho_ten',
+				'taikhoan.hinh_anh as avatar',
+				'hoc_phan.ten_hp as ten_hp'
+			])
+			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->join('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp')
+			->where($this->table . '.alias', $alias);
 		return $query->first();
 	}
 	public function bai_giang()
