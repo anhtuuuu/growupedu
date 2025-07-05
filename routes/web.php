@@ -85,6 +85,8 @@ Route::get('/them-hoc-phan', [CourseController::class, 'admin_add']);
 Route::post('/them-hoc-phan', [CourseController::class, 'admin_add']);
 Route::get('/them-bai', [ContentController::class, 'admin_add']);
 Route::post('/them-bai', [ContentController::class, 'admin_add']);
+Route::post('/upload-image', [ContentController::class, 'store']);
+
 Route::get('/gets-chapter/{value}', [ContentController::class, 'gets_chapter']);
 Route::get('/them-chuong', [ChapterController::class, 'admin_add']);
 Route::post('/them-chuong', [ChapterController::class, 'admin_add']);
@@ -94,6 +96,8 @@ Route::post('/them-lop-hoc-phan', [ClassController::class, 'admin_add']);
 
 Route::get('/them-tai-khoan', [AccountController::class, 'admin_add']);
 Route::post('/them-tai-khoan', [AccountController::class, 'admin_add']);
+Route::post('/import-accounts', [AccountController::class, 'import']);
+
 Route::get('/check-role/{value}', [AccountController::class, 'check_role']);
 Route::get('/them-bai-kiem-tra', [TestController::class, 'admin_add']);
 Route::post('/them-bai-kiem-tra', [TestController::class, 'admin_add']);

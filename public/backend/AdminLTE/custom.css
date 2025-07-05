@@ -36,3 +36,34 @@
     border: none;
     background: transparent;
 }
+.import_file{
+    display: flex;
+    justify-content: end;
+    margin-right: 10px;
+}
+.import_file_w{
+    display: flex;
+    justify-content: start;
+    /* margin-left: 10px; */
+}
+.import_file label{
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    cursor: pointer;
+    border: 1px solid #dadce0;
+    margin: 0;
+    padding: 5px;
+    border-radius: 3px;
+}
+.import_file input{
+    display: none;
+}
+.import_file label img{
+    width: 20px;
+}
+.import_file button{
+    background-color: #00a65a;
+    color: #fff;
+    border: 1px solid #dadce0;
+}

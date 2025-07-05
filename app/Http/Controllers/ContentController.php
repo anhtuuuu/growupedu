@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 use Session;
+use Storage;
 
 class ContentController extends LayoutController
 {
@@ -281,5 +282,30 @@ class ContentController extends LayoutController
             return back();
         }
         return back();
+    }
+    function store(Request $request)
+    {
+        $request->validate([
+            'base64' => 'required|string',
+            'filename' => 'required|string'
+        ]);
+
+        $base64 = $request->input('base64');
+        $filename = $request->input('filename');
+
+        // Tách phần base64
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64, $type)) {
+            $base64 = substr($base64, strpos($base64, ',') + 1);
+            $type = strtolower($type[1]); // jpg, png, gif
+
+            $filePath = "images/" . $filename;
+            Storage::disk('public')->put($filePath, base64_decode($base64));
+
+            return response()->json([
+                'url' => Storage::url($filePath)
+            ]);
+        }
+
+        return response()->json(['error' => 'Invalid image data'], 400);
     }
 }
