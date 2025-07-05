@@ -11,6 +11,16 @@
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý tài khoản</b></h3>
                     <a class="btn btn-success pull-right" href="<?php echo URL::to('them-tai-khoan'); ?>"><i class="fa fa-plus"></i> Thêm</a>
                 </div>
+                <form action="{{ URL::to('/import-accounts') }}" method="POST" enctype="multipart/form-data"
+                    class="import_file">
+                    @csrf
+                    @error('file')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    <label for="file"><img src="<?php echo URL::to(config('asset.images_path') . 'x-img.png'); ?>" alt="">File excel</label>
+                    <input type="file" name="file" id="file">
+                    <button type="submit">Import</button>
+                </form>
                 <div class="box-body">
 
                     <form class="form-inline" name="main" method="post" action="">
@@ -19,9 +29,9 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                                                        <input class="flat-blue check-all" name="check_all[]"
-                                                                                            type="checkbox" value="yes">
-                                                                                    </th> -->
+                                                                                                    <input class="flat-blue check-all" name="check_all[]"
+                                                                                                        type="checkbox" value="yes">
+                                                                                                </th> -->
                                         <th class="text-center" style="width: 20px">Sắp xếp</th>
                                         <th class="text-center" style="width:120px">Ảnh đại diện</th>
                                         <th class="text-center" style="width:auto">Họ tên</th>
@@ -30,7 +40,7 @@
                                         <th class="text-center">Trạng thái kích hoạt</th>
                                         <th class="text-center" style="width: 160px;">Chức năng</th>
                                         <!-- <th class="text-center">Nổi bật</th>
-                                                                            <th class="text-center">Mới nhất</th> -->
+                                                                                        <th class="text-center">Mới nhất</th> -->
                                         <!-- <th class="text-center">Chức năng</th> -->
 
                                     </tr>

@@ -50,7 +50,7 @@
     <script src={{ URL::to(config('asset.dist_admin_path') . 'dist/js/app.min.js') }} type="text/javascript"></script>
     <script src={{ URL::to(config('asset.dist_admin_path') . 'dist/js/demo.js') }}></script>
     <script src={{ URL::to(config('asset.admin_path') . 'ckeditor/ckeditor.js') }}></script>
-    <script>
+    {{-- <script>
         CKEDITOR.replace('editor', {
             language: 'vi',
             filebrowserBrowseUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/browse.php?opener=ckeditor&type=files' }}',
@@ -60,7 +60,53 @@
             filebrowserImageUploadUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/upload.php?opener=ckeditor&type=images&dir=images/news'}}',
             filebrowserFlashUploadUrl: '{{ URL::to(config('asset.admin_path')).'/ckeditor/kcfinder/upload.php?opener=ckeditor&type=flash'}}'
         });
+    </script> --}}
+    <script src={{ URL::to(config('asset.admin_path') . 'js/mammoth.browser.min.js') }}></script>
+    <script>
+        CKEDITOR.replace('editor');
+        document.getElementById('upload-docx').addEventListener('change', function(event) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const arrayBuffer = event.target.result;
+
+                // Dùng Mammoth để chuyển đổi .docx sang HTML
+                mammoth.convertToHtml({
+                    arrayBuffer: arrayBuffer
+                }, {
+                    convertImage: mammoth.images.inline(function(image) {
+                        return image.read("base64").then(function(imageBuffer) {
+                            return {
+                                src: "data:" + image.contentType + ";base64," +
+                                    imageBuffer
+                            };
+                        });
+                    })
+                }).then(function(result) {
+                    // Chèn HTML vào CKEditor
+                    CKEDITOR.instances.editor.setData(result.value);
+                    console.log("Messages:", result.messages);
+                }).catch(function(err) {
+                    console.error("Lỗi khi đọc file:", err);
+                });
+            };
+            reader.readAsArrayBuffer(event.target.files[0]);
+        });
+
+        const htmlContent = CKEDITOR.instances.editor.getData();
+
+        fetch("/them-bai", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("noi_dung")
+            },
+            body: JSON.stringify({
+                content: htmlContent
+            })
+        });
     </script>
+
+
     <script type="text/javascript">
         var delay = (function() {
             var timer = 0;

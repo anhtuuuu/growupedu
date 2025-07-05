@@ -81,6 +81,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Nội dung</label>
+                                    <div class="import_file import_file_w">
+                                        <label for="upload-docx"><img src="<?php echo URL::to(config('asset.images_path') . 'd-img.png'); ?>" alt="">File docx</label>
+                                        <input type="file" id="upload-docx" accept=".docx" />
+                                    </div>
+
                                     <textarea class="form-control" id="editor" name="noi_dung">{{ isset($row) ? $row->noi_dung : old('noi_dung') }}</textarea>
                                 </div>
                                 <div class="form-group">

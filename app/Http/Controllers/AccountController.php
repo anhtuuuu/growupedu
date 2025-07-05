@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Imports\AccountsImport;
+use App\Imports\ProductsImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\BoMon;
 use App\Models\SinhVien;
 use App\Models\Taikhoan;
@@ -228,9 +231,29 @@ class AccountController extends LayoutController
 
         // print_r($result);
     }
-
-
-
+    public function import(Request $request)
+    {
+        $request->validate(
+            [
+                'file' => 'required|mimes:xlsx,csv,xls'
+            ],
+            [
+                'file.required' => 'Vui lòng chọn file excel.',
+                'file.mimes' => 'Chỉ chấp nhận files định dạng (xlsx, csv, xls).',
+            ]
+        );
+        $import = new AccountsImport;
+        Excel::import($import, $request->file('file'));
+        $result = $import->getRowCount();
+        if ($result != 0) {
+            Session::put('error', 'success');
+            Session::put('message', 'Có ' . $result . ' tài khoản được thêm thành công');
+        } else {
+            Session::put('error', 'danger');
+            Session::put('message', 'Chưa có tài khoản nào thêm thành công');
+        }
+        return back();
+    }
 
     function admin_update(Request $request)
     {
