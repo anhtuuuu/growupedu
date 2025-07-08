@@ -8,7 +8,16 @@
                 </div>
                 <div class="box-body">
                     <input type="hidden" value="' . $row['id'] . '" id="id" name="id" class="form-control" />
-
+                    <form action="{{ URL::to('/import-test') }}" method="POST" enctype="multipart/form-data"
+                        class="import_file">
+                        @csrf
+                        @error('file')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                        <label for="file"><img src="<?php echo URL::to(config('asset.images_path') . 'x-img.png'); ?>" alt="">File excel</label>
+                        <input type="file" name="file" id="file">
+                        <button type="submit">Import</button>
+                    </form>
                     <form id="f-content" action="<?php echo isset($row) ? URL::to('cap-nhat-bai-kiem-tra') : URL::to('them-bai-kiem-tra'); ?>" method="post" enctype="multipart/form-data"
                         autocomplete="off">
                         {{ csrf_field() }}
@@ -16,6 +25,14 @@
                             $contents = unserialize($row->noi_dung);
                             $answers = explode(';', $row->dap_an);
                         } ?>
+                        <?php
+                        if (isset($data) && !empty($data)) {
+                            $contents = unserialize($data);
+                        }
+                        if (isset($anws) && !empty($anws)) {
+                            $answers = explode(';', $anws);
+                        }
+                        ?>
                         <div class="row">
                             <?php if(isset($row)):?>
                             <input type="hidden" value="{{ $row->ma_bkt }}" id="ma_bkt" name="ma_bkt"
@@ -40,6 +57,17 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label class="control-label">Thời gian bắt đầu</label>
+                                    <input type="datetime-local" class="form-control" name="bat_dau"
+                                        value="{{ isset($row) ? $row->bat_dau : old('bat_dau') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Hạn nộp</label>
+                                    <input type="datetime-local" class="form-control" name="han_nop"
+                                        value="{{ isset($row) ? $row->han_nop : old('han_nop') }}">
+                                </div>
+
                                 <div class="form-group">
                                     <label class="control-label">Danh sách câu hỏi</label>
                                     <div class="questions" id="questions">
@@ -79,7 +107,8 @@
                                             @enderror
                                             <div class="question">
                                                 <label for="">Đáp án D</label>
-                                                <input type="text" class="form-control" name="answer4[]" id="answer"
+                                                <input type="text" class="form-control" name="answer4[]"
+                                                    id="answer"
                                                     value="{{ isset($contents) ? $contents[0]['answer4'] : old('answer4.0') }}">
                                             </div>
                                             @error('answer4.0')

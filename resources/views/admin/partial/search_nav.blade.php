@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <form name="filter" method="post" action="{{ isset($filter_link) ? URL::to($filter_link) : '' }}">
-            {{ csrf_field() }}
+        <form name="filter" method="get" action="{{ isset($filter_link) ? URL::to($filter_link) : '' }}">
             <nav class="search_bar navbar navbar-default" role="search">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -19,11 +18,14 @@
                         </div>
                         <div class="form-group search_input">
                             <select class="form-control input-sm" name="cat_id">
-                                <option value="0">Tất cả chủ đề</option>
+                                {{-- <option value="0">Tất cả chủ đề</option> --}}
                                 <?php if(isset($filter) && !empty($filter)):
-                                    for($i = 0; $i <= count($filter); $i++):?>
-                                <option value="{{ $filter['value'][$i] }}">{{ $filter['title'][$i] }}</option>
-                                <?php endfor; endif; ?>
+                                    // for($i = 0; $i <= count($filter); $i++):
+                                    foreach($filter as $index => $fil):?>
+                                {{-- <option value="{{ $filter['value'][$i] }}" {{isset($value_filter) && $value_filter == $filter['value'][$i] ? 'selected' : ''}}>{{ $filter['title'][$i] }}</option> --}}
+                                <option value="{{ $fil['value'] }}" {{isset($value_filter) && $value_filter == $fil['value'] ? 'selected' : ''}}>{{ $fil['title'] }}</option>
+                                
+                                <?php endforeach; endif; ?>
                             </select>
                         </div>
 
@@ -31,7 +33,7 @@
                             Từ khóa tìm kiếm
                         </div>
                         <div class="form-group search_input">
-                            <input class="form-control input-sm" type="text" value="" maxlength="64"
+                            <input class="form-control input-sm" type="text" value="{{isset($key_word) ? $key_word : ''}}" maxlength="64"
                                 name="key_word" placeholder="Từ khóa tìm kiếm">
                         </div>
 

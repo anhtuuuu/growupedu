@@ -25,7 +25,7 @@
                                         <th class="text-center">Họ tên</th>
                                         <th class="text-center">Điểm số</th>
                                         <th class="text-center">Ngày nộp</th>
-                                        <th class="text-center">Chức năng</th>
+                                        {{-- <th class="text-center">Chức năng</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,9 +53,9 @@
                                         <td class="text-center">
                                             {{ $row->ngay_nop }}
                                         </td>
-                                        <td class="text-center">
+                                        {{-- <td class="text-center">
                                             <em class="fa fa-eye fa-lg">&nbsp;</em> <a href="<?php echo URL::to('xem-dap-an/' . $row->id); ?>">Xem đáp án</a>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>

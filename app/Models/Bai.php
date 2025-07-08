@@ -62,31 +62,55 @@ class Bai extends Model
 			->select([
 				$this->table . '.*',
 				'chuong.ten_chuong as ten_chuong',
+				'chuong.alias as alias_chuong',
+				'bai_giang.alias as alias_bg',
 				'bai_giang.ten_bg as ten_bg'
 			])
 			->join('chuong', 'chuong.ma_chuong', '=', $this->table . '.ma_chuong')
 			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
 			->where($this->table . '.trang_thai', 1);
 
+		if (isset($args['hien_thi'])) {
+			$query = $query->where($this->table . '.hien_thi', 1);
+		}
 		if (isset($args['alias_lesson'])) {
 			$query = $query->where('bai_giang.alias', $args['alias_lesson']);
 		}
 		if (isset($args['id_chapter'])) {
 			$query = $query->where('chuong.ma_chuong', $args['id_chapter']);
 		}
+		if (isset($args['alias_chapter'])) {
+			$query = $query->where('chuong.alias', $args['alias_chapter']);
+		}
 		if (isset($args['ma_gv'])) {
 			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
-		} 
+		}
+		if (isset($args['class'])) {
+			$query = $query->where(function ($q) use ($args) {
+				$q->where('bai_giang.ma_bg', $args['class'][0]);
+					foreach(array_slice($args['class'], 1) as $row){
+						$q->orWhere('bai_giang.ma_bg', $row);
+					}					
+			});
+		}
+		if (isset($args['q'])) {
+			$query = $query->where(function ($q) use ($args) {
+				$q->where($this->table . '.tieu_de', 'like', "%{$args['q']}%")
+					->orWhere($this->table . '.mo_ta', 'like', "%{$args['q']}%")
+					->orWhere($this->table . '.noi_dung', 'like', "%{$args['q']}%")
+					->orWhere('chuong.ten_chuong', 'like', "%{$args['q']}%");
+			});
+		}
 		if (isset($args['order_by'])) {
 			$query = $query->orderBy('ngay_tao', $args['order_by']);
 		}
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
-			return $query->paginate($per_page);
+			return $query->paginate($per_page)->withQueryString();
 		}
 		return $query->get()->toArray();
 	}
-	
+
 	public function admin_update($id, $data)
 	{
 		if (empty($data)) {
@@ -136,8 +160,9 @@ class Bai extends Model
 			->join('chuong', 'chuong.ma_chuong', '=', $this->table . '.ma_chuong')
 			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
 			->where($this->table . '.alias', $alias);
-			if (isset($args['ma_gv'])) {
-			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);}
+		if (isset($args['ma_gv'])) {
+			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
+		}
 
 
 		// $query = $this->generateWhere($query, $args);
@@ -171,9 +196,9 @@ class Bai extends Model
 			->join('chuong', 'chuong.ma_chuong', '=', 'bai.ma_chuong')
 			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
 
-			->where($this->table .'.ma_bai', $id)
+			->where($this->table . '.ma_bai', $id)
 			->where('bai_giang.ma_tk', $ma_tk)
-			->update([$this->table .'.trang_thai' => 0]);
+			->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}
 	public function chuong()

@@ -24,7 +24,7 @@
                                             value="{{ $row->ma_tk }}">
                                         <ul class="m-0">
                                             <li class="list-group-item"><b>Họ tên: </b>{{ $row->ho_ten }}</li>
-                                            <li class="list-group-item"><b>MSSV: </b>{{ $row->ma_tk }}</li>
+                                            <li class="list-group-item"><b>MSSV: </b>{{ $row->username }}</li>
                                             <li class="list-group-item"><b>Giới tính:
                                                 </b>{{ $row->gioi_tinh == 0 ? 'Nam' : 'Nữ' }}</li>
                                             <li class="list-group-item"><b>Email: </b>{{ $row->email }}</li>
@@ -74,7 +74,7 @@
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Lớp học phần</th>
-                                                <th scope="col">Tiến độ</th>
+                                                {{-- <th scope="col">Tiến độ</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -85,7 +85,7 @@
                                                 <th scope="row">{{ $index + 1 }}</th>
                                                 <td><a href="{{ URL::to($value->alias_lhp) }}">{{ $value->ten_lhp }}</a>
                                                 </td>
-                                                <td>{{ $value->tien_do }}%</td>
+                                                {{-- <td>{{ $value->tien_do }}%</td> --}}
                                             </tr>
                                             <?php endforeach; endif; ?>
                                         </tbody>

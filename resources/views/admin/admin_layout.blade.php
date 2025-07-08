@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>title</title>
     <link rel="icon" href={{ URL::to(config('asset.dist_admin_path') . 'favicon.ico') }} />
     <link href={{ URL::to(config('asset.dist_admin_path') . 'bootstrap/css/bootstrap.min.css') }} rel="stylesheet"

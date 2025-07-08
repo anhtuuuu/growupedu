@@ -21,6 +21,7 @@
                     <input type="file" name="file" id="file">
                     <button type="submit">Import</button>
                 </form>
+                
                 <div class="box-body">
 
                     <form class="form-inline" name="main" method="post" action="">
@@ -29,9 +30,9 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                                                                    <input class="flat-blue check-all" name="check_all[]"
-                                                                                                        type="checkbox" value="yes">
-                                                                                                </th> -->
+                                                                                                        <input class="flat-blue check-all" name="check_all[]"
+                                                                                                            type="checkbox" value="yes">
+                                                                                                    </th> -->
                                         <th class="text-center" style="width: 20px">Sắp xếp</th>
                                         <th class="text-center" style="width:120px">Ảnh đại diện</th>
                                         <th class="text-center" style="width:auto">Họ tên</th>
@@ -40,7 +41,7 @@
                                         <th class="text-center">Trạng thái kích hoạt</th>
                                         <th class="text-center" style="width: 160px;">Chức năng</th>
                                         <!-- <th class="text-center">Nổi bật</th>
-                                                                                        <th class="text-center">Mới nhất</th> -->
+                                                                                            <th class="text-center">Mới nhất</th> -->
                                         <!-- <th class="text-center">Chức năng</th> -->
 
                                     </tr>
@@ -73,7 +74,7 @@
                                         </td>
                                         <td class="text-center">
                                             <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" <?php echo $row->kich_hoat ? 'checked' : ''; ?>>
+                                                value="{{ $row->ma_tk }}" <?php echo $row->kich_hoat ? 'checked' : ''; ?>>
                                         </td>
                                         <td class="text-center">
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-tai-khoan/' . $row->ma_tk); ?>">Sửa</a>

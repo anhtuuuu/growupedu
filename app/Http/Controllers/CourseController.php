@@ -14,19 +14,46 @@ class CourseController extends LayoutController
    {
       return view(config('asset.view_admin_page')('course_management'));
    }
-   function admin_index()
+   function admin_index(Request $request)
    {
       $args = array();
       $args['per_page'] = 5;
       $course = (new HocPhan)->gets($args);
       $this->_data['rows'] = $course;
+
+      $args_empty = array();
+      $list_filter = (new BoMon())->gets($args_empty);
+      $filter = array();
+      foreach ($list_filter as $index => $value) {
+         $filter[$index]['value'] = $value->ma_bm;
+         $filter[$index]['title'] = $value->ten_bm;
+      }
+      $this->_data['filter'] = $filter;
+      $this->_data['filter_link'] = 'danh-sach-hoc-phan/';
+
+      $get_req = $request->all();
+      if (!empty($get_req)) {
+         $value_filter = $request->cat_id;
+         $key_word = $request->key_word;
+         $this->_data['value_filter'] = $value_filter;
+         $this->_data['key_word'] = $key_word;
+
+         if ($value_filter != 0) {
+            $args['filter'] = $value_filter;
+         }
+         if (!empty($key_word)) {
+            $args['key_word'] = $key_word;
+         }
+         $data = (new HocPhan())->gets($args);
+         $this->_data['rows'] = $data;
+      }
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('course_management'), $this->_data);
    }
    function admin_add(Request $request)
    {
       $args = array();
       $data = (new BoMon())->gets($args);
-      $this->_data['table_bomon'] = $data;
+      $this->_data['table_bm'] = $data;
 
       $get_req = $request->all();
       if (!empty($get_req)) {
@@ -51,13 +78,15 @@ class CourseController extends LayoutController
          ];
          $result = (new HocPhan())->add($data);
          if ($result) {
-            $this->_data['error'] = 'success';
-            $this->_data['message'] = 'Thêm học phần thành công';
+            Session::put('error', 'success');
+            Session::put('message', 'Thêm học phần thành công.');
          } else {
-            $this->_data['error'] = 'danger';
-            $this->_data['message'] = 'Thêm học phần thất bại';
+            Session::put('error', 'danger');
+            Session::put('message', 'Thêm học phần thất bại.');
          }
-         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_course'), $this->_data);
+         // return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_course'), $this->_data);
+         return Redirect::to('danh-sach-hoc-phan');
+
       }
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_course'), $this->_data);
    }
@@ -66,7 +95,7 @@ class CourseController extends LayoutController
    {
       $args = array();
       $data = (new BoMon())->gets($args);
-      $this->_data['table_bomon'] = $data;
+      $this->_data['table_bm'] = $data;
       $get_req = $request->all();
       $segment = 2;
       $id = trim(request()->segment($segment) ?? '');
@@ -114,7 +143,7 @@ class CourseController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');
          }
-         return Redirect::to('danh-sach-bo-mon');
+         return Redirect::to('danh-sach-hoc-phan');
       }
 
       $course = (new HocPhan())->get_by_id($id);
@@ -132,7 +161,7 @@ class CourseController extends LayoutController
       }
       Session::put('error', 'warning');
       Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
-      if ($role == 1) {
+      if ($role == 2) {
          // $ma_tk = Session::get('admin_id');
          $segment = 2;
          $code_course = trim(request()->segment($segment) ?? '');

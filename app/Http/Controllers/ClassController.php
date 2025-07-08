@@ -25,14 +25,18 @@ class ClassController extends LayoutController
         if ($class_alias === '') {
             abort(404);
         }
+        Session::put('class_alias', $class_alias);
         $args = array();
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
 
         $args['alias'] = $class_alias;
         $class = (new LopHocPhan)->gets($args);
-
+        if (empty($class)) {
+            abort(404);
+        }
         $args['ma_bg'] = $class[0]->ma_bg;
+        $args['hien_thi'] = true;
         $lessons = (new BaiGiang)->gets($args);
 
         $interacts = (new TuongTac)->gets($args);
@@ -45,6 +49,7 @@ class ClassController extends LayoutController
         $args['alias_lesson'] = $lessons[0]->alias;
         $args['order_by'] = 'DESC';
 
+        $args['hien_thi'] = true;
         $chapters = (new Chuong)->gets($args);
         $contents = (new Bai)->gets($args);
 
@@ -69,7 +74,8 @@ class ClassController extends LayoutController
 
         // return view(config('asset.view_page')('section-class'));
     }
-    function admin_index()
+
+    function admin_index(Request $request)
     {
         $args = array();
         $args['order_by'] = 'desc';
@@ -77,10 +83,37 @@ class ClassController extends LayoutController
         $args['per_page'] = 5;
         $class = (new LopHocPhan())->gets($args);
         $this->_data['rows'] = $class;
-        if (Session::get('admin_id') == 1) {
-            $args = array();
-            $args['per_page'] = 5;
-            $this->_data['rows'] = (new LopHocPhan())->gets($args);
+        // if (Session::get('admin_id') == 1) {
+        //     $args = array();
+        //     $args['per_page'] = 5;
+        //     $this->_data['rows'] = (new LopHocPhan())->gets($args);
+        // }
+
+        $args_empty = array();
+        $list_filter = (new HocPhan())->gets($args_empty);
+        $filter = array();
+        foreach ($list_filter as $index => $value) {
+            $filter[$index]['value'] = $value->ma_hp;
+            $filter[$index]['title'] = $value->ten_hp;
+        }
+        $this->_data['filter'] = $filter;
+        $this->_data['filter_link'] = 'danh-sach-lop-hoc-phan/';
+
+        $get_req = $request->all();
+        if (!empty($get_req)) {
+            $value_filter = $request->cat_id;
+            $key_word = $request->key_word;
+            $this->_data['value_filter'] = $value_filter;
+            $this->_data['key_word'] = $key_word;
+
+            if ($value_filter != 0) {
+                $args['filter'] = $value_filter;
+            }
+            if (!empty($key_word)) {
+                $args['key_word'] = $key_word;
+            }
+            $data = (new LopHocPhan())->gets($args);
+            $this->_data['rows'] = $data;
         }
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('class_management'), $this->_data);
     }
@@ -98,6 +131,7 @@ class ClassController extends LayoutController
             abort(404);
         }
         $args = array();
+        $args['hien_thi'] = true;
         $section_class_none = $this->section_class();
         $lessons = (new BaiGiang)->gets($args);
         $this->_data['load_section_class'] = $section_class_none;
@@ -105,7 +139,6 @@ class ClassController extends LayoutController
         $args['alias'] = $class_alias;
         $class = (new LopHocPhan)->gets($args);
         $args['ma_tk'] = $class[0]->ma_tk;
-        // $lessons = (new BaiGiang)->gets($args);
 
         $interacts = (new TuongTac)->gets($args);
 
@@ -198,6 +231,7 @@ class ClassController extends LayoutController
 
         $accounts = (new Taikhoan)->gets($args);
         $submitted_tests = (new NopBaiKiemTra)->gets($args);
+        $args['hien_thi'] = true;
         $lesson = (new BaiGiang)->gets($args);
 
         $this->_data['lessons'] = $lesson;
@@ -222,6 +256,7 @@ class ClassController extends LayoutController
         $section_class = (new LopHocPhan)->gets($args);
         $args['class_alias'] = $class_alias;
         $submitted_tests = (new NopBaiKiemTra)->gets($args);
+        $args['hien_thi'] = true;
         $lesson = (new BaiGiang)->gets($args);
 
         $this->_data['lessons'] = $lesson;
@@ -318,6 +353,7 @@ class ClassController extends LayoutController
     function admin_add(Request $request)
     {
         $args = array();
+        $args['ma_tk'] = Session::get('admin_id');
         $data = (new BaiGiang())->gets($args);
         $this->_data['table_baigiang'] = $data;
         $data_course = (new HocPhan())->gets($args);
@@ -417,6 +453,19 @@ class ClassController extends LayoutController
 
         return back();
     }
-
+    function update_status()
+    {
+        $segment = 2;
+        $id = trim(request()->segment($segment) ?? '');
+        if (empty($id)) {
+            abort(404);
+        }
+        $class = (new LopHocPhan())->get_by_id($id);
+        $data = [
+            'hien_thi' => $class->hien_thi == 1 ? 0 : 1
+        ];
+        $result = (new LopHocPhan())->admin_update($id, $data);
+        return $result;
+    }
 
 }

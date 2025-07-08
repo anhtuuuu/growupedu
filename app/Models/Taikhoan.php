@@ -85,22 +85,30 @@ class Taikhoan extends Model
 			])
 			->leftJoin('vai_tro', 'vai_tro.ma_vt', '=', $this->table . '.vai_tro')
 			->leftJoin('bo_mon', 'bo_mon.ma_bm', '=', $this->table . '.ma_bm');
-
+		
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
-		if (isset($args['role'])) {
-			$query = $query->where($this->table . '.vai_tro', $args['role']);
+		if (isset($args['filter'])) {
+			$query = $query->where($this->table . '.vai_tro', $args['filter']);
+		}
+		if (isset($args['filter2'])) {
+			$query = $query->where($this->table . '.ma_bm', $args['filter2']);
 		}
 		if (isset($args['key_word'])) {
-			$query = $query->whereFullText('ho_ten', $args['key_word']);
+			$query = $query->where(function ($q) use ($args) {
+				$q->where('ho_ten', 'like', "%{$args['key_word']}%")
+					->orWhere('email', 'like', "%{$args['key_word']}%")
+					->orWhere('username', 'like', "%{$args['key_word']}%")
+					->orWhere('sdt', 'like', "%{$args['key_word']}%");
+			});
 		}
 		if (isset($args['ma_gv'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_gv']);
 		}
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
-			return $query->paginate($per_page);
+			return $query->paginate($per_page)->withQueryString();
 		}
 		return $query->get()->toArray();
 	}
@@ -110,7 +118,8 @@ class Taikhoan extends Model
 			->select([
 				$this->table . '.*'
 			])
-			->where($this->table . '.email', $email);
+			->where($this->table . '.email', $email)
+			->where($this->table . '.kich_hoat', 1);
 
 		if (isset($args['is_admin']) && $args['is_admin']) {
 			$query = $query->where(function ($query) {
@@ -123,7 +132,7 @@ class Taikhoan extends Model
 				$query->where('vai_tro', 2)
 					->orWhere('vai_tro', 3);
 			});
-		}	
+		}
 
 		return $query->first();
 	}
@@ -155,6 +164,16 @@ class Taikhoan extends Model
 			])
 			// ->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
 			->where($this->table . '.ma_tk', $id);
+
+		return $query->first();
+	}
+	public function get_by_username($username)
+	{
+		$query = DB::table($this->table)
+			->select([
+				$this->table . '.*'
+			])			
+			->where($this->table . '.username', $username);
 
 		return $query->first();
 	}

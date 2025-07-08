@@ -53,8 +53,17 @@ class BoMon extends Model
 			])
 			->join('khoa', 'khoa.ma_khoa', '=', $this->table . '.ma_khoa')
 			->where($this->table . '.trang_thai', 1);
-				if (isset($args['id_khoa'])) {
+		if (isset($args['id_khoa'])) {
 			$query = $query->where('Khoa.ma_khoa', $args['id_khoa']);
+		}
+		if (isset($args['filter'])) {
+			$query = $query->where($this->table . '.ma_khoa', $args['filter']);
+		}
+		if (isset($args['key_word'])) {
+			$query = $query->where(function ($q) use ($args) {
+				$q->where('ten_bm', 'like', "%{$args['key_word']}%")
+					->orWhere($this->table .'.mo_ta', 'like', "%{$args['key_word']}%");
+			});
 		}
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
@@ -62,8 +71,9 @@ class BoMon extends Model
 		}
 		return $query->get()->toArray();
 	}
-	public function add($data){
-		if(empty($data)){
+	public function add($data)
+	{
+		if (empty($data)) {
 			return false;
 		}
 		$result = DB::table($this->table)->insert($data);
@@ -96,7 +106,7 @@ class BoMon extends Model
 			->update($data);
 		return $result;
 	}
-public function admin_delete($id)
+	public function admin_delete($id)
 	{
 		if (empty($id)) {
 			return false;
