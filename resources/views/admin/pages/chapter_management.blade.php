@@ -2,7 +2,7 @@
 @section('content')
     @include(config('asset.view_admin_partial')('notify_message'))
 
-    @include(config('asset.view_admin_partial')('search_nav'))
+    {{-- @include(config('asset.view_admin_partial')('search_nav')) --}}
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
@@ -43,7 +43,9 @@
                                                 value="">
                                         </td>
                                         <td class="text-center">
-                                            {{ $row->ten_chuong }}
+                                            <a href="{{ URL::to($row->alias.'/danh-sach-bai')}}">
+                                                {{ $row->ten_chuong }}
+                                            </a>
                                         </td>
                                         <td class="text-center">
                                             {{ $row->ten_bg }}

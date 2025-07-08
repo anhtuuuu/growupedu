@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\TestsImport;
 use App\Models\NopBaiKiemTra;
 use Session;
 use Illuminate\Http\Request;
@@ -11,6 +12,8 @@ use App\Models\Baigiang;
 use Illuminate\Support\Facades\Redirect;
 
 use Illuminate\Support\Arr;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class TestController extends LayoutController
 {
@@ -20,7 +23,7 @@ class TestController extends LayoutController
       $segment2 = 2;
       $class_alias = trim(request()->segment($segment) ?? '');
       $test_code = trim(request()->segment($segment2) ?? '');
-      if ($class_alias === '' && $test_code === '') {
+      if ($class_alias === '' || $test_code === '') {
          abort(404);
       }
       $args = array();
@@ -41,7 +44,7 @@ class TestController extends LayoutController
          $test_questions = $test[0]->noi_dung;
          $array_question = @unserialize($test_questions);
       }
-
+      $args['hien_thi'] = true;
       $lessons = (new Baigiang)->gets($args);
 
 
@@ -81,7 +84,7 @@ class TestController extends LayoutController
             $result++;
          }
       }
-      $result = $result - 1;
+      // $result = $result - 1;
       $count = count($answers_true) - 1;
       $score = ($result / $count) * 10;
       $score = round($score, 1);
@@ -99,7 +102,8 @@ class TestController extends LayoutController
          Session::put('error', 'warning');
          Session::put('message', 'Nộp bài tập thất bại!');
       }
-      return back();
+      $class = Session::get('class_alias');
+      return Redirect::to($class . '/test');
 
    }
    function test_list()
@@ -115,7 +119,7 @@ class TestController extends LayoutController
       $args['class_alias'] = $class_alias;
       $args['alias'] = $class_alias;
       $section_class = (new LopHocPhan)->gets($args);
-
+      $args['hien_thi'] = true;
       $tests = (new Baikiemtra)->gets($args);
       $lessons = (new Baigiang)->gets($args);
       $this->_data['section_class'] = $section_class;
@@ -127,6 +131,8 @@ class TestController extends LayoutController
       $args = [];
       $args['ma_tk'] = Session::get('client_id');
       $check_submited = (new NopBaiKiemTra)->gets($args);
+      // print_r($check_submited);
+      // return;
       if (!empty($check_submited)) {
          $this->_data['check_submited'] = $check_submited;
       }
@@ -136,7 +142,7 @@ class TestController extends LayoutController
       return view(config('asset.view_page')('test-list'), $this->_data);
    }
 
-   function admin_index()
+   function admin_index(Request $request)
    {
       $args = array();
       $args['order_by'] = 'desc';
@@ -144,6 +150,34 @@ class TestController extends LayoutController
       $args['per_page'] = 5;
       $tests = (new Baikiemtra)->gets($args);
       $this->_data['rows'] = $tests;
+
+      $args_filter = array();
+      $args_filter['ma_tk'] = Session::get('admin_id');
+      $list_filter = (new LopHocPhan())->gets($args_filter);
+      $filter = array();
+      foreach ($list_filter as $index => $value) {
+         $filter[$index]['value'] = $value->ma_lhp;
+         $filter[$index]['title'] = $value->ten_lhp;
+      }
+      $this->_data['filter'] = $filter;
+      $this->_data['filter_link'] = 'danh-sach-bai-kiem-tra/';
+
+      $get_req = $request->all();
+      if (!empty($get_req)) {
+         $value_filter = $request->cat_id;
+         $key_word = $request->key_word;
+         $this->_data['value_filter'] = $value_filter;
+         $this->_data['key_word'] = $key_word;
+
+         if ($value_filter != 0) {
+            $args['filter'] = $value_filter;
+         }
+         if (!empty($key_word)) {
+            $args['key_word'] = $key_word;
+         }
+         $data = (new Baikiemtra())->gets($args);
+         $this->_data['rows'] = $data;
+      }
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('test_management'), $this->_data);
    }
 
@@ -199,9 +233,14 @@ class TestController extends LayoutController
          }
 
          $attributes = serialize($questions);
+         $start_time = $request->bat_dau < now() ? now() : $request->bat_dau;
+         $end_time = $request->han_nop < $start_time ? $start_time : $request->han_nop;
+
          $data = [
             'ma_lhp' => $request->ma_lhp,
             'tieu_de' => $request->tieu_de,
+            'bat_dau' => $start_time,
+            'han_nop' => $end_time,
             'noi_dung' => $attributes,
             'dap_an' => $dap_an
          ];
@@ -281,9 +320,13 @@ class TestController extends LayoutController
          }
 
          $attributes = serialize($questions);
+         $start_time = $request->bat_dau < now() ? now() : $request->bat_dau;
+         $end_time = $request->han_nop < $start_time ? $start_time : $request->han_nop;
          $data = [
             'ma_lhp' => $request->ma_lhp,
             'tieu_de' => $request->tieu_de,
+            'bat_dau' => $start_time,
+            'han_nop' => $end_time,
             'noi_dung' => $attributes,
             'dap_an' => $dap_an
          ];
@@ -332,7 +375,7 @@ class TestController extends LayoutController
 
    }
 
-   function test_list_submited()
+   function test_list_submited(Request $request)
    {
       $role = Session::get('admin_id');
       if (empty($role)) {
@@ -345,6 +388,77 @@ class TestController extends LayoutController
       $tests = (new NopBaiKiemTra())->gets($args);
       // print_r($tests);
       $this->_data['rows'] = $tests;
+
+      $args_filter = array();
+      $args_filter['ma_gv'] = Session::get('admin_id');
+      $list_filter = (new Baikiemtra())->gets($args_filter);
+      $filter = array();
+      foreach ($list_filter as $index => $value) {
+         $filter[$index]['value'] = $value->ma_bkt;
+         $filter[$index]['title'] = $value->tieu_de;
+      }
+      $this->_data['filter'] = $filter;
+      $this->_data['filter_link'] = 'danh-sach-nop-bai-kiem-tra/';
+
+      $get_req = $request->all();
+      if (!empty($get_req)) {
+         $value_filter = $request->cat_id;
+         $key_word = $request->key_word;
+         $this->_data['value_filter'] = $value_filter;
+         $this->_data['key_word'] = $key_word;
+
+         if ($value_filter != 0) {
+            $args['filter'] = $value_filter;
+         }
+         if (!empty($key_word)) {
+            $args['key_word'] = $key_word;
+         }
+         $data = (new NopBaiKiemTra())->gets($args);
+         $this->_data['rows'] = $data;
+      }
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('test_submited'), $this->_data);
+   }
+   public function import(Request $request)
+   {
+      $args = array();
+      $args['ma_tk'] = Session::get('admin_id');
+      $class = (new LopHocPhan)->gets($args);
+      $this->_data['class'] = $class;
+      $request->validate(
+         [
+            'file' => 'required|mimes:xlsx,csv,xls'
+         ],
+         [
+            'file.required' => 'Vui lòng chọn file excel.',
+            'file.mimes' => 'Chỉ chấp nhận files định dạng (xlsx, csv, xls).',
+         ]
+      );
+      $import = new TestsImport;
+      $collection = Excel::toCollection($import, $request->file('file'));
+      $data_import = $collection->toArray();
+      $data = [];
+      $anws = '';
+      foreach ($data_import[0] as $row) {
+         $data[] = [
+            'label' => $row[0],
+            'answer1' => $row[1],
+            'answer2' => $row[2],
+            'answer3' => $row[3],
+            'answer4' => $row[4],
+         ];
+         $anws .= $row[5] .';';
+      }
+      $this->_data['data'] = serialize($data);
+      $this->_data['anws'] = $anws;
+
+      if (!empty($data)) {
+         Session::put('error', 'success');
+         Session::put('message', 'Import thành công.');
+      } else {
+         Session::put('error', 'danger');
+         Session::put('message', 'Import thất bại.');
+      }
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_test'), $this->_data);
+
    }
 }

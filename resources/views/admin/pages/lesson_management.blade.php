@@ -38,14 +38,16 @@
                                                 value="">
                                         </td>
                                         <td class="text-center">
-                                            {{ $row->ten_bg }}
+                                            <a href="{{ URL::to($row->alias .'/danh-sach-chuong') }}">
+                                                {{ $row->ten_bg }}
+                                            </a>
                                         </td>
                                         <td class="text-center">
                                             {{ $row->ho_ten }}
                                         </td>
                                         <td class="text-center" style="width: 150px">
-                                            <input type="checkbox" name="inhome[]" class="change-inhome flat-blue"
-                                                value="" <?php echo $row->hien_thi ? 'checked' : ''; ?>>
+                                            <input type="checkbox" name="inhome[]" class="change-inhome-lesson flat-blue"
+                                                value="{{$row->ma_bg}}" <?php echo $row->hien_thi ? 'checked' : ''; ?>>
                                         </td>
                                         <td class="text-center">
                                             <em class="fa fa-edit fa-lg">&nbsp;</em> <a

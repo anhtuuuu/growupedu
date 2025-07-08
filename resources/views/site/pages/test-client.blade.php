@@ -1,6 +1,5 @@
 @extends('site.layout')
 @section('content')
-    @include(config('asset.view_admin_partial')('notify_message'))
 
     <!-- content -->
     <div class="col-xs-12 col-sm-9">

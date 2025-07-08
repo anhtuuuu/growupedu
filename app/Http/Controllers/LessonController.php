@@ -23,13 +23,13 @@ class LessonController extends LayoutController
       $args = array();
 
       $args['alias_lesson'] = $lesson_alias;
+      $args['hien_thi'] = true;
       $lesson = (new BaiGiang)->gets($args);
 
       if (empty($lesson)) {
          abort(404);
          return;
       }
-
       $chapters = (new Chuong)->gets($args);
       $contents = (new Bai)->gets($args);
 
@@ -60,13 +60,13 @@ class LessonController extends LayoutController
       $args = array();
 
       $args['alias_lesson'] = $lesson_alias;
+      $args['hien_thi'] = true;
       $lesson = (new BaiGiang)->gets($args);
 
       if (empty($lesson)) {
          abort(404);
          return;
       }
-
       $chapters = (new Chuong)->gets($args);
       $contents = (new Bai)->gets($args);
 
@@ -221,5 +221,19 @@ class LessonController extends LayoutController
       }
       return back();
 
+   }
+   function update_status()
+   {
+      $segment = 2;
+      $id = trim(request()->segment($segment) ?? '');
+      if (empty($id)) {
+         abort(404);
+      }
+      $lesson = (new BaiGiang())->get_by_id($id);
+      $data = [
+         'hien_thi' => $lesson->hien_thi == 1 ? 0 : 1
+      ];
+      $result = (new BaiGiang())->admin_update($id, $data);
+      return $result;
    }
 }

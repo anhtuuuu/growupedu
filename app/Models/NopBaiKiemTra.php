@@ -83,6 +83,15 @@ class NopBaiKiemTra extends Model
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
+		if (isset($args['filter'])) {
+			$query = $query->where($this->table . '.ma_bkt', $args['filter']);
+		}
+		if (isset($args['key_word'])) {
+			$query = $query->where(function ($q) use ($args) {
+				$q->where('taikhoan.ho_ten', 'like', "%{$args['key_word']}%")
+				->orWhere('taikhoan.username', 'like', "%{$args['key_word']}%");;
+			});
+		}
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
 			return $query->paginate($per_page);

@@ -72,7 +72,8 @@ class LopHocPhan extends Model
 				$this->table . '.*',
 				'taikhoan.ho_ten as ho_ten',
 				'taikhoan.hinh_anh as avatar',
-				'hoc_phan.ten_hp as ten_hp'
+				'hoc_phan.ten_hp as ten_hp',
+				'bai_giang.ma_bg as ma_bg'
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
 			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg')
@@ -90,7 +91,7 @@ class LopHocPhan extends Model
 		}
 		if (isset($args['ma_sv'])) {
 			$query = $query->join('sinh_vien', 'sinh_vien.ma_lhp', '=', $this->table . '.ma_lhp')
-			->where('sinh_vien.ma_tk', $args['ma_sv']);
+				->where('sinh_vien.ma_tk', $args['ma_sv']);
 		}
 		if (isset($args['ma_gv'])) {
 			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
@@ -98,7 +99,15 @@ class LopHocPhan extends Model
 		if (isset($args['id_course'])) {
 			$query = $query->where('hoc_phan.ma_hp', $args['id_course']);
 		}
-
+		if (isset($args['filter'])) {
+			$query = $query->where($this->table . '.ma_hp', $args['filter']);
+		}
+		if (isset($args['key_word'])) {
+			$query = $query->where(function ($q) use ($args) {
+				$q->where('ten_lhp', 'like', "%{$args['key_word']}%")
+					->orWhere($this->table . '.mo_ta', 'like', "%{$args['key_word']}%");
+			});
+		}
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
 			return $query->paginate($per_page);
@@ -145,10 +154,10 @@ class LopHocPhan extends Model
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', 'lop_hoc_phan.ma_tk')
 			->where($this->table . '.ma_lhp', $id);
-			if(isset($args['is_leturer'])) {
-				$result = $result->where('lop_hoc_phan.ma_tk', $args['is_leturer']);
-			}
-			$result = $result->update([$this->table . '.trang_thai' => 0]);
+		if (isset($args['is_leturer'])) {
+			$result = $result->where('lop_hoc_phan.ma_tk', $args['is_leturer']);
+		}
+		$result = $result->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}
 	public function get_by_id($id)

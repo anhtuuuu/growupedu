@@ -28,6 +28,7 @@ class AssessController extends LayoutController
          abort(404);
          return;
       }
+      $args['hien_thi'] = true;
       $lessons = (new BaiGiang)->gets($args);
 
       // $section_class = (new LopHocPhan)->gets($args);

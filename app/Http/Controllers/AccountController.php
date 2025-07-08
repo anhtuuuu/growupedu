@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Imports\AccountsImport;
-use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\BoMon;
 use App\Models\SinhVien;
@@ -108,51 +107,71 @@ class AccountController extends LayoutController
         }
         return back();
     }
-    function admin_index()
+    function admin_index(Request $request)
     {
         $args = array();
         $args['per_page'] = 5;
+        $args['filter'] = 1;
 
         $accounts = (new Taikhoan)->gets($args);
-        $roles = (new VaiTro)->gets();
         $this->_data['rows'] = $accounts;
 
+        $list_filter = (new VaiTro)->gets();
         $filter = array();
-        foreach ($roles as $index => $value) {
-            $filter['value'][$index] = $value->ma_vt;
-            $filter['title'][$index] = $value->tieu_de;
+        foreach ($list_filter as $index => $value) {
+            $filter[$index]['value'] = $value->ma_vt;
+            $filter[$index]['title'] = $value->tieu_de;
         }
         $this->_data['filter'] = $filter;
         $this->_data['filter_link'] = 'danh-sach-tai-khoan/';
 
+        $get_req = $request->all();
+        if (!empty($get_req)) {
+            $value_filter = $request->cat_id;
+            $key_word = $request->key_word;
+            $this->_data['value_filter'] = $value_filter;
+            $this->_data['key_word'] = $key_word;
+
+            if ($value_filter != 0) {
+                $args['filter'] = $value_filter;
+            }
+            if (!empty($key_word)) {
+                $args['key_word'] = $key_word;
+            }
+            $data = (new Taikhoan)->gets($args);
+            $this->_data['rows'] = $data;
+        }
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('account_management'), $this->_data);
     }
-    function filter(Request $request)
-    {
-        $value = $request->cat_id;
-        $key_word = $request->key_word;
-        $args = array();
-        $args['per_page'] = 5;
-        if ($value != 0) {
-            $args['role'] = $value;
-        }
-        if (!empty($key_word)) {
-            $args['key_word'] = $key_word;
-        }
-        $roles = (new VaiTro)->gets();
+    // function filter(Request $request)
+    // {
+    //     $value_filter = $request->cat_id;
+    //     $key_word = $request->key_word;
+    //     $this->_data['value_filter'] = $value_filter;
+    //     $this->_data['key_word'] = $key_word;
 
-        $filter = array();
-        foreach ($roles as $index => $value) {
-            $filter['value'][$index] = $value->ma_vt;
-            $filter['title'][$index] = $value->tieu_de;
-        }
-        $this->_data['filter'] = $filter;
-        $this->_data['filter_link'] = 'danh-sach-tai-khoan/';
+    //     $args = array();
+    //     $args['per_page'] = 5;
+    //     if ($value_filter != 0) {
+    //         $args['role'] = $value_filter;
+    //     }
+    //     if (!empty($key_word)) {
+    //         $args['key_word'] = $key_word;
+    //     }
+    //     $roles = (new VaiTro)->gets();
 
-        $data = (new Taikhoan)->gets($args);
-        $this->_data['rows'] = $data;
-        return $this->_auth_login() ?? view(config('asset.view_admin_page')('account_management'), $this->_data);
-    }
+    //     $filter = array();
+    //     foreach ($roles as $index => $value) {
+    //         $filter['value'][$index] = $value->ma_vt;
+    //         $filter['title'][$index] = $value->tieu_de;
+    //     }
+    //     $this->_data['filter'] = $filter;
+    //     $this->_data['filter_link'] = 'danh-sach-tai-khoan/';
+
+    //     $data = (new Taikhoan)->gets($args);
+    //     $this->_data['rows'] = $data;
+    //     return $this->_auth_login() ?? view(config('asset.view_admin_page')('account_management'), $this->_data);
+    // }
     function gets()
     {
         $args = array();
@@ -209,12 +228,15 @@ class AccountController extends LayoutController
             $result = (new Taikhoan)->add($data);
 
             if ($result) {
-                $file = $request->file('hinh_anh');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('uploads', $filename, 'public');
-                $upload_img = (new Taikhoan)->upload_image($request->username, $filename);
-                Session::put('error', 'success');
-                Session::put('message', 'Thêm tài khoản thành công');
+                $upload_img = false;
+                if (!empty($request->hinh_anh)) {
+                    $file = $request->file('hinh_anh');
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('uploads', $filename, 'public');
+                    $upload_img = (new Taikhoan)->upload_image($request->username, $filename);
+                    Session::put('error', 'success');
+                    Session::put('message', 'Thêm tài khoản thành công');
+                }
 
                 if (!$upload_img) {
                     Session::put('error', 'warning');
@@ -224,7 +246,7 @@ class AccountController extends LayoutController
                 Session::put('error', 'danger');
                 Session::put('message', 'Thêm tài khoản thất bại');
             }
-            return view(config('asset.view_admin_control')('control_account'), $this->_data);
+            return Redirect::to('danh-sach-tai-khoan');
         }
 
         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_account'), $this->_data);
@@ -254,7 +276,20 @@ class AccountController extends LayoutController
         }
         return back();
     }
-
+    function update_status()
+    {
+        $segment = 2;
+        $id = trim(request()->segment($segment) ?? '');
+        if (empty($id)) {
+            abort(404);
+        }
+        $account = (new Taikhoan())->get_by_id($id);
+        $data = [
+            'kich_hoat' => $account->kich_hoat == 1 ? 0 : 1
+        ];
+        $result = (new Taikhoan())->admin_update($id, $data);
+        return $result;
+    }
     function admin_update(Request $request)
     {
         $get_req = $request->all();
@@ -382,6 +417,13 @@ class AccountController extends LayoutController
             if (empty($id_account)) {
                 abort(404);
             }
+            $check_account = (new Taikhoan())->get_by_id($id_account);
+            if (!empty($check_account) && $check_account->username == 'administrator') {
+                Session::put('error', 'warning');
+                Session::put('message', 'Không thể xóa tài khoản này.');
+                return back();
+            }
+
             $result = (new Taikhoan)->admin_delete($id_account);
             if ($result) {
                 Session::put('error', 'success');

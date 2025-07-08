@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Bai;
 use App\Models\CauHinh;
 use App\Models\LopHocPhan;
 use Session;
@@ -152,5 +153,37 @@ class LayoutController extends Controller
         $args = '';
         $class = (new LopHocPhan)->gets($args);
         return $class;
+    }
+    function search(Request $request)
+    {
+        $get_req = $request->all();
+        $args = array();
+        $args['order_by'] = 'desc';
+        $args['per_page'] = 10;
+        $section_class_none = $this->section_class();
+        $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['type_side_none'] = 'home';
+        $this->_data['left_side_none'] = $section_class_none;
+        if (!empty($get_req)) {
+            $validated = $request->validate(
+                [
+                    'q' => 'required|max:255',
+                ],
+                [
+                    'q.required' => 'Vui lòng nhập từ khóa.',
+                    'q.max' => 'Từ khóa không được vượt quá 255 ký tự.'
+                ]
+            );
+            $input = $request->q;
+            $args['q'] = $input;
+            $args['class'] = [];
+            foreach($section_class_none as $class){
+                $args['class'][] = $class->ma_bg;
+            }
+            $contents = (new Bai())->gets($args);
+            $this->_data['contents'] = $contents;
+        }
+        return $this->_auth_login_client() ?? view(config('asset.view_page')('search'), $this->_data);
+
     }
 }

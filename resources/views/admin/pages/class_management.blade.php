@@ -55,8 +55,8 @@
                                             {{$row->ten_hp}}
                                         </td>
                                         <td class="text-center">
-                                            <input type="checkbox" name="" class="change-inhome flat-blue"
-                                                value="" <?php echo $row->hien_thi ? 'checked' : '' ?>>
+                                            <input type="checkbox" name="" class="change-inhome-class flat-blue"
+                                                value="{{$row->ma_lhp}}" <?php echo $row->hien_thi ? 'checked' : '' ?>>
                                         </td>
                                         <td class="text-center">
                                             <em class="fa fa-eye fa-lg">&nbsp;</em> <a href="<?php echo URL::to('/danh-sach-sinh-vien/'.$row->alias) ?>"><b>Danh sách lớp</b></a>&nbsp;-&nbsp;

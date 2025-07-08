@@ -11,6 +11,7 @@
                     <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai-kiem-tra'); ?>"><i class="fa fa-plus"></i>
                         Thêm</a>
                 </div>
+                
                 <div class="box-body">
                     <?php if(isset($rows) && !empty($rows)):?>
                     <form class="form-inline" name="main" method="post" action="">
@@ -19,13 +20,16 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                                        <input class="flat-blue check-all" name="check_all[]"
-                                                                            type="checkbox" value="yes">
-                                                                    </th> -->
+                                                                            <input class="flat-blue check-all" name="check_all[]"
+                                                                                type="checkbox" value="yes">
+                                                                        </th> -->
                                         <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:auto">Tiêu đề</th>
                                         <th class="text-center">Lớp học phần</th>
                                         <th class="text-center">Ngày tạo</th>
+                                        <th class="text-center">Bắt đầu</th>
+                                        <th class="text-center">Hạn nộp</th>
+                                        <th class="text-center">Trạng thái</th>
                                         <th class="text-center">Chức năng</th>
                                     </tr>
                                 </thead>
@@ -51,11 +55,20 @@
                                         <td class="text-center">
                                             {{ $row->ngay_tao }}
                                         </td>
-
                                         <td class="text-center">
-                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-bai-kiem-tra/'. $row->ma_bkt); ?>">Sửa</a>
+                                            {{ $row->bat_dau }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $row->han_nop }}
+                                        </td>
+                                        <td class="text-center">
+                                            <b>{{ $row->han_nop < now() ? 'Hết hạn' : 'Đang diễn ra' }}</b>
+                                        </td>
+                                        <td class="text-center">
+                                            <em class="fa fa-edit fa-lg">&nbsp;</em> <a href="<?php echo URL::to('cap-nhat-bai-kiem-tra/' . $row->ma_bkt); ?>">Sửa</a>
                                             &nbsp;-&nbsp;
-                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em><a onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
+                                            <em class="fa fa-trash-o fa-lg">&nbsp;</em><a
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
                                                 href="<?php echo URL::to('xoa-bai-kiem-tra/' . $row->ma_bkt); ?>">Xóa</a>
                                         </td>
                                     </tr>

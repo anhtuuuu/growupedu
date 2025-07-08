@@ -25,7 +25,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ URL::to('/cap-nhat-cau-hinh') }}"><i class="fa fa-angle-double-right"></i>Cấu hình chung</a></li>
+                    <li><a href="{{ URL::to('/cap-nhat-cau-hinh') }}"><i class="fa fa-angle-double-right"></i>Cấu hình
+                            chung</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -61,6 +62,20 @@
                     <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm bộ môn</a></li>
                 </ul>
             </li>
+            
+            <li class="treeview">
+                <a href="">
+                    <i class="fa fa-cogs"></i> <span>Quản lý giảng viên</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ URL::to('/danh-sach-giang-vien') }}"><i class="fa fa-angle-double-right"></i>Danh
+                            sách giảng viên</a></li>
+                </ul>
+            </li>
+            <?php endif; ?>
+
+            <?php if(Session::get('admin_role') == 2): ?>
             <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý học phần</span>
@@ -69,10 +84,8 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ URL::to('/danh-sach-hoc-phan') }}"><i class="fa fa-angle-double-right"></i>Danh sách
                             học phần</a></li>
-                    <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm học phần</a></li>
                 </ul>
             </li>
-            <?php endif; ?>
             <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý lớp học phần</span>
@@ -86,18 +99,6 @@
             </li>
             <li class="treeview">
                 <a href="">
-                    <i class="fa fa-cogs"></i> <span>Quản lý giảng viên</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ URL::to('/danh-sach-giang-vien') }}"><i class="fa fa-angle-double-right"></i>Danh
-                            sách giảng viên</a></li>
-                    {{-- <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm </a></li> --}}
-                </ul>
-            </li>
-            <?php if(Session::get('admin_role') == 2): ?>
-            <li class="treeview">
-                <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý bài giảng</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -107,7 +108,7 @@
                     <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm bài giảng</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            {{-- <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý chương</span>
                     <i class="fa fa-angle-left pull-right"></i>
@@ -128,7 +129,7 @@
                             bài</a></li>
                     <li><a href=""><i class="fa fa-angle-double-right"></i>Thêm bài</a></li>
                 </ul>
-            </li>
+            </li> --}}
             {{-- <li class="treeview">
                 <a href="">
                     <i class="fa fa-cogs"></i> <span>Quản lý sinh viên</span>

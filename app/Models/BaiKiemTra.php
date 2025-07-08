@@ -35,6 +35,8 @@ class BaiKiemTra extends Model
 	protected $casts = [
 		'ma_lhp' => 'int',
 		'ngay_tao' => 'datetime',
+		'bat_dau' => 'datetime',
+		'han_nop' => 'datetime',
 		'trang_thai' => 'bool'
 	];
 
@@ -44,6 +46,8 @@ class BaiKiemTra extends Model
 		'noi_dung',
 		'dap_an',
 		'ngay_tao',
+		'bat_dau',
+		'han_nop',
 		'trang_thai'
 	];
 
@@ -70,6 +74,14 @@ class BaiKiemTra extends Model
 		if (isset($args['ma_gv'])) {
 			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);
 
+		}
+		if (isset($args['filter'])) {
+			$query = $query->where($this->table . '.ma_lhp', $args['filter']);
+		}
+		if (isset($args['key_word'])) {
+			$query = $query->where(function ($q) use ($args) {
+				$q->where('tieu_de', 'like', "%{$args['key_word']}%");
+			});
 		}
 		if (isset($args['order_by'])) {
 			$query = $query->orderBy('ngay_tao', $args['order_by']);

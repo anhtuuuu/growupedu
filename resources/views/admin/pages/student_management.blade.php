@@ -9,6 +9,17 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý sinh viên</b></h3>
                 </div>
+                <form action="{{ URL::to('/import-students') }}" method="POST" enctype="multipart/form-data"
+                    class="import_file">
+                    @csrf
+                    @error('file')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    <input type="hidden" value="{{ $rows[0]->ma_lhp }}" name="ma_lhp">
+                    <label for="file"><img src="<?php echo URL::to(config('asset.images_path') . 'x-img.png'); ?>" alt="">File excel</label>
+                    <input type="file" name="file" id="file">
+                    <button type="submit">Import</button>
+                </form>
                 <div class="box-body">
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
@@ -25,7 +36,7 @@
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Lớp học phần</th>
                                         <th class="text-center">Ngày tham gia</th>
-                                        <th class="text-center">Tiến độ</th>
+                                        {{-- <th class="text-center">Tiến độ</th> --}}
                                         <th class="text-center">Chức năng</th>
                                     </tr>
                                 </thead>
@@ -60,11 +71,11 @@
                                         <td class="text-center">
                                             {{ $row->ngay_tham_gia }}
                                         </td>
-                                        <td class="text-center">
+                                        {{-- <td class="text-center">
                                             {{ $row->tien_do }}%
-                                        </td>
+                                        </td> --}}
                                         <td class="text-center">
-                                            <button class="btn-bgr">Xuất chứng chỉ</button>
+                                            {{-- <button class="btn-bgr">Xuất chứng chỉ</button> --}}
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em><a
                                                 onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
                                                 href="<?php echo URL::to('xoa-sinh-vien/' . $row->id); ?>">Xóa</a>

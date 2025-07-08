@@ -17,12 +17,9 @@ class ContentController extends LayoutController
 {
     function index()
     {
-        $segment0 = 1;
-
         $segment = 2;
         $segment2 = 4;
-        $class_alias = trim(request()->segment($segment0) ?? '');
-
+        $class_alias = Session::has('class_alias') ? Session::get('class_alias') : '';
         $lesson_alias = trim(request()->segment($segment) ?? '');
         $content_alias = trim(request()->segment($segment2) ?? '');
 
@@ -32,12 +29,9 @@ class ContentController extends LayoutController
         $args = array();
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
-        $args['alias'] = $class_alias;
-        $section_class = (new LopHocPhan)->gets($args);
-        $this->_data['section_class'] = $section_class;
         $args['alias_lesson'] = $lesson_alias;
         $args['alias_content'] = $content_alias;
-
+        $args['hien_thi'] = true;
         $lesson = (new BaiGiang)->gets($args);
         $content = (new BaiGiang)->gets($args);
 
@@ -45,7 +39,6 @@ class ContentController extends LayoutController
             abort(404);
             return;
         }
-
         $chapters = (new Chuong)->gets($args);
         $contents = (new Bai)->gets($args);
 
@@ -71,6 +64,12 @@ class ContentController extends LayoutController
         $args['per_page'] = 5;
         $args['order_by'] = 'desc';
         $args['ma_gv'] = Session::get('admin_id');
+        $segment = 1;
+        $chapter_alias = trim(request()->segment($segment) ?? '');
+        if ($chapter_alias === '') {
+            abort(404);
+        }
+        $args['alias_chapter'] = $chapter_alias;
         $contents = (new Bai)->gets($args);
         $this->_data['rows'] = $contents;
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('content_management'), $this->_data);
@@ -78,8 +77,7 @@ class ContentController extends LayoutController
 
     function files()
     {
-        $segment = 1;
-        $class_alias = trim(request()->segment($segment) ?? '');
+        $class_alias = Session::has('class_alias') ? Session::get('class_alias') : '';
         $segment = 2;
         $lesson_alias = trim(request()->segment($segment) ?? '');
         if ($class_alias === '' || $lesson_alias === '') {
@@ -91,20 +89,15 @@ class ContentController extends LayoutController
         $this->_data['load_section_class'] = $section_class_none;
         $args['alias_class'] = $class_alias;
         $args['alias_lesson'] = $lesson_alias;
-
+        $args['hien_thi'] = true;
         $lesson = (new BaiGiang)->gets($args);
 
         if (empty($lesson)) {
             abort(404);
             return;
         }
-
         $contents = (new Bai)->gets($args);
-        $args['alias'] = $class_alias;
-        $section_class = (new LopHocPhan())->gets($args);
-
         $this->_data['contents'] = $contents;
-        $this->_data['section_class'] = $section_class;
         $this->_data['lessons'] = $lesson;
 
         $this->_data['type_side_none'] = 'lesson';
@@ -307,5 +300,19 @@ class ContentController extends LayoutController
         }
 
         return response()->json(['error' => 'Invalid image data'], 400);
+    }
+    function update_status()
+    {
+        $segment = 2;
+        $id = trim(request()->segment($segment) ?? '');
+        if (empty($id)) {
+            abort(404);
+        }
+        $class = (new Bai())->get_by_id($id);
+        $data = [
+            'hien_thi' => $class->hien_thi == 1 ? 0 : 1
+        ];
+        $result = (new Bai())->admin_update($id, $data);
+        return $result;
     }
 }

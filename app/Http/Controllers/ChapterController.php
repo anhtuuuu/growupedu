@@ -22,6 +22,14 @@ class ChapterController extends LayoutController
       $args['order_by'] = 'desc';
       $args['ma_gv'] = Session::get('admin_id');
       $args['per_page'] = 5;
+
+      $segment = 1;
+      $lesson_alias = trim(request()->segment($segment) ?? '');
+      if ($lesson_alias === '') {
+         abort(404);
+      }
+      $args['alias_lesson'] = $lesson_alias;
+
       $chapter = (new Chuong)->gets($args);
       $this->_data['rows'] = $chapter;
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('chapter_management'), $this->_data);

@@ -107,3 +107,80 @@ function confirmSubmit() {
 //     });
 //   });
 // });
+
+$(document).ready(function () {
+    $(document).on('change','.change-inhome', function () {
+        var id = $(this).val();
+        $.ajax({
+            url: '/trang-thai-tai-khoan/' + id,
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+            //    alert('Thành công');
+            },
+            error: function (xhr) {
+                alert('Có lỗi xảy ra: ' + xhr.status);
+            }
+        });
+    });
+});
+
+
+$(document).ready(function () {
+    $(document).on('change','.change-inhome-class', function () {
+        var id = $(this).val();
+        $.ajax({
+            url: '/trang-thai-lop-hoc-phan/' + id,
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+            //    alert('Thành công');
+            },
+            error: function (xhr) {
+                alert('Có lỗi xảy ra: ' + xhr.status);
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on('change','.change-inhome-lesson', function () {
+        var id = $(this).val();
+        $.ajax({
+            url: '/trang-thai-bai-giang/' + id,
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+            //    alert('Thành công');
+            },
+            error: function (xhr) {
+                alert('Có lỗi xảy ra: ' + xhr.status);
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on('change','.change-inhome-content', function () {
+        var id = $(this).val();
+        $.ajax({
+            url: '/trang-thai-bai/' + id,
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+               alert('Thành công');
+            },
+            error: function (xhr) {
+                alert('Có lỗi xảy ra: ' + xhr.status);
+            }
+        });
+    });
+});

@@ -56,7 +56,15 @@ class HocPhan extends Model
 		if (isset($args['id_subject'])) {
 			$query = $query->where('bo_mon.ma_bm', $args['id_subject']);
 		}
-		
+		if (isset($args['filter'])) {
+			$query = $query->where($this->table . '.ma_bm', $args['filter']);
+		}
+		if (isset($args['key_word'])) {
+			$query = $query->where(function ($q) use ($args) {
+				$q->where('ten_hp', 'like', "%{$args['key_word']}%")
+					->orWhere($this->table .'.mo_ta', 'like', "%{$args['key_word']}%");
+			});
+		}
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
 			return $query->paginate($per_page);

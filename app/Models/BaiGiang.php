@@ -49,7 +49,7 @@ class BaiGiang extends Model
 		'trang_thai',
 		'thong_bao'
 	];
-	public function gets($args, $perPage = 5, $offset = -1)
+	public function gets($args)
 	{
 		$query = DB::table($this->table)
 			->select([
@@ -59,7 +59,9 @@ class BaiGiang extends Model
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
 			->where($this->table . '.trang_thai', 1);
-
+		if (isset($args['hien_thi'])) {
+			$query = $query->where($this->table . '.hien_thi', 1);
+		}
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
