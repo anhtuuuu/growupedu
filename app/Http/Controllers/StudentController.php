@@ -94,10 +94,10 @@ class StudentController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Chưa có tài khoản nào thêm thành công');
         }
-        // $getMissed = $import->getMissed();
-        // if (!empty(array_filter($getMissed[0]))) {
-        //     return Excel::download(new StudentsExport($getMissed), 'dssv-khong-the-them-vao.xlsx');
-        // }
+        $getMissed = $import->getMissed();
+        if (!empty(array_filter($getMissed))) {
+            return Excel::download(new StudentsExport($getMissed), 'dssv-khong-the-them-vao.xlsx');
+        }
         return back();
     }
 }

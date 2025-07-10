@@ -74,7 +74,8 @@ class LopHocPhan extends Model
 				'taikhoan.ho_ten as ho_ten',
 				'taikhoan.hinh_anh as avatar',
 				'hoc_phan.ten_hp as ten_hp',
-				'bai_giang.ma_bg as ma_bg'
+				'bai_giang.ma_bg as ma_bg',
+				'bai_giang.alias as alias_bg'
 			])
 			->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
 			->join('bai_giang', 'bai_giang.ma_bg', '=', $this->table . '.ma_bg')

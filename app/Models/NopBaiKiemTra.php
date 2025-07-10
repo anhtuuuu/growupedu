@@ -65,7 +65,8 @@ class NopBaiKiemTra extends Model
 			->join('bai_kiem_tra', 'bai_kiem_tra.ma_bkt', '=', $this->table . '.ma_bkt')
 			->join('sinh_vien', 'sinh_vien.ma_tk', '=', $this->table . '.ma_tk')
 			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'bai_kiem_tra.ma_lhp')
-			->join('taikhoan', 'taikhoan.ma_tk', '=', 'sinh_vien.ma_tk');
+			->join('taikhoan', 'taikhoan.ma_tk', '=', 'sinh_vien.ma_tk')
+			->where('bai_kiem_tra.trang_thai', 1);
 
 
 		if (isset($args['class_alias'])) {
