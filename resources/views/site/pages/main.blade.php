@@ -25,12 +25,12 @@
                                             alt="">
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title hv-link"><a href="{{$row->alias}}" class="text-dark">{{$row->ten_lhp}} - {{$row->ten_hp}}</a></h5>
+                                        <h5 class="card-title hv-link"><a href="{{$row->alias}}" class="text-dark">{{$row->ten_lhp}}</a></h5>
                                         <p class="card-text hv-link"><a href="" class="text-dark">{{$row->mo_ta}}</a></p>
                                     </div>
                                     <div class="card-body d-flex justify-content-end">
-                                        <a href="#" class="card-link"><i class="fa fa-file mx-3"></i></a>
-                                        <a href="#" class="card-link"><i class="fa fa-folder"></i></a>
+                                        {{-- <a href="#" class="card-link"><i class="fa fa-file mx-3"></i></a>
+                                        <a href="#" class="card-link"><i class="fa fa-folder"></i></a> --}}
                                     </div>
                                 </div>
                             </div>

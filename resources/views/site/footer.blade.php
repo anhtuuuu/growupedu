@@ -14,9 +14,9 @@
                 <h6>Lớp học phần</h6>
 
                 <ul class="footer-links">
-                    <?php if(isset($left_side_none) && !empty($left_side_none) && is_array($left_side_none)): 
-                    foreach($left_side_none as $value): ?>
-                    <li class="list-group-item"><a href="{{ $value->alias }}"><i
+                    <?php if(isset($load_section_class) && !empty($load_section_class) && is_array($load_section_class)): 
+                    foreach($load_section_class as $value): ?>
+                    <li class="list-group-item"><a href="{{ URL::to($value->alias) }}"><i
                                 class="glyphicon glyphicon-list-alt"></i>
                             {{ $value->ten_lhp }}</a></li>
                     <?php endforeach; endif; ?>

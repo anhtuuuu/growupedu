@@ -20,6 +20,7 @@ class AssessController extends LayoutController
       }
       $section_class_none = $this->section_class();
       $this->_data['load_section_class'] = $section_class_none;
+      $this->_data['notification'] = $this->notification();
       $args = array();
       $args['alias'] = $class_alias;
       $section_class = (new LopHocPhan)->gets($args);
@@ -28,6 +29,8 @@ class AssessController extends LayoutController
          abort(404);
          return;
       }
+      $args['ma_bg'] = $section_class[0]->ma_bg;
+
       $args['hien_thi'] = true;
       $lessons = (new BaiGiang)->gets($args);
 

@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\DB;
  * @property Collection|DanhGia[] $danh_gia
  * @property Collection|SinhVien[] $sinh_viens
  * @property Collection|TuongTac[] $tuong_tacs
+ * @property Collection|ThongBao[] $thong_baos
  *
  * @package App\Models
  */
@@ -80,6 +81,9 @@ class LopHocPhan extends Model
 			->join('hoc_phan', 'hoc_phan.ma_hp', '=', $this->table . '.ma_hp')
 			->where($this->table . '.trang_thai', 1);
 
+		if (isset($args['hien_thi'])) {
+			$query = $query->where($this->table . '.hien_thi', 1);
+		}
 		if (isset($args['alias'])) {
 			$query = $query->where($this->table . '.alias', $args['alias']);
 		}
@@ -157,7 +161,7 @@ class LopHocPhan extends Model
 		if (isset($args['is_leturer'])) {
 			$result = $result->where('lop_hoc_phan.ma_tk', $args['is_leturer']);
 		}
-		$result = $result->update([$this->table . '.trang_thai' => 0]);
+		$result = $result->update([$this->table . '.trang_thai' => 0, $this->table . '.hien_thi' => 0]);
 		return $result;
 	}
 	public function get_by_id($id)
@@ -221,5 +225,10 @@ class LopHocPhan extends Model
 	public function tuong_tacs()
 	{
 		return $this->hasMany(TuongTac::class, 'ma_lhp');
+	}
+
+	public function thong_baos()
+	{
+		return $this->hasMany(ThongBao::class, 'ma_lhp');
 	}
 }

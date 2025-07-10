@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\TestsImport;
 use App\Models\NopBaiKiemTra;
+use App\Models\ThongBao;
 use Session;
 use Illuminate\Http\Request;
 use App\Models\LopHocPhan;
@@ -29,6 +30,7 @@ class TestController extends LayoutController
       $args = array();
       $section_class_none = $this->section_class();
       $this->_data['load_section_class'] = $section_class_none;
+      $this->_data['notification'] = $this->notification();
       $args['alias'] = $class_alias;
 
       $section_class = (new LopHocPhan)->gets($args);
@@ -36,6 +38,14 @@ class TestController extends LayoutController
       $args['test_code'] = $test_code;
       $test = (new Baikiemtra)->gets($args);
       $tieu_de = $test[0]->tieu_de ?? 'Không có tiêu đề';
+
+      if ($test[0]->bat_dau > now()) {
+         $this->_data['notice'] = 'Bài kiểm tra chưa diễn ra';
+      }
+      if ($test[0]->han_nop < now()) {
+         $this->_data['notice'] = 'Bài kiểm tra đã kết thúc';
+      }
+
       $this->_data['tieu_de_test'] = $tieu_de;
       $this->_data['test'] = $test;
       $test_questions = '';
@@ -44,9 +54,10 @@ class TestController extends LayoutController
          $test_questions = $test[0]->noi_dung;
          $array_question = @unserialize($test_questions);
       }
+      $args['ma_bg'] = $section_class[0]->ma_bg;
+      
       $args['hien_thi'] = true;
       $lessons = (new Baigiang)->gets($args);
-
 
       $this->_data['array_question'] = $array_question;
       $this->_data['section_class'] = $section_class;
@@ -116,11 +127,13 @@ class TestController extends LayoutController
       $args = array();
       $section_class_none = $this->section_class();
       $this->_data['load_section_class'] = $section_class_none;
+      $this->_data['notification'] = $this->notification();
       $args['class_alias'] = $class_alias;
       $args['alias'] = $class_alias;
       $section_class = (new LopHocPhan)->gets($args);
       $args['hien_thi'] = true;
       $tests = (new Baikiemtra)->gets($args);
+      $args['ma_bg'] = $section_class[0]->ma_bg;
       $lessons = (new Baigiang)->gets($args);
       $this->_data['section_class'] = $section_class;
       $this->_data['tests'] = $tests;
@@ -246,6 +259,13 @@ class TestController extends LayoutController
          ];
          $result = (new BaiKiemTra)->add($data);
          if ($result) {
+            $notice = [
+               'ma_lhp' => $request->ma_lhp,
+               'ho_ten' => Session::get('admin_name'),
+               'mo_ta' => 'đã đăng một bài kiểm tra',
+               'noi_dung' => $request->tieu_de,
+            ];
+            (new ThongBao())->add($notice);
             Session::put('error', 'success');
             Session::put('message', 'Thêm bài kiểm tra thành công');
          } else {
@@ -446,7 +466,7 @@ class TestController extends LayoutController
             'answer3' => $row[3],
             'answer4' => $row[4],
          ];
-         $anws .= $row[5] .';';
+         $anws .= $row[5] . ';';
       }
       $this->_data['data'] = serialize($data);
       $this->_data['anws'] = $anws;

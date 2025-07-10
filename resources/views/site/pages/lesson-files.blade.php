@@ -14,11 +14,11 @@
                     if(isset($contents) && !empty($contents)):
                     foreach ($contents as $row):
 						if(!empty($row->lien_ket)): ?>
-							<div class="ppcolumn pt-4">
+							<div class="ppcolumn p-4">
 								<a href="{{$row->lien_ket}}"
 									class="appt">Xem chi tiết</a>
-								<img src="{{URL::to(config('asset.images_path').'p-img.png')}}" style="padding-bottom:5px; height: 60px;" />
-								<h3 style="word-wrap: break-word;">{{$row->tieu_de}}</h3>
+								<img src="{{URL::to(config('asset.images_path').'link.png')}}" style="padding-bottom:5px; height: 60px;" />
+								<h5 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{$row->tieu_de}}</h5>
 							</div>
 						<?php endif; endforeach; endif; ?>
 						</div>

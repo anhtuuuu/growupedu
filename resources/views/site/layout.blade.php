@@ -25,6 +25,7 @@
     <link href="https://bootstrapmade.com/content/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href={{ URL::to(config('asset.css_path') . 'custom.css') }}>
     <link href="https://vjs.zencdn.net/8.22.0/video-js.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src={{ URL::to(config('asset.js_path') . 'site.min.js') }}></script>
     <script type="text/javascript" src={{ URL::to(config('asset.js_path') . 'prism.js') }}></script>
     <script>

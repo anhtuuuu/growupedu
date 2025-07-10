@@ -184,3 +184,12 @@ $(document).ready(function () {
         });
     });
 });
+
+
+$(document).ready(function () {
+    $(document).on('input','.input-change', function () {
+        var input = $(this).val();
+        var slug = get_slug(input);
+        $('.slug-change').val(slug);
+    });
+});

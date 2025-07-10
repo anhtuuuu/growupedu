@@ -86,7 +86,7 @@ class SubjectController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Chưa có dữ liệu nào được thêm mới.');
          }
-         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_subject'), $this->_data);
+         return Redirect::to('danh-sach-bo-mon');
       }
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_subject'), $this->_data);
    }

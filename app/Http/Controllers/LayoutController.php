@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Bai;
 use App\Models\CauHinh;
 use App\Models\LopHocPhan;
+use App\Models\ThongBao;
 use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -33,18 +34,42 @@ class LayoutController extends Controller
             return Redirect::to('login');
         }
         $args['ma_sv'] = $id_student;
+        $args['hien_thi'] = true;
+
         $section_class_none = (new LopHocPhan())->gets($args);
         return $section_class_none;
+    }
+    public function notification(){
+        $args = array();
+        $id_student = Session::get('client_id');
+        if (empty($id_student)) {
+            return Redirect::to('login');
+        }
+        $section_class_none = $this->section_class();
+        $args = array();
+        $args['order_by'] = 'desc';
+        $notices = (new ThongBao())->gets($args);
+        $data = [];
+        foreach($section_class_none as $class){
+            foreach($notices as $n){
+                if($class->ma_lhp == $n->ma_lhp){
+                    $data[] = $n;
+                }
+            }
+        }
+        return $data;
     }
     function index()
     {
         $section_class_none = $this->section_class();
         $this->_data['section_class_none'] = $section_class_none;
+        $this->_data['notification'] = $this->notification();
 
         $this->_data['type_side_none'] = 'home';
         $this->_data['left_side_none'] = $section_class_none;
 
         $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['not_in_class'] = true;
 
         return $this->_auth_login_client() ?? view(config('asset.view_page')('main'), $this->_data);
     }
@@ -162,6 +187,7 @@ class LayoutController extends Controller
         $args['per_page'] = 10;
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['notification'] = $this->notification();
         $this->_data['type_side_none'] = 'home';
         $this->_data['left_side_none'] = $section_class_none;
         if (!empty($get_req)) {
@@ -176,10 +202,12 @@ class LayoutController extends Controller
             );
             $input = $request->q;
             $args['q'] = $input;
-            $args['class'] = [];
-            foreach($section_class_none as $class){
-                $args['class'][] = $class->ma_bg;
-            }
+            // $args['class'] = [];
+            // foreach($section_class_none as $class){
+            //     $args['class'][] = $class->ma_bg;
+            // }
+            $args['lesson_id'] = Session::has('lesson_id') ? Session::get('lesson_id') : '';
+
             $contents = (new Bai())->gets($args);
             $this->_data['contents'] = $contents;
         }

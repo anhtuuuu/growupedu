@@ -21,13 +21,15 @@ class AccountController extends LayoutController
         }
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
-
+$this->_data['notification'] = $this->notification();
         $args = array();
         $args['ma_sv'] = $id;
         $class_info = (new SinhVien)->gets($args);
         $this->_data['class_info'] = $class_info;
 
         $value_account = (new Taikhoan)->get_by_id($id);
+        $this->_data['not_in_class'] = true;
+
         $this->_data['row'] = $value_account;
         return view(config('asset.view_page')('persional-management'), $this->_data);
     }
@@ -287,6 +289,11 @@ class AccountController extends LayoutController
         $data = [
             'kich_hoat' => $account->kich_hoat == 1 ? 0 : 1
         ];
+        if ($account->username == 'administrator') {
+            $data = [
+                'kich_hoat' => 1
+            ];
+        }
         $result = (new Taikhoan())->admin_update($id, $data);
         return $result;
     }
@@ -331,7 +338,11 @@ class AccountController extends LayoutController
                     $data[$key] = $request->$key;
                 }
             }
-
+            if(isset($data['username'])){
+                if ($account->username == 'administrator') {
+                    $data['username'] = 'administrator';
+                }
+            }
             if (isset($data['username']) && isset($data['email']) && isset($data['sdt'])) {
                 $request->validate(
                     [
@@ -423,8 +434,9 @@ class AccountController extends LayoutController
                 Session::put('message', 'Không thể xóa tài khoản này.');
                 return back();
             }
-
+            $del_student = (new SinhVien())->account_delete($id_account);
             $result = (new Taikhoan)->admin_delete($id_account);
+
             if ($result) {
                 Session::put('error', 'success');
                 Session::put('message', 'Xoá tài khoản thành công.');

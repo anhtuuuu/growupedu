@@ -56,7 +56,7 @@ class Bai extends Model
 		'trang_thai',
 		'thong_bao'
 	];
-	public function gets($args, $perPage = 5, $offset = -1)
+	public function gets($args)
 	{
 		$query = DB::table($this->table)
 			->select([
@@ -85,13 +85,16 @@ class Bai extends Model
 		if (isset($args['ma_gv'])) {
 			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);
 		}
-		if (isset($args['class'])) {
-			$query = $query->where(function ($q) use ($args) {
-				$q->where('bai_giang.ma_bg', $args['class'][0]);
-					foreach(array_slice($args['class'], 1) as $row){
-						$q->orWhere('bai_giang.ma_bg', $row);
-					}					
-			});
+		// if (isset($args['class'])) {
+		// 	$query = $query->where(function ($q) use ($args) {
+		// 		$q->where('bai_giang.ma_bg', $args['class'][0]);
+		// 			foreach(array_slice($args['class'], 1) as $row){
+		// 				$q->orWhere('bai_giang.ma_bg', $row);
+		// 			}					
+		// 	});
+		// }
+		if (isset($args['lesson_id']) && !empty($args['lesson_id'])){
+			$query = $query->where('bai_giang.ma_bg', $args['lesson_id']);
 		}
 		if (isset($args['q'])) {
 			$query = $query->where(function ($q) use ($args) {
@@ -193,12 +196,8 @@ class Bai extends Model
 			->select([
 				$this->table . '.*',
 			])
-			->join('chuong', 'chuong.ma_chuong', '=', 'bai.ma_chuong')
-			->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
-
-			->where($this->table . '.ma_bai', $id)
-			->where('bai_giang.ma_tk', $ma_tk)
-			->update([$this->table . '.trang_thai' => 0]);
+			->where($this->table . '.ma_bai', $id)->delete();
+			// ->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}
 	public function chuong()

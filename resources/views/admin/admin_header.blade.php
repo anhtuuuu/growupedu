@@ -27,7 +27,7 @@
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="" class="btn btn-default btn-flat">Thông tin cá nhân</a>
+                                <a href="{{URL::to('thong-tin-ca-nhan')}}" class="btn btn-default btn-flat">Thông tin cá nhân</a>
                             </div>
                             <div class="pull-right">
                                 <a href="{{URL::to('logout')}}" class="btn btn-default btn-flat">Đăng xuất</a>

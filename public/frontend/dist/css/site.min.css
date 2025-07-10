@@ -760,7 +760,7 @@ background-color: #4CAF50; /* Green */
   float: left;
   color:#2c6151;
   width: 320px;
-  height: 150px; /* Should be removed. Only for demonstration */
+  /* height: 180px; Should be removed. Only for demonstration */
   margin:10px;
   padding-left:10px;
   border:1px solid #ff9933;

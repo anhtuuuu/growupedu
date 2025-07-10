@@ -111,10 +111,8 @@ class HocPhan extends Model
 			->select([
 				$this->table . '.*',
 			])
-			// ->join('bai_giang', 'bai_giang.ma_bg', '=', 'chuong.ma_bg')
-			->where($this->table . '.ma_hp', $id)
-			// ->where('bai_giang.ma_tk', $ma_tk)
-			->update([$this->table . '.trang_thai' => 0]);
+			->where($this->table . '.ma_hp', $id)->delete();
+			// ->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}
 

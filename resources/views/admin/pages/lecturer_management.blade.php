@@ -15,15 +15,17 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="text-center">
-                                                                <input class="flat-blue check-all" name="check_all[]"
-                                                                    type="checkbox" value="yes">
-                                                            </th> -->
+                                                                        <input class="flat-blue check-all" name="check_all[]"
+                                                                            type="checkbox" value="yes">
+                                                                    </th> -->
                                         <th class="text-center" style="width: 20px">STT</th>
                                         <th class="text-center" style="width:120px">Ảnh đại diện</th>
                                         <th class="text-center" style="width:auto">Họ tên</th>
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Bộ môn</th>
-                                        <th class="text-center">Chức năng</th>
+                                        <th class="text-center">Số lượt đánh giá</th>
+                                        <th class="text-center">Trung bính số sao</th>
+                                        <th class="text-center">Đánh giá</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -37,8 +39,9 @@
                                                 value="">
                                         </td>
                                         <td>
-                                            <a class="img-fancybox d-flex justify-content-center" href="" title=""><img width="40"
-                                                    class="img-rounded img-responsive" alt=""
+                                            <a class="img-fancybox d-flex justify-content-center" href=""
+                                                title=""><img width="40" class="img-rounded img-responsive"
+                                                    alt=""
                                                     src="{{ URL::to(config('asset.images_path') . $row->hinh_anh) }}"></a>
                                         </td>
                                         <td class="text-center">
@@ -48,14 +51,20 @@
                                             {{ $row->email }}
                                         </td>
                                         <td class="text-center">
+                                            {{ $row->ten_bm }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $counts[$index] }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $stars[$index] }}
+                                        </td>
+                                        <td class="text-center">
                                             <p class='text-bold text-primary'>
-                                                {{ $row->ten_bm }}
+                                                {{ ($stars[$index] == 5 ? 'Tốt' : ($stars[$index] >= 4 ? 'Khá' : 'Cần cải thiện')) }}
                                             </p>
                                         </td>
 
-                                        <td class="text-center">
-                                            <button class="btn-bgr">Xem hiệu suất</button>
-                                        </td>
                                     </tr>
                                     <?php endforeach; endif; ?>
                                 </tbody>
