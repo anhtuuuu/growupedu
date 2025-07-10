@@ -7,6 +7,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
+                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý chương</b></h3>
                     <a class="btn btn-success pull-right" href="<?php echo URL::to('them-chuong'); ?>"><i class="fa fa-plus"></i> Thêm</a>
                 </div>

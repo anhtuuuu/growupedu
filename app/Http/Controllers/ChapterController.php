@@ -71,7 +71,7 @@ class ChapterController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Thêm chương thất bại.');
          }
-         return Redirect::to('/danh-sach-chuong');
+         return back();
       }
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_chapter'), $this->_data);
    }
@@ -79,9 +79,12 @@ class ChapterController extends LayoutController
 
    function admin_update(Request $request)
    {
-      $args = array();
+     $args = array();
+      $id_account = Session::get('admin_id');
+      $args['ma_tk'] = $id_account;
       $data = (new BaiGiang())->gets($args);
-      $this->_data['table_bg'] = $data;
+      $this->_data['table_baigiang'] = $data;
+
       $get_req = $request->all();
       $segment = 2;
       $id = trim(request()->segment($segment) ?? '');
@@ -129,7 +132,7 @@ class ChapterController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');
          }
-         return Redirect::to('danh-sach-chuong');
+         return back();
       }
 
       $chapter = (new Chuong())->get_by_id($id);

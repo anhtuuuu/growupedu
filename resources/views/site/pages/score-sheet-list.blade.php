@@ -13,11 +13,11 @@
 					<?php
                     if(isset($submitted_tests) && !empty($submitted_tests)):
                     foreach ($submitted_tests as $row):?>
-							<div class="ppcolumn pt-4">
+							<div class="ppcolumn p-4">
 								<a href="<?php echo URL::to($row->alias_lhp.'/'.$row->ma_bkt.'/bang-diem')?>"
 									class="appt">Xem chi tiết</a>
 								<img src="{{URL::to(config('asset.images_path').'x-img.png')}}" style="padding-bottom:5px; height: 60px;" />
-								<h3 style="word-wrap: break-word;">{{$row->tieu_de}}</h3>
+								<h5 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{$row->tieu_de}}</h5>
 							</div>
 						<?php endforeach;?>
                          <?php		

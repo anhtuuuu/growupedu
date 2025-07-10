@@ -89,6 +89,9 @@ class Taikhoan extends Model
 		if (isset($args['ma_tk'])) {
 			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
+		if (isset($args['role'])) {
+			$query = $query->where($this->table . '.vai_tro', $args['role']);
+		}
 		if (isset($args['filter'])) {
 			$query = $query->where($this->table . '.vai_tro', $args['filter']);
 		}
@@ -159,10 +162,12 @@ class Taikhoan extends Model
 		$query = DB::table($this->table)
 			->select([
 				$this->table . '.*',
-				// 'taikhoan.ho_ten as ho_ten',
-				// 'taikhoan.hinh_anh as avatar'
+				'taikhoan.ma_tk',
+				'vai_tro.tieu_de as vai_tro',
+				'bo_mon.ten_bm as ten_bm'
 			])
-			// ->join('taikhoan', 'taikhoan.ma_tk', '=', $this->table . '.ma_tk')
+			->leftJoin('vai_tro', 'vai_tro.ma_vt', '=', $this->table . '.vai_tro')
+			->leftJoin('bo_mon', 'bo_mon.ma_bm', '=', $this->table . '.ma_bm')
 			->where($this->table . '.ma_tk', $id);
 
 		return $query->first();

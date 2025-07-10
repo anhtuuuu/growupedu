@@ -38,7 +38,7 @@
                                                         </td> -->
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
-                                                type="text" value="{{$index}}">
+                                                type="text" value="{{$index + 1}}">
                                             <input class="text-right form-control" name="ids[]" type="hidden"
                                                 value="">
                                         </td>

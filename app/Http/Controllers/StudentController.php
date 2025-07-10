@@ -15,7 +15,7 @@ class StudentController extends LayoutController
     {
         return view(config('asset.view_admin_page')('student_management'));
     }
-    function admin_index()
+    function admin_index(Request $request)
     {
         $segment = 2;
         $id = trim(request()->segment($segment) ?? '');
@@ -25,6 +25,19 @@ class StudentController extends LayoutController
         $args['per_page'] = 5;
         $students = (new SinhVien)->gets($args);
         $this->_data['rows'] = $students;
+
+        $this->_data['filter_link'] = url()->current();
+
+        $get_req = $request->all();
+        if (!empty($get_req)) {
+            $key_word = $request->key_word;
+            $this->_data['key_word'] = $key_word;
+            if (!empty($key_word)) {
+                $args['key_word'] = $key_word;
+            }
+            $data = (new SinhVien())->gets($args);
+            $this->_data['rows'] = $data;
+        }
         return $this->_auth_login() ?? view(config('asset.view_admin_page')('student_management'), $this->_data);
     }
     function admin_delete()
@@ -67,13 +80,12 @@ class StudentController extends LayoutController
         );
         $ma_lhp = $request->ma_lhp;
         $check_class = (new LopHocPhan())->get_by_id($ma_lhp);
-        if(empty($ma_lhp) || empty($check_class)){
+        if (empty($ma_lhp) || empty($check_class)) {
             abort(404);
         }
-
         $import = new StudentsImport($ma_lhp);
         Excel::import($import, $request->file('file'));
-        
+
         $result = $import->getRowCount();
         if ($result != 0) {
             Session::put('error', 'success');
@@ -82,10 +94,10 @@ class StudentController extends LayoutController
             Session::put('error', 'danger');
             Session::put('message', 'Chưa có tài khoản nào thêm thành công');
         }
-        $getMissed = $import->getMissed();
-        if(!empty(array_filter($getMissed[0]))){
-            return Excel::download(new StudentsExport($getMissed), 'dssv-khong-the-them-vao.xlsx');
-        }
+        // $getMissed = $import->getMissed();
+        // if (!empty(array_filter($getMissed[0]))) {
+        //     return Excel::download(new StudentsExport($getMissed), 'dssv-khong-the-them-vao.xlsx');
+        // }
         return back();
     }
 }

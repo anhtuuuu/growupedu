@@ -249,3 +249,13 @@ iframe{
 .callout.callout-success{
   background-color: #00a65a !important;
 }
+
+.text-notice p{
+    font-size: 1rem !important;
+}
+.text-notice span{
+    font-size: .8rem !important;
+}
+.text-avocado {
+    color: var(--avocado) !important;
+}

@@ -9,54 +9,54 @@ use Illuminate\Support\Facades\Redirect;
 use Session;
 class DepartmentController extends LayoutController
 {
-    function index()
-    {
-        return view(config('asset.view_admin_page')('department_management'));
-    }
-    function admin_index()
-    {
-        $args = array();       
-        $args['per_page'] = 5;
-        $department = (new Khoa)->gets($args);
-        $this->_data['rows'] = $department;
-        return $this->_auth_login() ?? view(config('asset.view_admin_page')('department_management'), $this->_data);
-    }
-    function admin_add(Request $request)
-    {
-        $get_req = $request->all();
-        if (!empty($get_req)) {
-            $validated = $request->validate(
-                [
-                    'ten_khoa' => 'required|max:255',
-                    'alias' => 'required|max:255|unique:khoa',
-                ],
-                [
-                    'ten_khoa.required' => 'Vui lòng nhập tên khoa.',
-                    'ten_khoa.max' => 'Tên khoa không được vượt quá 255 ký tự.',
-                    'alias.required' => 'Liên kết tĩnh không được để trống.',
-                    'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
-                    'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
-                ]
-            );
-            $data = [
+   function index()
+   {
+      return view(config('asset.view_admin_page')('department_management'));
+   }
+   function admin_index()
+   {
+      $args = array();
+      $args['per_page'] = 5;
+      $department = (new Khoa)->gets($args);
+      $this->_data['rows'] = $department;
+      return $this->_auth_login() ?? view(config('asset.view_admin_page')('department_management'), $this->_data);
+   }
+   function admin_add(Request $request)
+   {
+      $get_req = $request->all();
+      if (!empty($get_req)) {
+         $validated = $request->validate(
+            [
+               'ten_khoa' => 'required|max:255',
+               'alias' => 'required|max:255|unique:khoa',
+            ],
+            [
+               'ten_khoa.required' => 'Vui lòng nhập tên khoa.',
+               'ten_khoa.max' => 'Tên khoa không được vượt quá 255 ký tự.',
+               'alias.required' => 'Liên kết tĩnh không được để trống.',
+               'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
+               'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+            ]
+         );
+         $data = [
 
-                'ten_khoa' => $request->ten_khoa,
-                'alias' => $request->alias,
-                'mo_ta' => $request->mo_ta
-            ];
-            $result = (new Khoa)->add($data);
-            if ($result) {
-                $this->_data['error'] = 'success';
-                $this->_data['message'] = 'Thêm khoa thành công';
-            } else {
-                $this->_data['error'] = 'danger';
-                $this->_data['message'] = 'Thêm khoa thất bại';
-            }
-            return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_department'), $this->_data);
-        }
-        return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_department'));
+            'ten_khoa' => $request->ten_khoa,
+            'alias' => $request->alias,
+            'mo_ta' => $request->mo_ta
+         ];
+         $result = (new Khoa)->add($data);
+         if ($result) {
+            Session::put('error', 'success');
+            Session::put('message', 'Thêm khoa thành công.');
+         } else {
+            Session::put('error', 'danger');
+            Session::put('message', 'Thêm khoa thất bại.');
+         }
+         return Redirect::to('danh-sach-khoa');
+      }
+      return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_department'));
 
-    }
+   }
 
    function admin_update(Request $request)
    {
@@ -107,7 +107,7 @@ class DepartmentController extends LayoutController
          }
          return Redirect::to('danh-sach-khoa');
       }
-      
+
       $department = (new Khoa)->get_by_id($id);
       if (empty($department)) {
          abort(404);
@@ -116,39 +116,39 @@ class DepartmentController extends LayoutController
       return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_department'), $this->_data);
    }
    function admin_delete()
-      {
-         $role = Session::get('admin_role');
-         if (!$role) {
-            return Redirect::to('/admin');
+   {
+      $role = Session::get('admin_role');
+      if (!$role) {
+         return Redirect::to('/admin');
+      }
+      Session::put('error', 'warning');
+      Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
+      if ($role == 1) {
+         // $ma_tk = Session::get('admin_id');
+         $segment = 2;
+         $code_khoa = trim(request()->segment($segment) ?? '');
+         if (empty($code_khoa)) {
+            abort(404);
          }
+         $args = array();
+         $args['id_khoa'] = $code_khoa;
+         $bomon_list = (new BoMon())->gets($args);
          Session::put('error', 'warning');
-         Session::put('message', 'Bạn không có quyền xóa dữ liệu này.');
-         if ($role == 1) {
-            // $ma_tk = Session::get('admin_id');
-            $segment = 2;
-            $code_khoa = trim(request()->segment($segment) ?? '');
-            if (empty($code_khoa)) {
-               abort(404);
+         Session::put('message', 'Yêu cầu xóa dữ liệu bộ môn trong khoa trước khi xóa khoa!');
+         if (empty($bomon_list)) {
+            $result = (new Khoa())->admin_delete($code_khoa);
+            if ($result) {
+               Session::put('error', 'success');
+               Session::put('message', 'Xoá khoa thành công.');
+            } else {
+               return back();
             }
-            $args = array();
-            $args['id_khoa'] = $code_khoa;
-            $bomon_list = (new BoMon())->gets($args);
-            Session::put('error', 'warning');
-            Session::put('message', 'Yêu cầu xóa dữ liệu bộ môn trong khoa trước khi xóa khoa!');
-            if (empty($bomon_list)) {
-               $result = (new Khoa())->admin_delete($code_khoa);
-               if ($result) {
-                  Session::put('error', 'success');
-                  Session::put('message', 'Xoá khoa thành công.');
-               } else {
-                  return back();
-               }
-            }
-            return back();
-
          }
          return back();
 
       }
+      return back();
+
+   }
 
 }

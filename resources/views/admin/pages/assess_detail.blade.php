@@ -4,6 +4,8 @@
         <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
             <div class="box box-solid">
                 <div class="box-header">
+                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
+
                     <h3 class="box-title">Chi tiết đánh giá</h3>
                 </div>
                 <div class="box-body">

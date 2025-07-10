@@ -1,6 +1,5 @@
 @extends('site.layout')
 @section('content')
-
     <!-- content -->
     <div class="col-xs-12 col-sm-9">
         <div class="panel panel-default">
@@ -11,6 +10,11 @@
             <!--panel-Body-->
             <div class="panel-body">
                 <div class="content-row px-2 px-md-5">
+                    <?php if(isset($notice)): ?>
+                    <div class="d-flex justify-content-center m-3">
+                        <h1><b>{{ $notice }}</b></h1>
+                    </div>
+                    <?php else: ?>
                     <form action="{{ URL::to('nop-bai-kiem-tra') }}" method="post">
                         {{ csrf_field() }}
                         <div class="d-flex justify-content-center m-3">
@@ -52,6 +56,8 @@
                         <h1>Dữ liệu không tồn tại</h1>
                         <?php endif; ?>
                     </form>
+                    <?php endif; ?>
+
                 </div>
             </div>
 

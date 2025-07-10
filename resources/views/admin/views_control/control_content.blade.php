@@ -5,6 +5,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
+                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
+
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em>Thông tin </h3>
                 </div>
                 <div class="box-body">
@@ -59,7 +61,7 @@
 
                                 <div class="form-group required">
                                     <label for="title" class="control-label">Tiêu đề</label>
-                                    <input type="text" class="form-control" name="tieu_de" id="tieu_de"
+                                    <input type="text" class="form-control input-change" name="tieu_de" id="tieu_de"
                                         value="{{ isset($row) ? $row->tieu_de : old('tieu_de') }}">
                                     @error('tieu_de')
                                         <div class="text-danger">{{ $message }}</div>
@@ -68,7 +70,7 @@
 
                                 <div class="form-group required">
                                     <label for="alias" class="control-label">Liên kết tĩnh</label>
-                                    <input type="text" class="form-control" name="alias" id="alias"
+                                    <input type="text" class="form-control slug-change" name="alias" id="alias"
                                         value="{{ isset($row) ? $row->alias : old('alias') }}">
                                     @error('alias')
                                         <div class="text-danger">{{ $message }}</div>

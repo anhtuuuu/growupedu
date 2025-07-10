@@ -29,12 +29,17 @@ class ClassController extends LayoutController
         $args = array();
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['notification'] = $this->notification();
 
         $args['alias'] = $class_alias;
+        $args['hien_thi'] = true;
+
         $class = (new LopHocPhan)->gets($args);
         if (empty($class)) {
             abort(404);
         }
+        Session::put('lesson_id', $class[0]->ma_bg);
+
         $args['ma_bg'] = $class[0]->ma_bg;
         $args['hien_thi'] = true;
         $lessons = (new BaiGiang)->gets($args);
@@ -47,7 +52,7 @@ class ClassController extends LayoutController
         }
 
         $args['alias_lesson'] = $lessons[0]->alias;
-        $args['order_by'] = 'DESC';
+        $args['order_by'] = 'ASC';
 
         $args['hien_thi'] = true;
         $chapters = (new Chuong)->gets($args);
@@ -64,7 +69,6 @@ class ClassController extends LayoutController
         $this->_data['type_side_none'] = 'lesson';
         // $this->_data['left_side_none'] = $class[0]->ten_lhp;
         $this->_data['left_side_none'] = '';
-
 
         return view(config('asset.view_page')('section-class'), $this->_data);
     }
@@ -130,16 +134,19 @@ class ClassController extends LayoutController
         if ($class_alias === '') {
             abort(404);
         }
+        
+        $section_class_none = $this->section_class();
+        $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['notification'] = $this->notification();
         $args = array();
         $args['hien_thi'] = true;
-        $section_class_none = $this->section_class();
-        $lessons = (new BaiGiang)->gets($args);
-        $this->_data['load_section_class'] = $section_class_none;
-
+        
         $args['alias'] = $class_alias;
         $class = (new LopHocPhan)->gets($args);
+        $args['ma_bg'] = $class[0]->ma_bg;
+        $lessons = (new BaiGiang)->gets($args);
         $args['ma_tk'] = $class[0]->ma_tk;
-
+        
         $interacts = (new TuongTac)->gets($args);
 
         if (empty($class) || empty($interacts)) {
@@ -225,12 +232,15 @@ class ClassController extends LayoutController
         $args = array();
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['notification'] = $this->notification();
         $args['class_alias'] = $class_alias;
         $section_class = (new LopHocPhan)->gets($args);
         $args['test_code'] = $test_code;
 
         $accounts = (new Taikhoan)->gets($args);
         $submitted_tests = (new NopBaiKiemTra)->gets($args);
+        $args['ma_bg'] = $section_class[0]->ma_bg;
+
         $args['hien_thi'] = true;
         $lesson = (new BaiGiang)->gets($args);
 
@@ -252,10 +262,13 @@ class ClassController extends LayoutController
         $args = array();
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['notification'] = $this->notification();
         $args['alias'] = $class_alias;
         $section_class = (new LopHocPhan)->gets($args);
         $args['class_alias'] = $class_alias;
         $submitted_tests = (new NopBaiKiemTra)->gets($args);
+      $args['ma_bg'] = $section_class[0]->ma_bg;
+
         $args['hien_thi'] = true;
         $lesson = (new BaiGiang)->gets($args);
 
@@ -409,7 +422,7 @@ class ClassController extends LayoutController
                 Session::put('error', 'danger');
                 Session::put('message', 'Thêm lớp học phần thất bại');
             }
-            return $this->_auth_login() ?? Redirect::to('danh-sanh-lop-hoc-phan');
+            return $this->_auth_login() ?? Redirect::to('danh-sach-lop-hoc-phan');
         }
         return $this->_auth_login() ?? view(config('asset.view_admin_control')('control_class'), $this->_data);
     }
@@ -431,7 +444,7 @@ class ClassController extends LayoutController
             $result = (new LopHocPhan())->admin_delete($args, $code_class);
             if ($result) {
                 Session::put('error', 'success');
-                Session::put('message', 'Xoá bài thành công.');
+                Session::put('message', 'Xoá lớp học phần thành công.');
             } else {
                 return back();
             }
@@ -444,7 +457,7 @@ class ClassController extends LayoutController
             $result = (new LopHocPhan())->admin_delete($args, $code_class);
             if ($result) {
                 Session::put('error', 'success');
-                Session::put('message', 'Xoá bài thành công.');
+                Session::put('message', 'Xoá lớp học phần thành công.');
             } else {
                 return back();
             }

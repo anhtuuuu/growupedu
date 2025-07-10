@@ -7,6 +7,7 @@ use App\Models\BaiGiang;
 use App\Models\Chuong;
 use App\Models\LopHocPhan;
 use App\Models\Taikhoan;
+use App\Models\ThongBao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -29,6 +30,7 @@ class ContentController extends LayoutController
         $args = array();
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['notification'] = $this->notification();
         $args['alias_lesson'] = $lesson_alias;
         $args['alias_content'] = $content_alias;
         $args['hien_thi'] = true;
@@ -87,6 +89,7 @@ class ContentController extends LayoutController
         $args = array();
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
+        $this->_data['notification'] = $this->notification();
         $args['alias_class'] = $class_alias;
         $args['alias_lesson'] = $lesson_alias;
         $args['hien_thi'] = true;
@@ -148,6 +151,24 @@ class ContentController extends LayoutController
             if ($result) {
                 Session::put('error', 'success');
                 Session::put('message', 'Thêm bài thành công.');
+                $get_chapter = (new Chuong())->get_by_id($request->ma_chuong);
+                if (!empty($get_chapter)) {
+                    $get_lesson_id = $get_chapter->ma_bg;
+                    $args = array();
+                    $args['id_lesson'] = $get_lesson_id;
+                    $get_class = (new LopHocPhan())->gets($args);
+                    if (!empty($get_class)) {
+                        foreach ($get_class as $cls) {
+                            $notice = [
+                                'ma_lhp' => $cls->ma_lhp,
+                                'ho_ten' => Session::get('admin_name'),
+                                'mo_ta' => 'đã đăng một bài học mới',
+                                'noi_dung' => $request->tieu_de. ' ('.$get_chapter->ten_chuong.')',
+                            ];
+                            (new ThongBao())->add($notice);
+                        }
+                    }
+                }
             } else {
                 Session::put('error', 'danger');
                 Session::put('message', 'Chưa có dữ liệu nào được thêm.');
@@ -221,7 +242,7 @@ class ContentController extends LayoutController
                 Session::put('error', 'danger');
                 Session::put('message', 'Chưa có dữ liệu nào được thay đổi.');
             }
-            return Redirect::to('danh-sach-bai');
+            return back();
         }
 
         $content = (new Bai())->get_by_id($id);

@@ -55,6 +55,9 @@ Route::get('/admin', [AdminController::class, 'login']);
 Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
 Route::post('/admin-dashboard', [AdminController::class, 'admin_index']);
 Route::get('/logout', [AdminController::class, 'logout']);
+Route::get('/thong-tin-ca-nhan', [PerformanceController::class, 'admin_index']);
+Route::post('/thong-tin-ca-nhan', [PerformanceController::class, 'update_info']);
+
 Route::get('/cap-nhat-cau-hinh', [LayoutController::class, 'update_config']);
 Route::post('/cap-nhat-cau-hinh', [LayoutController::class, 'update_config']);
 
