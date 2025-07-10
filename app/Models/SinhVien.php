@@ -108,10 +108,10 @@ class SinhVien extends Model
 			->select([
 				$this->table . '.*',
 			])
-			->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'sinh_vien.ma_lhp')
-			->join('taikhoan', 'taikhoan.ma_tk', '=', 'sinh_vien.ma_tk')
+			// ->join('lop_hoc_phan', 'lop_hoc_phan.ma_lhp', '=', 'sinh_vien.ma_lhp')
+			// ->join('taikhoan', 'taikhoan.ma_tk', '=', 'sinh_vien.ma_tk')
 			->where($this->table . '.id', $id)
-			->where('lop_hoc_phan.ma_tk', $ma_tk)
+			// ->where('lop_hoc_phan.ma_tk', $ma_tk)
 			->update([$this->table . '.trang_thai' => 0]);
 		return $result;
 	}

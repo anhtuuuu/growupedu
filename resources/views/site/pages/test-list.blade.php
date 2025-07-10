@@ -37,7 +37,9 @@
                             <span>Kết thúc: <b>{{ $row->han_nop }}</b></span>
                         </div>
                     </div>
-                    <?php endforeach; endif; ?>
+                    <?php endforeach; else: ?>
+                    <h3>Chưa có bài kiểm tra nào.</h3>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

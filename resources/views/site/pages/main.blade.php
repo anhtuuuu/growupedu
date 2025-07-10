@@ -15,6 +15,7 @@
                         if(isset($section_class_none) && !empty($section_class_none)):
                         foreach ($section_class_none as $row):?>
                             <div class="col-12 col-md-6 col-lg-4 p-3">
+                                <a href="{{URL::to($row->alias)}}">
                                 <div class="card">
                                     <div class="bg-card card-img-top"
                                         style="--bg-avatar: url('{{ URL::to(config('asset.images_path') . $row->hinh_anh) }}')">
@@ -29,10 +30,11 @@
                                         <p class="card-text hv-link"><a href="" class="text-dark">{{$row->mo_ta}}</a></p>
                                     </div>
                                     <div class="card-body d-flex justify-content-end">
-                                        {{-- <a href="#" class="card-link"><i class="fa fa-file mx-3"></i></a>
-                                        <a href="#" class="card-link"><i class="fa fa-folder"></i></a> --}}
+                                        <a href="{{URL::to($row->alias.'/test')}}" class="card-link"><i class="fa fa-file mx-3"></i></a>
+                                        <a href="{{URL::to($row->alias.'/'.$row->alias_bg.'/files-bai-giang')}}" class="card-link"><i class="fa fa-folder"></i></a>
                                     </div>
                                 </div>
+                                </a>
                             </div>
                         <?php endforeach;
                         endif;

@@ -87,7 +87,7 @@
                     <p><b>{{ $noti->ho_ten }}</b> {{ $noti->mo_ta }}</p>
                     <span>{{ $noti->ngay_tao }}</span>
                 </div>
-                <h5 class="text-warning"><b>{{ $noti->noi_dung }}</b></h5>
+                <h5 class="text-avocado"><b>{{ $noti->noi_dung }}</b></h5>
                 <hr>
                 <?php endforeach; endif; ?>
                 {{-- <h5>Tooltips in a modal</h5>

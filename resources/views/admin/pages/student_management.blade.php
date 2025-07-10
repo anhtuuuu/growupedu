@@ -7,6 +7,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
+                    <a href="{{ URL::to('danh-sach-lop-hoc-phan') }}" class="btn btn-primary"><em class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
+
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý sinh viên</b></h3>
                 </div>
                 <form action="{{ URL::to('/import-students') }}" method="POST" enctype="multipart/form-data"
@@ -15,7 +17,7 @@
                     @error('file')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                    <input type="hidden" value="{{ $rows[0]->ma_lhp }}" name="ma_lhp">
+                    <input type="hidden" value="<?php echo (isset($rows[0]->ma_lhp) && !empty($rows[0]->ma_lhp)) ? $rows[0]->ma_lhp : '' ?>" name="ma_lhp">
                     <label for="file"><img src="<?php echo URL::to(config('asset.images_path') . 'x-img.png'); ?>" alt="">File excel</label>
                     <input type="file" name="file" id="file">
                     <button type="submit">Import</button>
@@ -23,6 +25,7 @@
                 <div class="box-body">
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
+                            <?php if(isset($rows) && !empty($rows)): ?>
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -41,8 +44,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if(isset($rows) && !empty($rows)):
-                                        foreach($rows as $index => $row): ?>
+                                    <?php foreach($rows as $index => $row): ?>
                                     <tr>
                                         <td class="text-center">
                                             <input style="width: 50px;" class="text-right form-control" name="order[]"
@@ -76,16 +78,19 @@
                                         </td> --}}
                                         <td class="text-center">
                                             {{-- <button class="btn-bgr">Xuất chứng chỉ</button> --}}
+                                            <?php if(Session::has('admin_id') && Session::get('admin_id') != $row->ma_tk): ?>
                                             <em class="fa fa-trash-o fa-lg">&nbsp;</em><a
                                                 onclick="return confirm('Bạn có chắc chắn muốn xóa dữ liệu này?')"
                                                 href="<?php echo URL::to('xoa-sinh-vien/' . $row->id); ?>">Xóa</a>
-
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
-                                    <?php endforeach; endif; ?>
+                                    <?php endforeach;?>
                                 </tbody>
                             </table>
-
+                            <?php else:?>
+                            <h3>Không tìm thấy kết quả nào.</h3>
+                            <?php endif;?>
 
                         </div>
                     </form>

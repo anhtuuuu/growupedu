@@ -64,16 +64,25 @@ class DanhGia extends Model
 			$query = $query->orderBy('ngay_tao', $args['order_by']);
 		}
 		if (isset($args['ma_gv'])) {
-			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv']);
+			$query = $query->where('lop_hoc_phan.ma_tk', $args['ma_gv'])
+				->where('lop_hoc_phan.trang_thai', 1);
 		}
 
 		if (isset($args['ma_tk'])) {
-			$query = $query->where($this->table .'.ma_tk', $args['ma_tk']);
+			$query = $query->where($this->table . '.ma_tk', $args['ma_tk']);
 		}
 		if (isset($args['ma_lhp'])) {
-			$query = $query->where($this->table .'.ma_lhp', $args['ma_lhp']);
+			$query = $query->where($this->table . '.ma_lhp', $args['ma_lhp']);
 		}
-
+		if (isset($args['filter'])) {
+			$query = $query->where($this->table . '.ma_lhp', $args['filter']);
+		}
+		if (isset($args['key_word'])) {
+			$query = $query->where(function ($q) use ($args) {
+				$q->where('taikhoan.ho_ten', 'like', "%{$args['key_word']}%")
+				->orWhere('taikhoan.username', 'like', "%{$args['key_word']}%");
+			});
+		}
 		if (isset($args['per_page'])) {
 			$per_page = $args['per_page'] ?? 10;
 			return $query->paginate($per_page);

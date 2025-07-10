@@ -88,7 +88,7 @@ class AssessController extends LayoutController
       }
       return back();
    }
-   function admin_index()
+   function admin_index(Request $request)
    {
       $args = array();
       $ma_tk = Session::get('admin_id');
@@ -98,6 +98,34 @@ class AssessController extends LayoutController
       $args['per_page'] = 5;
       $assess = (new DanhGia)->gets($args);
       $this->_data['rows'] = $assess;
+
+      $args_filter = array();
+      $args_filter['ma_tk'] = Session::get('admin_id');
+      $list_filter = (new LopHocPhan())->gets($args_filter);
+      $filter = array();
+      foreach ($list_filter as $index => $value) {
+         $filter[$index]['value'] = $value->ma_lhp;
+         $filter[$index]['title'] = $value->ten_lhp;
+      }
+      $this->_data['filter'] = $filter;
+      $this->_data['filter_link'] = 'danh-sach-danh-gia/';
+
+      $get_req = $request->all();
+      if (!empty($get_req)) {
+         $value_filter = $request->cat_id;
+         $key_word = $request->key_word;
+         $this->_data['value_filter'] = $value_filter;
+         $this->_data['key_word'] = $key_word;
+
+         if ($value_filter != 0) {
+            $args['filter'] = $value_filter;
+         }
+         if (!empty($key_word)) {
+            $args['key_word'] = $key_word;
+         }
+         $data = (new DanhGia())->gets($args);
+         $this->_data['rows'] = $data;
+      }
       return $this->_auth_login() ?? view(config('asset.view_admin_page')('assess_management'), $this->_data);
    }
    function assess_detail()

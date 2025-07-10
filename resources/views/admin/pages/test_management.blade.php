@@ -7,6 +7,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
+                    <a href="{{ URL::to('danh-sach-bai-kiem-tra') }}" class="btn btn-primary"><em class="fa fa-rotate-right fa-lg">&nbsp;</em></a>
+
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em><b>Quản lý bài kiểm tra</b></h3>
                     <a class="btn btn-success pull-right" href="<?php echo URL::to('them-bai-kiem-tra'); ?>"><i class="fa fa-plus"></i>
                         Thêm</a>
