@@ -6,18 +6,20 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
+                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em
+                            class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
 
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em>Thông tin </h3>
                 </div>
-                
+
                 <form id="f-content" action="<?php echo isset($row) ? URL::to('cap-nhat-lop-hoc-phan') : URL::to('them-lop-hoc-phan'); ?>" method="post" enctype="multipart/form-data"
                     autocomplete="off">
                     {{ csrf_field() }}
                     <div class="box-body">
                         <?php 
                             if(isset($row)):?>
-                        <input type="hidden" value="{{$row->ma_lhp}}" id="ma_lhp" name="ma_lhp" class="form-control" />
+                        <input type="hidden" value="{{ $row->ma_lhp }}" id="ma_lhp" name="ma_lhp"
+                            class="form-control" />
                         <?php
                         endif;?>
                         <div class="row">
@@ -37,16 +39,16 @@
                                     @error('alias')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                </div>  
+                                </div>
 
-                                <div class="form-group">                                    
+                                <div class="form-group">
                                     <label for="post_cat_id" class="control-label">Học phần</label>
                                     <select class="form-control" name="ma_hp" id="ma_hp">
                                         <?php
                                         if(isset($table_hocphan) && is_array($table_hocphan) && !empty($table_hocphan)):
                                         foreach($table_hocphan as $row_hp):
                                         ?>
-                                        <option value="{{$row_hp->ma_hp }}" <?php echo isset($row) && $row->ma_hp == $row_hp->ma_hp ? 'selected' : '' ?>>
+                                        <option value="{{ $row_hp->ma_hp }}" <?php echo isset($row) && $row->ma_hp == $row_hp->ma_hp ? 'selected' : ''; ?>>
                                             {{ $row_hp->ten_hp }}
                                         </option>
                                         <?php
@@ -58,14 +60,14 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                 <div class="form-group">                                    
+                                <div class="form-group">
                                     <label for="post_cat_id" class="control-label">Bài giảng</label>
                                     <select class="form-control" name="ma_bg" id="ma_bg">
                                         <?php
                                         if(isset($table_baigiang) && is_array($table_baigiang) && !empty($table_baigiang)):
                                         foreach($table_baigiang as $row_bg):
                                         ?>
-                                        <option value="{{$row_bg->ma_bg }}" <?php echo isset($row) && $row->ma_bg == $row_bg->ma_bg ? 'selected' : '' ?>>
+                                        <option value="{{ $row_bg->ma_bg }}" <?php echo isset($row) && $row->ma_bg == $row_bg->ma_bg ? 'selected' : ''; ?>>
                                             {{ $row_bg->ten_bg }}
                                         </option>
                                         <?php
@@ -77,16 +79,19 @@
                                     @error('ma_bg')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                </div>                    
+                                </div>
                                 <div class="form-group">
                                     <label class="control-label">Ảnh lớp học phần</label>
                                     <input type="file" class="file" name="hinh_anh">
-                                    <input type="hidden" name="hinh_anh_clone" value="{{ isset($row) ? $row->hinh_anh : old('hinh_anh') }}">
+                                    <input type="hidden" name="hinh_anh_clone"
+                                        value="{{ isset($row) ? $row->hinh_anh : old('hinh_anh') }}">
                                     <div style="margin-top: 10px;">
                                         <img width="100" src="" alt=""
                                             class="img-thumbnail img-responsive">
                                     </div>
-
+                                    @error('hinh_anh')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Mô tả</label>
@@ -101,9 +106,9 @@
                                     class="btn btn-success">{{ isset($row) ? 'Lưu thay đổi' : 'Thêm mới' }}</button>
                             </div>
                         </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
+    </div>
     </div>
 @endsection

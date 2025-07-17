@@ -11,6 +11,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "3.1.55",
+        "nesbot/carbon": "^3.10",
         "reliese/laravel": "^1.4"
     },
     "require-dev": {

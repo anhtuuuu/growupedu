@@ -28,8 +28,8 @@
                                             <li class="list-group-item"><b>Giới tính:
                                                 </b>{{ $row->gioi_tinh == 0 ? 'Nam' : 'Nữ' }}</li>
                                             <li class="list-group-item"><b>Email: </b>{{ $row->email }}</li>
-                                            <li class="list-group-item"><b>Ngày sinh:
-                                                </b>{{ date('d/m/Y', strtotime($row->nam_sinh)) }}</li>
+                                            {{-- <li class="list-group-item"><b>Ngày sinh:
+                                                </b>{{ date('d/m/Y', strtotime($row->nam_sinh)) }}</li> --}}
                                         </ul>
                                         <div class="form-group pl-2r mt-4">
                                             <label for="phone">Số điện thoại:</label>

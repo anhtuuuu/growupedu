@@ -21,7 +21,7 @@
                                 <p>Họ tên: <b>{{ $row->ho_ten }}</b></p>
                                 <p>Thuộc bộ môn: <b>{{ $row->ten_bm }}</b></p>
                                 <p>Email: <b>{{ $row->email }}</b></p>
-                                <p>Ngày sinh: <b>{{ date('d/m/Y', strtotime($row->nam_sinh)) }}</b></p>
+                                {{-- <p>Ngày sinh: <b>{{ date('d/m/Y', strtotime($row->nam_sinh)) }}</b></p> --}}
                                 <p>Số lược đánh giá: <b>{{ isset($count) ? $count : 0 }}</b></p>
                                 <p>Trung bình số sao: <b>{{ isset($start_avg) ? $start_avg : 0 }}</b></p>
                                 <p>Đánh giá:
