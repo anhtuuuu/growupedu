@@ -299,6 +299,7 @@ class ClassController extends LayoutController
                 [
                     'ten_lhp' => 'required|max:255',
                     'alias' => 'required|max:255' . ($class->alias == $request->alias ? '' : '|unique:lop_hoc_phan'),
+                    'hinh_anh' => 'image|mimes:jpg,jpeg,png|max:2048'
                 ],
                 [
                     'ten_lhp.required' => 'Vui lòng nhập tên chương.',
@@ -306,6 +307,9 @@ class ClassController extends LayoutController
                     'alias.required' => 'Liên kết tĩnh không được để trống.',
                     'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
                     'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+                    'hinh_anh.image' => 'File truyền vào phải là hình ảnh.',
+                    'hinh_anh.mimes' => 'Chỉ chấp nhận các file jpg, jpeg, png.',
+                    'hinh_anh.max' => 'Dung lượng tối đa cho phép 2MB.',
                 ]
             );
 
@@ -378,6 +382,7 @@ class ClassController extends LayoutController
                 [
                     'ten_lhp' => 'required|max:255',
                     'alias' => 'required|max:255|unique:lop_hoc_phan',
+                    'hinh_anh' => 'image|mimes:jpg,jpeg,png|max:2048'
                 ],
                 [
                     'ten_lhp.required' => 'Vui lòng nhập tên lớp học phần.',
@@ -385,6 +390,9 @@ class ClassController extends LayoutController
                     'alias.required' => 'Liên kết tĩnh không được để trống.',
                     'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
                     'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+                    'hinh_anh.image' => 'File truyền vào phải là hình ảnh.',
+                    'hinh_anh.mimes' => 'Chỉ chấp nhận các file jpg, jpeg, png.',
+                    'hinh_anh.max' => 'Dung lượng tối đa cho phép 2MB.',
                 ]
             );
             $data = [

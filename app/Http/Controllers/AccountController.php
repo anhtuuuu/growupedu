@@ -21,7 +21,7 @@ class AccountController extends LayoutController
         }
         $section_class_none = $this->section_class();
         $this->_data['load_section_class'] = $section_class_none;
-$this->_data['notification'] = $this->notification();
+        $this->_data['notification'] = $this->notification();
         $args = array();
         $args['ma_sv'] = $id;
         $class_info = (new SinhVien)->gets($args);
@@ -194,7 +194,7 @@ $this->_data['notification'] = $this->notification();
                     'password' => 'required|min:6|max:20|confirmed',
                     'email' => 'required|email|max:255|unique:taikhoan',
                     'sdt' => 'numeric|unique:taikhoan',
-
+                    'hinh_anh' => 'image|mimes:jpg,jpeg,png|max:2048'
                 ],
                 [
                     'ho_ten.required' => 'Vui lòng nhập họ tên.',
@@ -212,6 +212,9 @@ $this->_data['notification'] = $this->notification();
                     'email.unique' => 'Email đã tồn tại.',
                     'sdt.numeric' => 'Số điện thoại chỉ chứa số.',
                     'sdt.unique' => 'Số điện thoại đã tồn tại.',
+                    'hinh_anh.image' => 'File truyền vào phải là hình ảnh.',
+                    'hinh_anh.mimes' => 'Chỉ chấp nhận các file jpg, jpeg, png.',
+                    'hinh_anh.max' => 'Dung lượng tối đa cho phép 2MB.',
                 ]
             );
             $data = [
@@ -314,6 +317,8 @@ $this->_data['notification'] = $this->notification();
                     'username' => 'required|max:255',
                     'email' => 'required|email|max:255',
                     'sdt' => 'numeric',
+                    'hinh_anh' => 'image|mimes:jpg,jpeg,png|max:2048'
+
                 ],
                 [
                     'ho_ten.required' => 'Vui lòng nhập họ tên.',
@@ -327,6 +332,9 @@ $this->_data['notification'] = $this->notification();
                     'email.unique' => 'Email đã tồn tại.',
                     'sdt.numeric' => 'Số điện thoại chỉ chứa số.',
                     'sdt.unique' => 'Số điện thoại đã tồn tại.',
+                    'hinh_anh.image' => 'File truyền vào phải là hình ảnh.',
+                    'hinh_anh.mimes' => 'Chỉ chấp nhận các file jpg, jpeg, png.',
+                    'hinh_anh.max' => 'Dung lượng tối đa cho phép 2MB.',
                 ]
             );
             if (empty($account)) {
@@ -338,7 +346,7 @@ $this->_data['notification'] = $this->notification();
                     $data[$key] = $request->$key;
                 }
             }
-            if(isset($data['username'])){
+            if (isset($data['username'])) {
                 if ($account->username == 'administrator') {
                     $data['username'] = 'administrator';
                 }

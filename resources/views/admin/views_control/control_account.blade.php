@@ -6,7 +6,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
+                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em
+                            class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
 
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em>Thông tin </h3>
                 </div>
@@ -87,13 +88,16 @@
                                 <div class="form-group">
                                     <label class="control-label">Hình đại diện</label>
                                     <input type="file" class="file" name="hinh_anh">
-                                    <input type="hidden" name="hinh_anh_clone" value="{{ isset($row) ? $row->hinh_anh : old('hinh_anh') }}">
+                                    <input type="hidden" name="hinh_anh_clone"
+                                        value="{{ isset($row) ? $row->hinh_anh : old('hinh_anh') }}">
 
                                     <div style="margin-top: 10px;">
                                         <img width="100" src="" alt=""
                                             class="img-thumbnail img-responsive">
                                     </div>
-
+                                    @error('hinh_anh')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
