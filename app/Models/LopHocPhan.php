@@ -96,7 +96,8 @@ class LopHocPhan extends Model
 		}
 		if (isset($args['ma_sv'])) {
 			$query = $query->join('sinh_vien', 'sinh_vien.ma_lhp', '=', $this->table . '.ma_lhp')
-				->where('sinh_vien.ma_tk', $args['ma_sv']);
+				->where('sinh_vien.ma_tk', $args['ma_sv'])
+				->where('sinh_vien.trang_thai', 1);
 		}
 		if (isset($args['ma_gv'])) {
 			$query = $query->where('bai_giang.ma_tk', $args['ma_gv']);

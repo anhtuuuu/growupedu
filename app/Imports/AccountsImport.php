@@ -10,6 +10,13 @@ class AccountsImport implements ToModel
 
     public function model(array $row)
     {
+        $args = array();
+        $accounts = (new Taikhoan())->gets($args);
+        foreach($accounts as $acc){
+            if($acc->username == $row[2] || $acc->email == $row[4] || $acc->sdt == $row[8]){
+                return;
+            }
+        }
         $this->rows += 1;
         return new Taikhoan([
             'ma_bm' => $row[0],

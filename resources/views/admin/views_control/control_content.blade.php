@@ -5,7 +5,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
+                    <a href="{{ url()->previous() }}" class="btn btn-primary"><em
+                            class="fa fa-arrow-left fa-lg">&nbsp;</em></a>
 
                     <h3 class="box-title"><em class="fa fa-table">&nbsp;</em>Thông tin </h3>
                 </div>
@@ -84,11 +85,15 @@
                                 <div class="form-group">
                                     <label class="control-label">Nội dung</label>
                                     <div class="import_file import_file_w">
-                                        <label for="upload-docx"><img src="<?php echo URL::to(config('asset.images_path') . 'd-img.png'); ?>" alt="">File docx</label>
+                                        <label for="upload-docx"><img src="<?php echo URL::to(config('asset.images_path') . 'd-img.png'); ?>" alt="">File
+                                            docx</label>
                                         <input type="file" id="upload-docx" accept=".docx" />
                                     </div>
 
                                     <textarea class="form-control" id="editor" name="noi_dung">{{ isset($row) ? $row->noi_dung : old('noi_dung') }}</textarea>
+                                    @error('noi_dung')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="video" class="control-label">Liên kết video</label>

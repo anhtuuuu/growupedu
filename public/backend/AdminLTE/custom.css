@@ -67,3 +67,8 @@
     color: #fff;
     border: 1px solid #dadce0;
 }
+
+.justify-content-end{
+    justify-content: end !important;
+    margin-right: 10px;
+}

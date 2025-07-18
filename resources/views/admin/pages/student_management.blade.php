@@ -22,6 +22,9 @@
                     <input type="file" name="file" id="file">
                     <button type="submit">Import</button>
                 </form>
+                <div class="d-flex justify-content-end">
+                    <small class="text-danger">*Lưu ý: File excel chỉ cần liệt kê danh sách mã sinh viên</small>
+                </div>
                 <div class="box-body">
                     <form class="form-inline" name="main" method="post" action="">
                         <div class="table-responsive">
