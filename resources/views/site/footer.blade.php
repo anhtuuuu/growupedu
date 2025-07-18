@@ -15,7 +15,9 @@
 
                 <ul class="footer-links">
                     <?php if(isset($load_section_class) && !empty($load_section_class) && is_array($load_section_class)): 
-                    foreach($load_section_class as $value): ?>
+                    foreach($load_section_class as $index => $value): 
+                        if($index > 3) break;   
+                    ?>
                     <li class="list-group-item"><a href="{{ URL::to($value->alias) }}"><i
                                 class="glyphicon glyphicon-list-alt"></i>
                             {{ $value->ten_lhp }}</a></li>

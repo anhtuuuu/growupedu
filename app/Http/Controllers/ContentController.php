@@ -127,6 +127,8 @@ class ContentController extends LayoutController
                     'ma_chuong' => 'required',
                     'tieu_de' => 'required|max:255',
                     'alias' => 'required|max:255|unique:bai',
+                    'noi_dung' => 'max:1000000',
+
                 ],
                 [
                     'alias_bg.required' => 'Vui lòng chọn bài giảng.',
@@ -136,6 +138,8 @@ class ContentController extends LayoutController
                     'alias.required' => 'Liên kết tĩnh không được để trống.',
                     'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
                     'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+                    'noi_dung.max' => 'Nội dung quá lớn, vui lòng chia nhỏ nội dung.',
+
                 ]
             );
             $data = [
@@ -199,6 +203,7 @@ class ContentController extends LayoutController
                     'ma_chuong' => 'required',
                     'tieu_de' => 'required|max:255',
                     'alias' => 'required|max:255' . ($content->alias == $request->alias ? '' : '|unique:bai'),
+                    'noi_dung' => 'max:1000000',
                 ],
                 [
                     'alias_bg.required' => 'Vui lòng chọn bài giảng.',
@@ -208,6 +213,7 @@ class ContentController extends LayoutController
                     'alias.required' => 'Liên kết tĩnh không được để trống.',
                     'alias.max' => 'Liên kết tĩnh không được vượt quá 255 ký tự.',
                     'alias.unique' => 'Liên kết tĩnh đã tồn tại.',
+                    'noi_dung.max' => 'Nội dung quá lớn, vui lòng chia nhỏ nội dung.',
                 ]
             );
 
